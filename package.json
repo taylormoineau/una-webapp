@@ -1,0 +1,19 @@
+{
+  "name": "una-webapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taylormoineau/una-webapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/taylormoineau/una-webapp/issues"
+  },
+  "homepage": "https://github.com/taylormoineau/una-webapp#readme"
+}

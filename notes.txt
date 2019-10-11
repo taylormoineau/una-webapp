@@ -1,0 +1,16 @@
+Screens:
+- Login/Register
+- Story list (add, delete, edit, download, order)
+- View Story
+- Edit Story (including translation)
+- User Admin
+- Language Admin?
+
+Database Tables:
+- Users
+- Stories
+- Pages (picture, page number, story)
+- Languages
+- Story Text (words for a page in a certain langauge)
+
+
