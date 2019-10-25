@@ -15,5 +15,17 @@
   "bugs": {
     "url": "https://github.com/taylormoineau/una-webapp/issues"
   },
-  "homepage": "https://github.com/taylormoineau/una-webapp#readme"
+  "homepage": "https://github.com/taylormoineau/una-webapp#readme",
+  "dependencies": {
+    "pg": "^7.12.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.5.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-sonarjs": "^0.4.0",
+    "prettier": "^1.18.2"
+  }
 }
