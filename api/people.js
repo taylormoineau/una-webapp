@@ -1,7 +1,4 @@
-import creds from '../creds.json';
-import {Client} from 'pg';
-
-Object.assign(process.env, creds);
+const {wrapper} = require('./helpers/wrapper.js');
 
 // req.query is like $_GET
 // req.body is like $_POST
@@ -12,26 +9,29 @@ const getAllPeople = async client => {
   return rows;
 };
 
-const getPerson = async (client, id) => {
-  const {rows} = await client.query('SELECT * FROM "Dootman" WHERE id=$1', [
-    id
-  ]);
+// this is a higher order function that takes a field name (string) and returns
+// a function for getting people based on that field name
+const getPerson = field => async (client, id) => {
+  const {rows} = await client.query(
+    `SELECT * FROM "Dootman" WHERE ${field}=$1`,
+    [id]
+  );
   return rows[0];
 };
 
-export default async (req, res) => {
-  try {
-    const client = new Client();
-    await client.connect();
+const getPersonById = getPerson('id');
+const getPersonByEmail = getPerson('email');
 
-    if (req.query.id) {
-      res.json(await getPerson(client, req.query.id));
-    } else {
-      res.json(await getAllPeople(client));
-    }
-
-    await client.end();
-  } catch (e) {
-    res.send(`Error: ${e}`);
+module.exports = wrapper(async (req, client) => {
+  if (req.query.id) {
+    return await getPersonById(client, req.query.id);
+  } else if (req.query.email) {
+    return await getPersonByEmail(client, req.query.email);
+  } else {
+    return await getAllPeople(client);
   }
-};
+});
+
+module.exports.getPerson = getPerson;
+module.exports.getPersonById = getPersonById;
+module.exports.getPersonByEmail = getPersonByEmail;

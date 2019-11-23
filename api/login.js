@@ -1,22 +1,27 @@
 const bcrypt = require('bcrypt');
+const {wrapper} = require('./helpers/wrapper');
+const {getPerson} = require('./people');
 
-export default async (req, res) => {
+const passwordCorrect = async (user, pw) => {
+  const hash = await bcrypt.hash(pw, 10);
+  return user.password === hash;
+};
+
+module.exports = wrapper(async (req, client) => {
   const userEmail = req.body.email;
   const userPassword = req.body.password;
 
   if (!userEmail || !userPassword) {
-    res.status(406).send('Please enter information!');
-    return;
+    return {status: 406, data: 'Please enter information!'};
   } else {
-    const hashedPass = await bcrypt.hash(userPassword, 10);
-    const user = await getUser(userEmail);
+    const user = await getPerson(client, userEmail);
+    // TODO: this isn't working right, need to console.log out user and see what's going on
     if (user) {
       if (await passwordCorrect(user, userPassword)) {
-        res.send('success (user, userPassword)');
-      } else res.status(403).send('Wrong password');
-    } else res.status(401).send('User does not exist');
+        return 'success (user, userPassword)';
+      } else return {status: 403, data: 'Wrong password'};
+    } else return {status: 401, data: 'User does not exist'};
   }
+});
 
-  //if (req.body.password !== 'DOOTMAN RULZ') res.json({access: 'denied'});
-  //else res.json({access: 'granted'});
-};
+// bcrypt.hash('dootman', 10).then(console.log);
