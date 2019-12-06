@@ -32,6 +32,5 @@ module.exports = wrapper(async (req, client) => {
   }
 });
 
-module.exports.getPerson = getPerson;
 module.exports.getPersonById = getPersonById;
 module.exports.getPersonByEmail = getPersonByEmail;
