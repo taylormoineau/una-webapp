@@ -8,6 +8,9 @@ const passwordCorrect = async (user, pw) => {
 };
 
 module.exports = wrapper(async (req, client) => {
+  if (!req.body)
+    return {status: 406, data: 'What are you even trying to do here?'};
+
   const userEmail = req.body.email;
   const userPassword = req.body.password;
 

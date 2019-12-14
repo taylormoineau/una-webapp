@@ -1,4 +1,3 @@
-const creds = require('../../creds.json');
 const {Client} = require('pg');
 
 /*
@@ -11,7 +10,6 @@ their results back to the browser.
 */
 module.exports.wrapper = func => async (req, res) => {
   try {
-    Object.assign(process.env, creds);
     const client = new Client();
     await client.connect();
 
