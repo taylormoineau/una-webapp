@@ -1,0 +1,101 @@
+.pageContainer {
+    display: flex;
+    width: 3508px;
+    height:2480px;
+}
+
+.halfPageContainerLeft {
+    width: 50%;
+    height:2480px;
+    margin:auto;
+}
+
+.halfPageContainerRight {
+    width: 50%;
+    height:2480px;
+    margin:auto
+}
+.borderSideDimensions {
+    position: absolute;
+    top: 120px;
+    left:200px;
+    right: 120px;
+    bottom: 0px;
+}
+
+.borderLeft{
+    position:absolute;
+    float:left;
+    padding-left:55px;
+    padding-top:75px;
+}
+
+.borderTopLeft{
+    position:absolute;
+    float:top;
+    padding-left:205px;
+    padding-top:75px;
+        
+}
+
+.borderTopRight{
+    position:absolute;
+    float:top;
+    padding-left:175px;
+    padding-top:75px;
+}
+
+.borderRight{
+    position: relative;
+    float:right;   
+    padding-right: 55px;
+    padding-top:75px;
+}
+
+.imagePlaceholderDiv {
+    background-color:lightgreen
+
+}
+
+.testPicLeft {
+    width:1434px;
+    float:left;
+    padding-left:170px;
+    padding-top:200px;
+    
+}
+
+.testPicRight {
+    position:absolute;
+     width:1434px;
+    float:right;
+    padding-left:170px;
+    padding-top:200px;
+    
+}
+
+.textBoxDiv {
+    background-color: lightseagreen
+}
+
+.textBoxDimensions {
+    width: 1800px;
+    height: 450px;
+}
+
+.testTextLeft {
+    position:absolute;
+    float:bottom;
+    font-family: monospace;
+    font-size: 200px;
+    height:auto;
+    background-color:aqua;
+    
+
+}
+
+.testTextRight {
+    font-family: monospace;
+    font-size: 20px;
+
+}
