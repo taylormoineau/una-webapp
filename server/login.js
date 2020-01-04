@@ -26,4 +26,4 @@ module.exports = wrapper(async (req, client) => {
   return {status: 403, data: 'Wrong password'};
 });
 
-bcrypt.hash('dootman', 10).then(console.log);
+// bcrypt.hash('dootman', 10).then(console.log);
