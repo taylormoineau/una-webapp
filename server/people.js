@@ -28,6 +28,15 @@ const addPerson = async (client, email, password) => {
   return result;
 };
 
+const deletePerson = async (client, email) => {
+  const result = await client.query(
+    'DELETE FROM "Dootman" WHERE EMAIL = ($1)', 
+    [email]
+    );
+  console.log('insert result', result);
+  return result;
+};
+
 const getPersonById = getPerson('id');
 const getPersonByEmail = getPerson('email');
 
@@ -44,3 +53,4 @@ module.exports = wrapper(async (req, client) => {
 module.exports.getPersonById = getPersonById;
 module.exports.getPersonByEmail = getPersonByEmail;
 module.exports.addPerson = addPerson;
+module.exports.deletePerson = deletePerson;

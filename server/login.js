@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt');
 const {wrapper} = require('./helpers/wrapper');
 const {getPersonByEmail} = require('./people');
 
