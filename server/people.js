@@ -19,6 +19,15 @@ const getPerson = field => async (client, id) => {
   return rows[0];
 };
 
+const addPerson = async (client, email, password) => {
+  const result = await client.query(
+    'INSERT INTO "Dootman"(id, email, password) VALUES ($1, $2, $3)',
+    [Date.now(), email, password]
+  );
+  console.log('insert result', result);
+  return result;
+};
+
 const getPersonById = getPerson('id');
 const getPersonByEmail = getPerson('email');
 
@@ -34,3 +43,4 @@ module.exports = wrapper(async (req, client) => {
 
 module.exports.getPersonById = getPersonById;
 module.exports.getPersonByEmail = getPersonByEmail;
+module.exports.addPerson = addPerson;

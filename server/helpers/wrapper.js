@@ -10,16 +10,16 @@ their results back to the browser.
 */
 module.exports.wrapper = func => async (req, res) => {
   try {
-    const client = new Client();
-    await client.connect();
+    const pgClient = new Client();
+    await pgClient.connect();
 
-    const result = await func(req, client); // result can be {status: ###, data: '...'} or just data
+    const result = await func(req, pgClient); // result can be {status: ###, data: '...'} or just data
 
     if (result.status) {
       res.status(result.status).send(result.data);
     } else res.send(result);
 
-    await client.end();
+    await pgClient.end();
   } catch (e) {
     res.status(500).send(`Error: ${e}`); // not the best security
   }
