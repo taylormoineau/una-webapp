@@ -5,10 +5,10 @@ module.exports = wrapper(async (req, client) => {
   if (!req.body)
     return {status: 406, data: 'What are you even trying to do here?'};
 
-  const userEmail = req.body.email;
+  const userId = req.body.id;
 
   // delete the user
-  await deletePerson(client, userEmail);
+  await deletePerson(client, userId);
 
   return 'Yay!';
 });

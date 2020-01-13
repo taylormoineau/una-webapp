@@ -28,12 +28,12 @@ const addPerson = async (client, email, password) => {
   return result;
 };
 
-const deletePerson = async (client, email) => {
+const deletePerson = async (client, id) => {
   const result = await client.query(
-    'DELETE FROM "Dootman" WHERE EMAIL = ($1)', 
-    [email]
+    'DELETE FROM "Dootman" WHERE id = $1', 
+    [id]
     );
-  console.log('insert result', result);
+  console.log('delete result', result);
   return result;
 };
 

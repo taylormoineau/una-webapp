@@ -13,10 +13,8 @@ const App = () => {
 
   const emailRef = React.createRef();
   const passwordRef = React.createRef();
-  const deleteEmailRef = React.createRef();
 
   const submitNewUser = async e => {
-    console.log("This button is pressed" + emailRef)
     e.preventDefault();
     await fetch(base + 'addPerson', {
       method: 'POST',
@@ -32,17 +30,12 @@ const App = () => {
 
   //Function for button to delete a user
 
-  const deletePerson = async e => {
-    
-    console.log("This button is pressed" + deleteEmailRef)
-
+  const deletePerson = id => async e => {
     e.preventDefault();
     await fetch(base + 'deletePerson', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: deleteEmailRef.current.value
-      })
+      body: JSON.stringify({id})
     });
 
     
@@ -72,11 +65,8 @@ const App = () => {
             <tr key={id}>
               <td>{id}</td>
               <td>{email}</td>
-              <td>{password}</td>
-              <td><form onSubmit={deletePerson}>
-                User to Delete: <input type="text" ref={deleteEmailRef} />
-                <button>Delete User</button>
-              </form>
+              <td>{password}</td>             
+              <td><button onClick={deletePerson(id)}>Delete User</button>
               </td>
             </tr>
           ))}
