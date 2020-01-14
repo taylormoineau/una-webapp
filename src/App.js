@@ -12,7 +12,6 @@ const loadPeople = async onLoad => {
 const App = () => {
   const [people, setPeople] = useState([]);
   const [adminState, setAdminState] = useState(true)
-  //const [makeAdminState, setMakeAdminState]
 
   const emailRef = React.createRef();
   const passwordRef = React.createRef();
@@ -34,6 +33,9 @@ const App = () => {
 
   const changeAdmin = id => async e => {
     e.preventDefault();
+
+    setPeople(people.map(p => p.id === id ? { ...p, admin: !p.admin } : p))
+
     await fetch(base + 'editPerson', {
       method: 'POST',
       headers: { 'Content-Type': appJson },
@@ -86,12 +88,11 @@ const App = () => {
               <td>{password}</td>
               <td>{admin === true ? <p>ADMIN</p> : <p>PLEB</p>}</td>
               <td>
-                {/* <input
+                 <input
                   type="checkbox"
                   checked={admin}
-                  on={changeAdmin(id)}
-                />  */}
-                <button onClick={changeAdmin(id)}>Change</button>
+                  onChange={changeAdmin(id)}
+                />  
                 </td>
               <td>
                 <button onClick={deletePerson(id)}>Delete</button>

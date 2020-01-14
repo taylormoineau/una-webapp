@@ -5,7 +5,7 @@ const {wrapper} = require('./helpers/wrapper.js');
 // req.cookies is like $_COOKIES
 
 const getAllPeople = async client => {
-  const {rows} = await client.query('SELECT * FROM "Dootman"', []);
+  const { rows } = await client.query('SELECT * FROM "Dootman" ORDER BY id ASC', []);
   return rows;
 };
 
