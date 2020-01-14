@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-// import './App.css';
+import './App.css';
 
 const base = 'http://localhost:3001/';
+const appJson = 'application/json'
 
 const loadPeople = async onLoad => {
   const response = await fetch(base + 'people');
@@ -10,6 +11,7 @@ const loadPeople = async onLoad => {
 
 const App = () => {
   const [people, setPeople] = useState([]);
+  const [adminState, setAdminState] = useState(true)
 
   const emailRef = React.createRef();
   const passwordRef = React.createRef();
@@ -18,15 +20,29 @@ const App = () => {
     e.preventDefault();
     await fetch(base + 'addPerson', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {'Content-Type': appJson},
       body: JSON.stringify({
         email: emailRef.current.value,
-        password: passwordRef.current.value
+        password: passwordRef.current.value,
+        admin: adminState
       })
     });
     // TODO: need to show errors if they happen
     await loadPeople(setPeople);
   };
+
+  const changeAdmin = id => async e => {
+    e.preventDefault();
+    await fetch(base + 'editPerson', {
+      method: 'POST',
+      headers: { 'Content-Type': appJson },
+      body: JSON.stringify({id})
+    });
+    // TODO: need to show errors if they happen
+    await loadPeople(setPeople);
+  };
+
+
 
   //Function for button to delete a user
 
@@ -34,11 +50,9 @@ const App = () => {
     e.preventDefault();
     await fetch(base + 'deletePerson', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': appJson },
       body: JSON.stringify({id})
     });
-
-    
 
     // TODO: need to show errors if they happen
     await loadPeople(setPeople);
@@ -58,15 +72,26 @@ const App = () => {
             <th>Id:</th>
             <th>Email:</th>
             <th>Password Hash</th>
+            <th>Type</th>
+            <th>Is Admin?</th>
+            <th>Delete User</th>
           </tr>
         </thead>
         <tbody>
-          {people.map(({id, email, password}) => (
+          {people.map(({id, email, password, admin}) => (
             <tr key={id}>
               <td>{id}</td>
               <td>{email}</td>
-              <td>{password}</td>             
-              <td><button onClick={deletePerson(id)}>Delete User</button>
+              <td>{password}</td>
+              <td>{admin === true ? <p>ADMIN</p> : <p>PLEB</p>}</td>
+              <td>
+                <input
+                  type="checkbox"
+                  checked={admin}
+                  onChange={changeAdmin(id)}
+                /> </td>
+              <td>
+                <button onClick={deletePerson(id)}>Delete</button>
               </td>
             </tr>
           ))}
@@ -77,6 +102,13 @@ const App = () => {
         New email: <input type="text" ref={emailRef} />
         <br />
         Password: <input type="password" ref={passwordRef} />
+        <br />
+        Make admin on register?{' '}
+        <input
+          type="checkbox"
+          checked={adminState}
+          onChange={e => setAdminState(e.target.checked)}
+        />
         <br />
         <button>Add User</button>
       </form>

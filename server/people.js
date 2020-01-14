@@ -19,10 +19,10 @@ const getPerson = field => async (client, id) => {
   return rows[0];
 };
 
-const addPerson = async (client, email, password) => {
+const addPerson = async (client, email, password, admin) => {
   const result = await client.query(
-    'INSERT INTO "Dootman"(id, email, password) VALUES ($1, $2, $3)',
-    [Date.now(), email, password]
+    'INSERT INTO "Dootman"(id, email, password, admin) VALUES ($1, $2, $3, $4)',
+    [Date.now(), email, password, admin]
   );
   console.log('insert result', result);
   return result;
@@ -34,6 +34,15 @@ const deletePerson = async (client, id) => {
     [id]
     );
   console.log('delete result', result);
+  return result;
+};
+
+const changeAdmin = async (client, id) => {
+  const result = await client.query(
+    'UPDATE "Dootman" SET admin WHERE id = $1', 
+    [id]
+    );
+  console.log('admin change result', result);
   return result;
 };
 
@@ -50,7 +59,9 @@ module.exports = wrapper(async (req, client) => {
   }
 });
 
+module.exports.getPerson = getPerson;
 module.exports.getPersonById = getPersonById;
 module.exports.getPersonByEmail = getPersonByEmail;
 module.exports.addPerson = addPerson;
 module.exports.deletePerson = deletePerson;
+module.exports.changeAdmin = changeAdmin;
