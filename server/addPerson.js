@@ -1,10 +1,5 @@
 const {wrapper} = require('./helpers/wrapper');
-const {getPersonByEmail} = require('./people');
-
-const passwordCorrect = async (user, pw) => {
-  const hash = await bcrypt.hash(pw, 10);
-  return user.password === hash;
-};
+const {getPersonByEmail, addPerson} = require('./people');
 
 module.exports = wrapper(async (req, client) => {
   if (!req.body)
@@ -16,13 +11,14 @@ module.exports = wrapper(async (req, client) => {
   if (!userEmail || !userPassword)
     return {status: 406, data: 'Please enter information!'};
 
+  // make sure they don't exist first
   const user = await getPersonByEmail(client, userEmail);
-  if (!user) return {status: 401, data: 'User does not exist'};
+  if (user) return {status: 401, data: 'User already exists!'};
 
-  if (await passwordCorrect(user, userPassword))
-    return 'success (user, userPassword)';
+  // create the user
+  await addPerson(client, userEmail, userPassword);
 
-  return {status: 403, data: 'Wrong password'};
+  return 'Yay!';
 });
 
 // bcrypt.hash('dootman', 10).then(console.log);
