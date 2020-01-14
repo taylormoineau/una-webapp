@@ -12,6 +12,7 @@ const loadPeople = async onLoad => {
 const App = () => {
   const [people, setPeople] = useState([]);
   const [adminState, setAdminState] = useState(true)
+  //const [makeAdminState, setMakeAdminState]
 
   const emailRef = React.createRef();
   const passwordRef = React.createRef();
@@ -85,11 +86,13 @@ const App = () => {
               <td>{password}</td>
               <td>{admin === true ? <p>ADMIN</p> : <p>PLEB</p>}</td>
               <td>
-                <input
+                {/* <input
                   type="checkbox"
                   checked={admin}
-                  onChange={changeAdmin(id)}
-                /> </td>
+                  on={changeAdmin(id)}
+                />  */}
+                <button onClick={changeAdmin(id)}>Change</button>
+                </td>
               <td>
                 <button onClick={deletePerson(id)}>Delete</button>
               </td>

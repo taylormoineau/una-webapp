@@ -39,7 +39,7 @@ const deletePerson = async (client, id) => {
 
 const changeAdmin = async (client, id) => {
   const result = await client.query(
-    'UPDATE "Dootman" SET admin WHERE id = $1', 
+    'UPDATE "Dootman" SET admin = NOT admin WHERE id = $1', 
     [id]
     );
   console.log('admin change result', result);
