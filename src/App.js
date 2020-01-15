@@ -3,9 +3,8 @@ import './App.css';
 import sendJson from './sendJson'
 
 
-//Delete these
+//Delete this once we don't need it.
 const base = 'http://localhost:3001/';
-const appJson = 'application/json'
 
 const loadPeople = async onLoad => {
   const response = await fetch(base + 'people');
@@ -15,17 +14,15 @@ const loadPeople = async onLoad => {
 const App = () => {
   const [people, setPeople] = useState([]);
   const [adminState, setAdminState] = useState(true)
-
-  const emailRef = React.createRef();
-  const passwordRef = React.createRef();
+  const [emailRegisterState, setEmailRegisterState] = useState("")
+  const [passwordRegisterState, setPasswordRegisterState] = useState("")
 
   const submitNewUser = async e => {
     e.preventDefault();
 
-    //I know this is messy, will change soon.
     await sendJson('addPerson', {
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
+      email: emailRegisterState,
+      password: passwordRegisterState,
       admin: adminState
     })
 
@@ -59,6 +56,7 @@ const App = () => {
 
   return (
     <div className="container">
+      <h1>Administration Table</h1>
       <table className="table table-condensed">
         <thead>
           <tr>
@@ -93,9 +91,9 @@ const App = () => {
       </table>
 
       <form onSubmit={submitNewUser}>
-        New email: <input type="text" ref={emailRef} />
+        New email: <input name="password" value={emailRegisterState} type="text" onChange={e => setEmailRegisterState(e.target.value)} />
         <br />
-        Password: <input type="password" ref={passwordRef} />
+        Password: <input type="password" value={passwordRegisterState} onChange={e => setPasswordRegisterState(e.target.value)} />
         <br />
         Make admin on register?{' '}
         <input
@@ -107,6 +105,8 @@ const App = () => {
         <button>Add User</button>
       </form>
     </div>
+
+
   );
 };
 
