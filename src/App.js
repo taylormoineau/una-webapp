@@ -1,6 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import sendJson from './sendJson'
 
+
+//Delete these
 const base = 'http://localhost:3001/';
 const appJson = 'application/json'
 
@@ -18,29 +21,21 @@ const App = () => {
 
   const submitNewUser = async e => {
     e.preventDefault();
-    await fetch(base + 'addPerson', {
-      method: 'POST',
-      headers: {'Content-Type': appJson},
-      body: JSON.stringify({
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-        admin: adminState
-      })
-    });
-    // TODO: need to show errors if they happen
+
+    //I know this is messy, will change soon.
+    await sendJson('addPerson', {
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+      admin: adminState
+    })
+
     await loadPeople(setPeople);
   };
 
   const changeAdmin = id => async e => {
-    e.preventDefault();
-
     setPeople(people.map(p => p.id === id ? { ...p, admin: !p.admin } : p))
 
-    await fetch(base + 'editPerson', {
-      method: 'POST',
-      headers: { 'Content-Type': appJson },
-      body: JSON.stringify({id})
-    });
+    await sendJson('editPerson', { id })
     // TODO: need to show errors if they happen
     await loadPeople(setPeople);
   };
@@ -50,13 +45,8 @@ const App = () => {
   //Function for button to delete a user
 
   const deletePerson = id => async e => {
-    e.preventDefault();
-    await fetch(base + 'deletePerson', {
-      method: 'POST',
-      headers: { 'Content-Type': appJson },
-      body: JSON.stringify({id})
-    });
 
+    await sendJson('deletePerson', { id })
     // TODO: need to show errors if they happen
     await loadPeople(setPeople);
   };
@@ -81,19 +71,19 @@ const App = () => {
           </tr>
         </thead>
         <tbody>
-          {people.map(({id, email, password, admin}) => (
+          {people.map(({ id, email, password, admin }) => (
             <tr key={id}>
               <td>{id}</td>
               <td>{email}</td>
               <td>{password}</td>
-              <td>{admin === true ? <p>ADMIN</p> : <p>PLEB</p>}</td>
+              <td>{admin ? 'ADMIN' : 'PLEB'}</td>
               <td>
-                 <input
+                <input
                   type="checkbox"
                   checked={admin}
                   onChange={changeAdmin(id)}
-                />  
-                </td>
+                />
+              </td>
               <td>
                 <button onClick={deletePerson(id)}>Delete</button>
               </td>
