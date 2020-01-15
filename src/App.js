@@ -12,37 +12,36 @@ const loadPeople = async onLoad => {
 };
 
 const App = () => {
+  //The hooks. We might be able to slim the registering hooks down to one single hook holding an object.
   const [people, setPeople] = useState([]);
   const [adminState, setAdminState] = useState(true)
   const [emailRegisterState, setEmailRegisterState] = useState("")
   const [passwordRegisterState, setPasswordRegisterState] = useState("")
 
+
+  //function to submit request to create new user.
   const submitNewUser = async e => {
     e.preventDefault();
-
     await sendJson('addPerson', {
       email: emailRegisterState,
       password: passwordRegisterState,
       admin: adminState
     })
-
+    // TODO: need to show errors if they happen
     await loadPeople(setPeople);
   };
 
+  //function to change admin status of user
   const changeAdmin = id => async e => {
     setPeople(people.map(p => p.id === id ? { ...p, admin: !p.admin } : p))
-
     await sendJson('editPerson', { id })
     // TODO: need to show errors if they happen
     await loadPeople(setPeople);
   };
 
 
-
-  //Function for button to delete a user
-
+  //function to delete a user
   const deletePerson = id => async e => {
-
     await sendJson('deletePerson', { id })
     // TODO: need to show errors if they happen
     await loadPeople(setPeople);
