@@ -3,9 +3,9 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
-    ecmaFeatures: {jsx: true}
+    ecmaFeatures: { jsx: true }
   },
-  env: {browser: true, es6: true, node: true, mocha: true},
+  env: { browser: true, es6: true, node: true, mocha: true },
   extends: [
     'eslint:recommended',
     'prettier',
@@ -18,7 +18,7 @@ module.exports = {
   plugins: ['prettier', 'react', 'sonarjs', "jsx-a11y", "react-hooks"],
   rules: {
     'no-console': 'warn',
-    'prettier/prettier': ['warn', {singleQuote: true, bracketSpacing: false}],
+    'prettier/prettier': ['warn', { singleQuote: true, bracketSpacing: false }],
     'dot-notation': 'warn',
     'quote-props': ['warn', 'as-needed'],
     'arrow-body-style': ['warn', 'as-needed'],
@@ -27,7 +27,7 @@ module.exports = {
     'react/prop-types': 'off',
     "react-hooks/rules-of-hooks": "error"
   },
-   "settings": {
+  "settings": {
     "react": {
       "version": "detect"
     }
