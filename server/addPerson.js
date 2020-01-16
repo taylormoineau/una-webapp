@@ -1,6 +1,8 @@
 const {wrapper} = require('./helpers/wrapper');
 const {getPersonByEmail, addPerson} = require('./people');
 const bcrypt = require('bcryptjs');
+const validator = require('email-validator');
+
 
 module.exports = wrapper(async (req, client) => {
   if (!req.body)
@@ -12,6 +14,9 @@ module.exports = wrapper(async (req, client) => {
 
   if (!userEmail || !userPassword)
     return {status: 406, data: 'Please enter information!'};
+
+  if (!validator.validate(userEmail))
+    return {status: 406, data: 'This is not a valid email!'};
 
   // make sure they don't exist first
   const user = await getPersonByEmail(client, userEmail);
