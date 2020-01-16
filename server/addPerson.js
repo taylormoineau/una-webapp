@@ -7,6 +7,7 @@ module.exports = wrapper(async (req, client) => {
 
   const userEmail = req.body.email;
   const userPassword = req.body.password;
+  const isAdmin = req.body.admin;
 
   if (!userEmail || !userPassword)
     return {status: 406, data: 'Please enter information!'};
@@ -16,7 +17,7 @@ module.exports = wrapper(async (req, client) => {
   if (user) return {status: 401, data: 'User already exists!'};
 
   // create the user
-  await addPerson(client, userEmail, userPassword);
+  await addPerson(client, userEmail, userPassword, isAdmin);
 
   return 'Yay!';
 });
