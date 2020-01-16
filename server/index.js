@@ -21,7 +21,7 @@ app.get('/', (req, res) => res.send('Hello World!'));
 app.use('/login', loginHandler);
 app.use('/people', peopleHandler);
 app.use('/addPerson', addPersonHandler);
-app.use('/deletePerson', deletePersonHandler)
-app.use('/editPerson', editPersonHandler)
+app.use('/deletePerson', deletePersonHandler);
+app.use('/editPerson', editPersonHandler);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

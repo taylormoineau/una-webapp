@@ -5,7 +5,10 @@ const {wrapper} = require('./helpers/wrapper.js');
 // req.cookies is like $_COOKIES
 
 const getAllPeople = async client => {
-  const { rows } = await client.query('SELECT * FROM "Dootman" ORDER BY id ASC', []);
+  const {rows} = await client.query(
+    'SELECT * FROM "Dootman" ORDER BY id ASC',
+    []
+  );
   return rows;
 };
 
@@ -29,19 +32,18 @@ const addPerson = async (client, email, password, admin) => {
 };
 
 const deletePerson = async (client, id) => {
-  const result = await client.query(
-    'DELETE FROM "Dootman" WHERE id = $1', 
-    [id]
-    );
+  const result = await client.query('DELETE FROM "Dootman" WHERE id = $1', [
+    id
+  ]);
   console.log('delete result', result);
   return result;
 };
 
 const changeAdmin = async (client, id) => {
   const result = await client.query(
-    'UPDATE "Dootman" SET admin = NOT admin WHERE id = $1', 
+    'UPDATE "Dootman" SET admin = NOT admin WHERE id = $1',
     [id]
-    );
+  );
   console.log('admin change result', result);
   return result;
 };
