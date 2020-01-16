@@ -55,7 +55,7 @@ const App = () => {
       <table className="table table-condensed">
         <thead>
           <tr>
-            <th>Id:</th>
+            <th>Unique id:</th>
             <th>Email:</th>
             <th>Password Hash</th>
             <th>Type</th>
