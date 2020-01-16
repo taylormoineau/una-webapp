@@ -3,7 +3,6 @@ const {getPersonByEmail, addPerson} = require('./people');
 const bcrypt = require('bcryptjs');
 const validator = require('email-validator');
 
-
 module.exports = wrapper(async (req, client) => {
   if (!req.body)
     return {status: 406, data: 'What are you even trying to do here?'};
@@ -32,5 +31,3 @@ module.exports = wrapper(async (req, client) => {
 
   return 'Yay!';
 });
-
-// bcrypt.hash('dootman', 10).then(console.log);
