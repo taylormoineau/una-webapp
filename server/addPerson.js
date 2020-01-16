@@ -1,6 +1,8 @@
 const {wrapper} = require('./helpers/wrapper');
 const {getPersonByEmail, addPerson} = require('./people');
+const bcrypt = require('bcryptjs');
 const validator = require('email-validator');
+
 
 module.exports = wrapper(async (req, client) => {
   if (!req.body)
@@ -20,8 +22,13 @@ module.exports = wrapper(async (req, client) => {
   const user = await getPersonByEmail(client, userEmail);
   if (user) return {status: 401, data: 'User already exists!'};
 
+  //This method of hashing is sync and it's safer to use async, though for this
+  //tiny project I don't think it's ever going to be a problem.
+
+  const hash = await bcrypt.hashSync(userPassword, 10);
+
   // create the user
-  await addPerson(client, userEmail, userPassword, isAdmin);
+  await addPerson(client, userEmail, hash, isAdmin);
 
   return 'Yay!';
 });
