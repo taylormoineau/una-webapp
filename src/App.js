@@ -11,11 +11,13 @@ const loadPeople = async onLoad => {
 };
 
 const App = () => {
-  //The hooks. We might be able to slim the registering hooks down to one single hook holding an object.
+  //The hooks. We might be able to slim the register/login hooks down to one single hook holding an object.
   const [people, setPeople] = useState([]);
   const [adminState, setAdminState] = useState(true);
   const [emailRegisterState, setEmailRegisterState] = useState('');
   const [passwordRegisterState, setPasswordRegisterState] = useState('');
+  const [emailLoginState, setEmailLoginState] = useState('');
+  const [passwordLoginState, setPasswordLoginState] = useState('');
 
   //function to submit request to create new user.
   const submitNewUser = async e => {
@@ -24,6 +26,17 @@ const App = () => {
       email: emailRegisterState,
       password: passwordRegisterState,
       admin: adminState
+    });
+    // TODO: need to show errors if they happen
+    await loadPeople(setPeople);
+  };
+
+  //function to submit request to create new user.
+  const loginUser = async e => {
+    e.preventDefault();
+    await sendJson('login', {
+      email: emailLoginState,
+      password: passwordLoginState
     });
     // TODO: need to show errors if they happen
     await loadPeople(setPeople);
@@ -84,11 +97,11 @@ const App = () => {
           ))}
         </tbody>
       </table>
-
+      <h2>Register here:</h2>
       <form onSubmit={submitNewUser}>
         New email:{' '}
         <input
-          name="password"
+          name="emailRegister"
           value={emailRegisterState}
           type="text"
           onChange={e => setEmailRegisterState(e.target.value)}
@@ -96,6 +109,7 @@ const App = () => {
         <br />
         Password:{' '}
         <input
+          name="passwordRegister"
           type="password"
           value={passwordRegisterState}
           onChange={e => setPasswordRegisterState(e.target.value)}
@@ -103,12 +117,34 @@ const App = () => {
         <br />
         Make admin on register?{' '}
         <input
+          name="checkBoxRegister"
           type="checkbox"
           checked={adminState}
           onChange={e => setAdminState(e.target.checked)}
         />
         <br />
         <button>Add User</button>
+      </form>
+      <br />
+      <h2>Login here</h2>
+      <form onSubmit={loginUser}>
+        New email:{' '}
+        <input
+          name="emailLogin"
+          value={emailLoginState}
+          type="text"
+          onChange={e => setEmailLoginState(e.target.value)}
+        />
+        <br />
+        Password:{' '}
+        <input
+          name="passwordLogin"
+          type="password"
+          value={passwordLoginState}
+          onChange={e => setPasswordLoginState(e.target.value)}
+        />
+        <br />
+        <button>Log in</button>
       </form>
     </div>
   );
