@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
-import sendJson from './sendJson';
+import {sendJson, loadJson} from './sendJson';
 
-//Delete this once we don't need it.
-const base = 'http://localhost:3001/';
-
-const loadPeople = async onLoad => {
-  const response = await fetch(base + 'people');
-  onLoad(await response.json());
+const loadPeople = async (onLoad, setError) => {
+  const result = await loadJson('people');
+  if (result.error) {
+    setError(result.error);
+  } else {
+    onLoad(result);
+  }
 };
 
 const App = () => {
@@ -16,50 +17,41 @@ const App = () => {
   const [adminState, setAdminState] = useState(true);
   const [emailRegisterState, setEmailRegisterState] = useState('');
   const [passwordRegisterState, setPasswordRegisterState] = useState('');
-  const [emailLoginState, setEmailLoginState] = useState('');
-  const [passwordLoginState, setPasswordLoginState] = useState('');
+  const [error, setError] = useState('');
 
   //function to submit request to create new user.
   const submitNewUser = async e => {
     e.preventDefault();
-    await sendJson('addPerson', {
+    const result = await sendJson('addPerson', {
       email: emailRegisterState,
       password: passwordRegisterState,
       admin: adminState
     });
-    // TODO: need to show errors if they happen
-    await loadPeople(setPeople);
-  };
-
-  //function to submit request to create new user.
-  const loginUser = async e => {
-    e.preventDefault();
-    await sendJson('login', {
-      email: emailLoginState,
-      password: passwordLoginState
-    });
-    // TODO: need to show errors if they happen
-    await loadPeople(setPeople);
+    if (result.error) {
+      setError(result.error);
+    } else {
+      await loadPeople(setPeople, setError);
+    }
   };
 
   //function to change admin status of user
-  const changeAdmin = id => async () => {
+  const changeAdmin = id => async setError => {
     setPeople(people.map(p => (p.id === id ? {...p, admin: !p.admin} : p)));
     await sendJson('editPerson', {id});
-    // TODO: need to show errors if they happen
-    await loadPeople(setPeople);
+    //This can only be changed by administrators, so only server errors should be a problem here.
+    await loadPeople(setPeople, setError);
   };
 
   //function to delete a user
   const deletePerson = id => async () => {
     await sendJson('deletePerson', {id});
-    // TODO: need to show errors if they happen
-    await loadPeople(setPeople);
+    //This can only be changed by administrators, so only server errors should be a problem here.
+    await loadPeople(setPeople, setError);
   };
 
   useEffect(() => {
     // second argument is [], so only do once
-    loadPeople(setPeople);
+    loadPeople(setPeople, setError);
   }, []);
 
   return (
@@ -97,7 +89,7 @@ const App = () => {
           ))}
         </tbody>
       </table>
-      <h2>Register here:</h2>
+      <h2>Create new user from Admin Page</h2>
       <form onSubmit={submitNewUser}>
         New email:{' '}
         <input
@@ -114,7 +106,7 @@ const App = () => {
           value={passwordRegisterState}
           onChange={e => setPasswordRegisterState(e.target.value)}
         />
-        <br />
+        <br name="my most favorite line break" />
         Make admin on register?{' '}
         <input
           name="checkBoxRegister"
@@ -125,27 +117,7 @@ const App = () => {
         <br />
         <button>Add User</button>
       </form>
-      <br />
-      <h2>Login here</h2>
-      <form onSubmit={loginUser}>
-        New email:{' '}
-        <input
-          name="emailLogin"
-          value={emailLoginState}
-          type="text"
-          onChange={e => setEmailLoginState(e.target.value)}
-        />
-        <br />
-        Password:{' '}
-        <input
-          name="passwordLogin"
-          type="password"
-          value={passwordLoginState}
-          onChange={e => setPasswordLoginState(e.target.value)}
-        />
-        <br />
-        <button>Log in</button>
-      </form>
+      <h3 style={{color: 'red'}}>{error}</h3>
     </div>
   );
 };
