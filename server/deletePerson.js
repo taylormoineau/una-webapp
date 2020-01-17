@@ -12,5 +12,3 @@ module.exports = wrapper(async (req, client) => {
 
   return 'Yay!';
 });
-
-// bcrypt.hash('dootman', 10).then(console.log);
