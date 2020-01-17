@@ -6,7 +6,7 @@ const {wrapper} = require('./helpers/wrapper.js');
 
 const getAllPeople = async client => {
   const {rows} = await client.query(
-    'SELECT * FROM "Dootman" ORDER BY id ASC',
+    'SELECT * FROM "users" ORDER BY id ASC',
     []
   );
   return rows;
@@ -15,16 +15,15 @@ const getAllPeople = async client => {
 // this is a higher order function that takes a field name (string) and returns
 // a function for getting people based on that field name
 const getPerson = field => async (client, id) => {
-  const {rows} = await client.query(
-    `SELECT * FROM "Dootman" WHERE ${field}=$1`,
-    [id]
-  );
+  const {rows} = await client.query(`SELECT * FROM "users" WHERE ${field}=$1`, [
+    id
+  ]);
   return rows[0];
 };
 
 const addPerson = async (client, email, password, admin) => {
   const result = await client.query(
-    'INSERT INTO "Dootman"(email, password, admin) VALUES ($1, $2, $3)',
+    'INSERT INTO "users"(email, password, admin) VALUES ($1, $2, $3)',
     [email, password, admin]
   );
   console.log('insert result', result);
@@ -32,16 +31,14 @@ const addPerson = async (client, email, password, admin) => {
 };
 
 const deletePerson = async (client, id) => {
-  const result = await client.query('DELETE FROM "Dootman" WHERE id = $1', [
-    id
-  ]);
+  const result = await client.query('DELETE FROM "users" WHERE id = $1', [id]);
   console.log('delete result', result);
   return result;
 };
 
 const changeAdmin = async (client, id) => {
   const result = await client.query(
-    'UPDATE "Dootman" SET admin = NOT admin WHERE id = $1',
+    'UPDATE "users" SET admin = NOT admin WHERE id = $1',
     [id]
   );
   console.log('admin change result', result);
