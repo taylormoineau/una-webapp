@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {sendJson} from './sendJson';
 
-const Register = () => {
+export const Register = () => {
   //The hooks. We might be able to slim the register/login hooks down to one single hook holding an object.
   const [emailRegisterState, setEmailRegisterState] = useState('');
   const [passwordRegisterState, setPasswordRegisterState] = useState('');
@@ -47,5 +47,3 @@ const Register = () => {
     </div>
   );
 };
-
-export default Register;

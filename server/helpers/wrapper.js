@@ -16,11 +16,11 @@ module.exports.wrapper = func => async (req, res) => {
     const result = await func(req, pgClient); // result can be {status: ###, data: '...'} or just data
 
     if (result.status) {
-      res.status(result.status).send(result.data);
-    } else res.send(result);
+      res.status(result.status).json(result.data);
+    } else res.json(result);
 
     await pgClient.end();
   } catch (e) {
-    res.status(500).send(`Error: ${e}`); // not the best security
+    res.status(500).json(`Error: ${e}`); // not the best security
   }
 };
