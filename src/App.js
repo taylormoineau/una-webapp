@@ -3,11 +3,11 @@ import './App.css';
 import {sendJson, loadJson} from './sendJson';
 
 const loadPeople = async (onLoad, setError) => {
-  const data = await loadJson('people');
-  if (data.error) {
-    setError(data.error);
+  const result = await loadJson('people');
+  if (result.error) {
+    setError(result.error);
   } else {
-    onLoad(data);
+    onLoad(result);
   }
 };
 
@@ -22,27 +22,30 @@ const App = () => {
   //function to submit request to create new user.
   const submitNewUser = async e => {
     e.preventDefault();
-    await sendJson('addPerson', {
+    const result = await sendJson('addPerson', {
       email: emailRegisterState,
       password: passwordRegisterState,
       admin: adminState
     });
-    // TODO: need to show errors if they happen
-    await loadPeople(setPeople, setError);
+    if (result.error) {
+      setError(result.error);
+    } else {
+      await loadPeople(setPeople, setError);
+    }
   };
 
   //function to change admin status of user
-  const changeAdmin = id => async () => {
+  const changeAdmin = id => async setError => {
     setPeople(people.map(p => (p.id === id ? {...p, admin: !p.admin} : p)));
     await sendJson('editPerson', {id});
-    // TODO: need to show errors if they happen
+    //This can only be changed by administrators, so only server errors should be a problem here.
     await loadPeople(setPeople, setError);
   };
 
   //function to delete a user
   const deletePerson = id => async () => {
     await sendJson('deletePerson', {id});
-    // TODO: need to show errors if they happen
+    //This can only be changed by administrators, so only server errors should be a problem here.
     await loadPeople(setPeople, setError);
   };
 
@@ -86,7 +89,7 @@ const App = () => {
           ))}
         </tbody>
       </table>
-      <h2>Register here:</h2>
+      <h2>Create new user from Admin Page</h2>
       <form onSubmit={submitNewUser}>
         New email:{' '}
         <input
