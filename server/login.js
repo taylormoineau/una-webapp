@@ -1,10 +1,9 @@
 const {wrapper} = require('./helpers/wrapper');
 const {getPersonByEmail} = require('./people');
+const bcrypt = require('bcryptjs');
 
-const passwordCorrect = async (user, pw) => {
-  const hash = await bcrypt.hash(pw, 10);
-  return user.password === hash;
-};
+const passwordCorrect = async (user, pw) =>
+  await bcrypt.compare(pw, user.password);
 
 module.exports = wrapper(async (req, client) => {
   if (!req.body)
@@ -19,8 +18,7 @@ module.exports = wrapper(async (req, client) => {
   const user = await getPersonByEmail(client, userEmail);
   if (!user) return {status: 401, data: 'User does not exist'};
 
-  if (await passwordCorrect(user, userPassword))
-    return 'success (user, userPassword)';
+  if (await passwordCorrect(user, userPassword)) return 'successful login';
 
   return {status: 403, data: 'Wrong password'};
 });
