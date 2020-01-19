@@ -9,7 +9,6 @@ module.exports = wrapper(async (req, client) => {
 
   const userEmail = req.body.email;
   const userPassword = req.body.password;
-  const isAdmin = req.body.admin;
 
   if (!userEmail || !userPassword)
     return {status: 406, data: 'Please enter information!'};
@@ -27,7 +26,7 @@ module.exports = wrapper(async (req, client) => {
   const hash = await bcrypt.hashSync(userPassword, 10);
 
   // create the user
-  await addPerson(client, userEmail, hash, isAdmin);
+  await addPerson(client, userEmail, hash);
 
   return 'Yay!';
 });

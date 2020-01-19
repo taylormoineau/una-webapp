@@ -8,7 +8,7 @@ because they no longer need to think about how to get the PG client or how to se
 their results back to the browser. 
 
 */
-module.exports.wrapper = func => async (req, res) => {
+module.exports.wrapper = func => async (req, res, next) => {
   try {
     const pgClient = new Client();
     await pgClient.connect();
@@ -22,7 +22,15 @@ module.exports.wrapper = func => async (req, res) => {
       const {name, value, maxAge} = result.cookie;
       res.cookie(name, value, {maxAge});
     }
-    res.json(result.data || result);
+    if (result.clearCookie) {
+      res.clearCookie(result.clearCookie);
+    }
+    if (result.next) {
+      next();
+    } else {
+      console.log('TEST!');
+      res.json(result.data || result);
+    }
 
     await pgClient.end();
   } catch (e) {
