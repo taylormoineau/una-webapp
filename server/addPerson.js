@@ -1,8 +1,8 @@
-const query = require('./query.js');
-const bcrypt = require('bcryptjs');
-const validator = require('email-validator');
+import bcrypt from 'bcryptjs';
+import validator from 'email-validator';
+import {query} from './query.js';
 
-module.exports = async (req, res) => {
+export const addPerson = async (req, res) => {
   if (!req.body) {
     return res.status(406).json('What are you even trying to do here?');
   }

@@ -11,6 +11,7 @@
     "dev": "npm i && (npm run start & npm run server)",
     "server": "nodemon server/index.js"
   },
+  "type": "module",
   "proxy": "http://localhost:8080",
   "repository": {
     "type": "git",

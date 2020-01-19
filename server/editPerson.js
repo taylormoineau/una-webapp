@@ -1,6 +1,6 @@
-const query = require('./query.js');
+import {query} from './query.js';
 
-module.exports = async (req, res) => {
+export const editPerson = async (req, res) => {
   if (!req.body) {
     return res.status(406).json('What are you even trying to do here?');
   }

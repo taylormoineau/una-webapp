@@ -1,10 +1,7 @@
-const query = require('./query.js');
-const bcrypt = require('bcryptjs');
+import bcrypt from 'bcryptjs';
+import {query} from './query.js';
 
-const passwordCorrect = async (user, pw) =>
-  await bcrypt.compare(pw, user.password);
-
-module.exports = async (req, res) => {
+export const login = async (req, res) => {
   if (!req.body) {
     return res.status(406).json('What are you even trying to do here?');
   }
@@ -20,7 +17,7 @@ module.exports = async (req, res) => {
     return res.status(401).json('User does not exist');
   }
 
-  if (await passwordCorrect(user, password)) {
+  if (await bcrypt.compare(password, user.password)) {
     return res
       .cookie(
         'authCookie',

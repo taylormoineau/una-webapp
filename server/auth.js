@@ -1,7 +1,7 @@
-const query = require('./query.js');
-const bcrypt = require('bcryptjs');
+import bcrypt from 'bcryptjs';
+import {query} from './query.js';
 
-module.exports = async (req, res, next) => {
+export const authCookie = async (req, res, next) => {
   if (!req.cookies.authCookie) {
     res.status(401).json('Not authorized!');
     return;
@@ -22,7 +22,7 @@ module.exports = async (req, res, next) => {
     .json(`gtfo ${id}`);
 };
 
-module.exports.adminsOnly = (req, res, next) => {
+export const adminsOnly = (req, res, next) => {
   if (req.user && req.user.admin) next();
   else res.status(401).send('Admins only');
 };

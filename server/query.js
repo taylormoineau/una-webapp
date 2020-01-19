@@ -1,12 +1,13 @@
-const {Pool} = require('pg');
-const pool = new Pool();
+import pg from 'pg';
+
+const pool = new pg.Pool();
 
 pool.on('error', err => {
   console.error('Unexpected error on idle client', err);
   process.exit(-1);
 });
 
-module.exports = async (sqlString, params) => {
+export const query = async (sqlString, params) => {
   try {
     return (await pool.query(sqlString, params)).rows;
   } catch (e) {

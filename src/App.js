@@ -14,7 +14,6 @@ const loadPeople = async (onLoad, setError) => {
 const App = () => {
   //The hooks. We might be able to slim the register/login hooks down to one single hook holding an object.
   const [people, setPeople] = useState([]);
-  const [adminState, setAdminState] = useState(true);
   const [emailRegisterState, setEmailRegisterState] = useState('');
   const [passwordRegisterState, setPasswordRegisterState] = useState('');
   const [error, setError] = useState('');
@@ -24,8 +23,7 @@ const App = () => {
     e.preventDefault();
     const result = await sendJson('addPerson', {
       email: emailRegisterState,
-      password: passwordRegisterState,
-      admin: adminState
+      password: passwordRegisterState
     });
     if (result.error) {
       setError(result.error);
@@ -107,14 +105,6 @@ const App = () => {
           onChange={e => setPasswordRegisterState(e.target.value)}
         />
         <br name="my most favorite line break" />
-        Make admin on register?{' '}
-        <input
-          name="checkBoxRegister"
-          type="checkbox"
-          checked={adminState}
-          onChange={e => setAdminState(e.target.checked)}
-        />
-        <br />
         <button>Add User</button>
       </form>
       <h3 style={{color: 'red'}}>{error}</h3>
