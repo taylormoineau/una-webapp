@@ -21,10 +21,10 @@ const getPerson = field => async (client, id) => {
   return rows[0];
 };
 
-const addPerson = async (client, email, password, admin) => {
+const addPerson = async (client, email, password) => {
   const result = await client.query(
     'INSERT INTO "users"(email, password, admin) VALUES ($1, $2, $3)',
-    [email, password, admin]
+    [email, password, false]
   );
   console.log('insert result', result);
   return result;

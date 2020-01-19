@@ -18,7 +18,17 @@ module.exports = wrapper(async (req, client) => {
   const user = await getPersonByEmail(client, userEmail);
   if (!user) return {status: 401, data: 'User does not exist'};
 
-  if (await passwordCorrect(user, userPassword)) return 'successful login';
+  if (await passwordCorrect(user, userPassword)) {
+    return {
+      data: 'successful login',
+      cookie: {
+        name: 'authCookie',
+        value:
+          user.id + '|' + (await bcrypt.hash(process.env.SECRET + user.id, 10)),
+        maxAge: 365 * 24 * 3600 * 1000
+      }
+    };
+  }
 
   return {status: 403, data: 'Wrong password'};
 });
