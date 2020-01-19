@@ -1,32 +1,34 @@
-const {wrapper} = require('./helpers/wrapper');
-const {getPersonByEmail, addPerson} = require('./people');
+const query = require('./query.js');
 const bcrypt = require('bcryptjs');
 const validator = require('email-validator');
 
-module.exports = wrapper(async (req, client) => {
-  if (!req.body)
-    return {status: 406, data: 'What are you even trying to do here?'};
+module.exports = async (req, res) => {
+  if (!req.body) {
+    return res.status(406).json('What are you even trying to do here?');
+  }
 
-  const userEmail = req.body.email;
-  const userPassword = req.body.password;
+  const {email, password} = req.body;
 
-  if (!userEmail || !userPassword)
-    return {status: 406, data: 'Please enter information!'};
+  if (!email || !password) {
+    return res.status(406).json('Please enter information!');
+  }
 
-  if (!validator.validate(userEmail))
-    return {status: 406, data: 'This is not a valid email!'};
+  if (!validator.validate(email)) {
+    return res.status(406).json('This is not a valid email!');
+  }
 
   // make sure they don't exist first
-  const user = await getPersonByEmail(client, userEmail);
-  if (user) return {status: 401, data: 'User already exists!'};
+  const [user] = await query(`SELECT * FROM "users" WHERE email=$1`, [email]);
+  if (user) {
+    return res.status(401).json('User already exists!');
+  }
 
-  //This method of hashing is sync and it's safer to use async, though for this
-  //tiny project I don't think it's ever going to be a problem.
+  const hash = await bcrypt.hash(password, 10);
 
-  const hash = await bcrypt.hashSync(userPassword, 10);
+  await query(
+    'INSERT INTO "users"(email, password, admin) VALUES ($1, $2, $3)',
+    [email, hash, false]
+  );
 
-  // create the user
-  await addPerson(client, userEmail, hash);
-
-  return 'Yay!';
-});
+  res.json('Yay!');
+};

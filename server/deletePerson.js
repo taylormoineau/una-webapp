@@ -1,14 +1,9 @@
-const {wrapper} = require('./helpers/wrapper');
-const {deletePerson} = require('./people');
+const query = require('./query.js');
 
-module.exports = wrapper(async (req, client) => {
-  if (!req.body)
-    return {status: 406, data: 'What are you even trying to do here?'};
-
-  const userId = req.body.id;
-
-  // delete the user
-  await deletePerson(client, userId);
-
-  return 'Yay!';
-});
+module.exports = async (req, res) => {
+  if (!req.body) {
+    return res.status(406).json('What are you even trying to do here?');
+  }
+  await query('DELETE FROM "users" WHERE id = $1', [req.body.id]);
+  res.json('Yay!');
+};

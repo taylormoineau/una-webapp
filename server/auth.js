@@ -1,16 +1,28 @@
-const {wrapper} = require('./helpers/wrapper');
-const {getPersonById} = require('./people');
+const query = require('./query.js');
 const bcrypt = require('bcryptjs');
 
-module.exports = wrapper(async (req, client) => {
+module.exports = async (req, res, next) => {
   if (!req.cookies.authCookie) {
-    return {status: 401, data: 'Not authorized'};
+    res.status(401).json('Not authorized!');
+    return;
   }
+
   const [id, hash] = req.cookies.authCookie.split('|');
   if (hash && (await bcrypt.compare(process.env.SECRET + id, hash))) {
-    req.user = await getPersonById(client, id);
-    console.log(`${id} is authenticated.. yay!`);
-    return {next: true};
+    const user = (await query(`SELECT * FROM "users" WHERE id=$1`, [id]))[0];
+    if (user) {
+      req.user = user;
+      console.log(`${id} is authenticated.. yay!`);
+      return next();
+    }
   }
-  return {clearCookie: 'authCookie', status: 401, data: `gtfo ${id}`};
-});
+  res
+    .clearCookie('authCookie')
+    .status(401)
+    .json(`gtfo ${id}`);
+};
+
+module.exports.adminsOnly = (req, res, next) => {
+  if (req.user && req.user.admin) next();
+  else res.status(401).send('Admins only');
+};

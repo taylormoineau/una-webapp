@@ -27,14 +27,10 @@ app.get('/', (req, res) => {
 app.use('/login', loginHandler);
 app.use('/addPerson', addPersonHandler);
 
-app.use(authCookie);
-// authenticated users only past here
+app.use(authCookie); // user must be logged in to access endpoints below
 
 // admins only past here
-app.use((req, res, next) => {
-  if (req.user && req.user.admin) next();
-  else res.status(401).send('Admins only');
-});
+app.use(authCookie.adminsOnly);
 app.use('/people', peopleHandler);
 app.use('/deletePerson', deletePersonHandler);
 app.use('/editPerson', editPersonHandler);

@@ -1,14 +1,11 @@
-const {wrapper} = require('./helpers/wrapper');
-const {changeAdmin} = require('./people');
+const query = require('./query.js');
 
-module.exports = wrapper(async (req, client) => {
-  if (!req.body)
-    return {status: 406, data: 'What are you even trying to do here?'};
-
-  const userId = req.body.id;
-
-  // edit the admin status of the user
-  await changeAdmin(client, userId);
-
-  return 'Yay!';
-});
+module.exports = async (req, res) => {
+  if (!req.body) {
+    return res.status(406).json('What are you even trying to do here?');
+  }
+  await query('UPDATE "users" SET admin = NOT admin WHERE id = $1', [
+    req.body.id
+  ]);
+  return res.json('Yay!');
+};
