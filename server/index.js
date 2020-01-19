@@ -31,12 +31,10 @@ app.use(authCookie);
 // authenticated users only past here
 
 // admins only past here
-// app.use((req, res, next) => {
-//   if (req.user && req.user.admin) next();
-//   else {
-//     res.status(401).send('Admins only');
-//   }
-// });
+app.use((req, res, next) => {
+  if (req.user && req.user.admin) next();
+  else res.status(401).send('Admins only');
+});
 app.use('/people', peopleHandler);
 app.use('/deletePerson', deletePersonHandler);
 app.use('/editPerson', editPersonHandler);
