@@ -2,10 +2,7 @@ import bcrypt from 'bcryptjs';
 import {query} from './query.js';
 
 export const authCookie = async (req, res, next) => {
-  if (!req.cookies.authCookie) {
-    res.status(401).json('Not authorized!');
-    return;
-  }
+  if (!req.cookies.authCookie) return res.status(401).json('Not authorized!');
 
   const [id, hash] = req.cookies.authCookie.split('|');
   if (hash && (await bcrypt.compare(process.env.SECRET + id, hash))) {
