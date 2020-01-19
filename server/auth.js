@@ -11,11 +11,6 @@ module.exports = wrapper(async (req, client) => {
     req.user = await getPersonById(client, id);
     console.log(`${id} is authenticated.. yay!`);
     return {next: true};
-  } else {
-    return {
-      clearCookie: 'authCookie',
-      status: 401,
-      data: `gtfo ${id}`
-    };
   }
+  return {clearCookie: 'authCookie', status: 401, data: `gtfo ${id}`};
 });
