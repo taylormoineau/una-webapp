@@ -67,21 +67,29 @@ const App = () => {
           </tr>
         </thead>
         <tbody>
-          {people.map(({id, email, password, admin}) => (
+          {people.map(({id, email, password, admin, master_admin}) => (
             <tr key={id}>
               <td>{id}</td>
               <td>{email}</td>
               <td>{password}</td>
               <td>{admin ? 'ADMIN' : 'PLEB'}</td>
               <td>
-                <input
-                  type="checkbox"
-                  checked={admin}
-                  onChange={changeAdmin(id)}
-                />
+                {!master_admin ? (
+                  <input
+                    type="checkbox"
+                    checked={admin}
+                    onChange={changeAdmin(id)}
+                  />
+                ) : (
+                  ''
+                )}
               </td>
               <td>
-                <button onClick={deletePerson(id)}>Delete</button>
+                {!master_admin ? (
+                  <button onClick={deletePerson(id)}>Delete</button>
+                ) : (
+                  ''
+                )}
               </td>
             </tr>
           ))}
