@@ -9,6 +9,7 @@ import {addPerson} from './addPerson.js';
 import {deletePerson} from './deletePerson.js';
 import {editPerson} from './editPerson.js';
 import {authCookie, adminsOnly} from './auth.js';
+import {checkAuth} from './checkAuth.js';
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html')); // serve the UI
 });
 app.use('/login', login);
+app.use('/checkAuth', checkAuth);
 app.use('/addPerson', addPerson);
 
 app.use(authCookie); // user must be logged in to access endpoints below
