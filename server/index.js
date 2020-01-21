@@ -1,42 +1,34 @@
-const creds = require('../creds.json');
+import '../creds.js';
+import express from 'express';
+import path from 'path';
+import cookieParser from 'cookie-parser';
 
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-
-const loginHandler = require('./login.js');
-const peopleHandler = require('./people.js');
-const addPersonHandler = require('./addPerson.js');
-const deletePersonHandler = require('./deletePerson.js');
-const editPersonHandler = require('./editPerson.js');
-const authCookie = require('./auth.js');
-
-Object.assign(process.env, creds); // for local only
+import {login} from './login.js';
+import {getPeople} from './getPeople.js';
+import {addPerson} from './addPerson.js';
+import {deletePerson} from './deletePerson.js';
+import {editPerson} from './editPerson.js';
+import {authCookie, adminsOnly} from './auth.js';
 
 const app = express();
 
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(path.resolve(), 'build')));
 app.use(express.json());
 
 // not protected
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'build', 'index.html')); // serve the UI
 });
-app.use('/login', loginHandler);
-app.use('/addPerson', addPersonHandler);
+app.use('/login', login);
+app.use('/addPerson', addPerson);
 
-app.use(authCookie);
-// authenticated users only past here
+app.use(authCookie); // user must be logged in to access endpoints below
 
-// admins only past here
-app.use((req, res, next) => {
-  if (req.user && req.user.admin) next();
-  else res.status(401).send('Admins only');
-});
-app.use('/people', peopleHandler);
-app.use('/deletePerson', deletePersonHandler);
-app.use('/editPerson', editPersonHandler);
+app.use(adminsOnly); // user must be admin to access endpoints below
+app.use('/people', getPeople);
+app.use('/deletePerson', deletePerson);
+app.use('/editPerson', editPerson);
 
 app.listen(process.env.PORT || 8080);

@@ -1,34 +1,26 @@
-const {wrapper} = require('./helpers/wrapper');
-const {getPersonByEmail} = require('./people');
-const bcrypt = require('bcryptjs');
+import bcrypt from 'bcryptjs';
+import {query} from './query.js';
 
-const passwordCorrect = async (user, pw) =>
-  await bcrypt.compare(pw, user.password);
-
-module.exports = wrapper(async (req, client) => {
+export const login = async (req, res) => {
   if (!req.body)
-    return {status: 406, data: 'What are you even trying to do here?'};
+    return res.status(406).json('What are you even trying to do here?');
 
-  const userEmail = req.body.email;
-  const userPassword = req.body.password;
+  const {email, password} = req.body;
 
-  if (!userEmail || !userPassword)
-    return {status: 406, data: 'Please enter information!'};
+  if (!email || !password)
+    return res.status(406).json('Please enter information!');
 
-  const user = await getPersonByEmail(client, userEmail);
-  if (!user) return {status: 401, data: 'User does not exist'};
+  const [user] = await query(`SELECT * FROM "users" WHERE email=$1`, [email]);
+  if (!user) return res.status(401).json('User does not exist');
 
-  if (await passwordCorrect(user, userPassword)) {
-    return {
-      data: 'successful login',
-      cookie: {
-        name: 'authCookie',
-        value:
-          user.id + '|' + (await bcrypt.hash(process.env.SECRET + user.id, 10)),
-        maxAge: 365 * 24 * 3600 * 1000
-      }
-    };
-  }
+  if (await bcrypt.compare(password, user.password))
+    return res
+      .cookie(
+        'authCookie',
+        user.id + '|' + (await bcrypt.hash(process.env.SECRET + user.id, 10)),
+        {maxAge: 365 * 24 * 3600 * 1000}
+      )
+      .json('successful login');
 
-  return {status: 403, data: 'Wrong password'};
-});
+  return res.status(403).json('Wrong password');
+};
