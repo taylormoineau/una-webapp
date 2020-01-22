@@ -11,7 +11,7 @@ const loadPeople = async (onLoad, setError) => {
   }
 };
 
-const App = () => {
+export const App = () => {
   //The hooks. We might be able to slim the register/login hooks down to one single hook holding an object.
   const [people, setPeople] = useState([]);
   const [emailRegisterState, setEmailRegisterState] = useState('');

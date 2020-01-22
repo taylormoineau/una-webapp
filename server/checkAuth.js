@@ -9,10 +9,7 @@ export const checkAuth = async (req, res) => {
     if (user) {
       req.user = user;
       console.log(`${id} checkAuth authenticated... so wheres the data?`);
-      return user;
-    } else {
-      console.log(`${id} is not allowed in here!`);
-      return false;
+      return res.json(user);
     }
   }
   res
