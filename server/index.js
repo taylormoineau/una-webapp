@@ -4,6 +4,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 
 import {login} from './login.js';
+import {logout} from './logout.js';
 import {getPeople} from './getPeople.js';
 import {addPerson} from './addPerson.js';
 import {deletePerson} from './deletePerson.js';
@@ -28,6 +29,7 @@ app.use('/login', login);
 app.use('/addPerson', addPerson);
 
 app.use(loggedInOnly); // user must be logged in to access endpoints below
+app.use('/logout', logout);
 
 app.use(adminsOnly); // user must be admin to access endpoints below
 app.use('/people', getPeople);

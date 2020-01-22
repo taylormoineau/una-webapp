@@ -8,6 +8,13 @@ import {App} from './App';
 export const DootRouter = () => {
   const [currentUser, setCurrentUser] = useState('nobody');
 
+  const logout = async e => {
+    e.preventDefault();
+    sendJson('logout', {
+      currentUser
+    });
+  };
+
   useEffect(() => {
     loadJson('checkAuth').then(setCurrentUser);
   }, []);
@@ -51,7 +58,17 @@ export const DootRouter = () => {
                   {currentUser && `Logged in as ${currentUser.email}`}
                 </span>
               </li>
-              <li></li>
+              <li className="nav-item">
+                <form className="form-inline">
+                  <button
+                    className="btn btn-sm btn-outline-secondary"
+                    type="button"
+                    onClick={logout}
+                  >
+                    Log out
+                  </button>
+                </form>
+              </li>
             </ul>
           </div>
         </nav>
