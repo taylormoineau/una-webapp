@@ -86,7 +86,12 @@ export const App = () => {
               </td>
               <td>
                 {!master_admin ? (
-                  <button onClick={deletePerson(id)}>Delete</button>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={deletePerson(id)}
+                  >
+                    Delete
+                  </button>
                 ) : (
                   ''
                 )}

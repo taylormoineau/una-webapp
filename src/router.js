@@ -1,18 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
-import {sendJson, loadJson} from './sendJson';
+import {loadJson} from './sendJson';
 import {LoginPage} from './loginPage';
 import {Register} from './Register';
 import {App} from './App';
 
 export const DootRouter = () => {
-  const [currentUser, setCurrentUser] = useState('nobody');
+  const [currentUser, setCurrentUser] = useState(false);
 
   const logout = async e => {
-    e.preventDefault();
-    sendJson('logout', {
-      currentUser
-    });
+    loadJson('logout').then(setCurrentUser);
   };
 
   useEffect(() => {
@@ -55,11 +52,11 @@ export const DootRouter = () => {
               </li>
               <li className="nav-item">
                 <span className="navbar-text">
-                  {currentUser && `Logged in as ${currentUser.email}`}
+                  {currentUser.email && `Logged in as ${currentUser.email}`}
                 </span>
               </li>
               <li className="nav-item">
-                <form className="form-inline">
+                {currentUser.email && (
                   <button
                     className="btn btn-sm btn-outline-secondary"
                     type="button"
@@ -67,7 +64,7 @@ export const DootRouter = () => {
                   >
                     Log out
                   </button>
-                </form>
+                )}
               </li>
             </ul>
           </div>

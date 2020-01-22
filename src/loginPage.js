@@ -4,6 +4,7 @@ import {sendJson} from './sendJson';
 export const LoginPage = () => {
   const [emailLoginState, setEmailLoginState] = useState('');
   const [passwordLoginState, setPasswordLoginState] = useState('');
+  const [currentUser, setCurrentUser] = useState(false);
 
   //function to submit request to create new user.
   const loginUser = async e => {
