@@ -6,15 +6,28 @@ import {Register} from './Register';
 import {App} from './App';
 
 export const DootRouter = () => {
-  const [currentUser, setCurrentUser] = useState(false);
+  const [currentUser, setCurrentUser] = useState('');
 
-  const logout = async e => {
-    loadJson('logout').then(setCurrentUser);
+  const checkAuth = async () => {
+    const user = await loadJson('checkAuth');
+    setCurrentUser(user);
   };
 
+  const logout = async e => {
+    await loadJson('logout');
+  };
+
+  const Home = ({currentUser, checkAuth}) =>
+    !currentUser ? (
+      <LoginPage checkAuth={checkAuth} />
+    ) : (
+      `Welcome, ${currentUser.email}`
+    );
+
   useEffect(() => {
-    loadJson('checkAuth').then(setCurrentUser);
+    checkAuth();
   }, []);
+
   return (
     <Router>
       <div>
@@ -40,11 +53,7 @@ export const DootRouter = () => {
                   Register Page
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link to="/loginPage" className="nav-link">
-                  Login Page
-                </Link>
-              </li>
+
               <li className="nav-item">
                 <Link to="/adminpage" className="nav-link">
                   Admin Page
@@ -74,8 +83,8 @@ export const DootRouter = () => {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/loginPage">
-            <LoginPage />
+          <Route path="/">
+            <Home />
           </Route>
           <Route path="/register">
             <Register />
@@ -83,18 +92,11 @@ export const DootRouter = () => {
           <Route path="/adminpage">
             <App />
           </Route>
-          <Route path="/">
-            <Home />
-          </Route>
         </Switch>
       </div>
     </Router>
   );
 };
-
-function Home() {
-  return <h2>Home</h2>;
-}
 
 //   <div className="container">
 //     <form id="signup">

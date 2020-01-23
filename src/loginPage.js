@@ -4,16 +4,16 @@ import {sendJson} from './sendJson';
 export const LoginPage = () => {
   const [emailLoginState, setEmailLoginState] = useState('');
   const [passwordLoginState, setPasswordLoginState] = useState('');
-  const [currentUser, setCurrentUser] = useState(false);
 
   //function to submit request to create new user.
-  const loginUser = async e => {
+  const loginUser = async (checkAuth, e) => {
     e.preventDefault();
     await sendJson('login', {
       email: emailLoginState,
       password: passwordLoginState
     });
     // TODO: need to show errors if they happen
+    await checkAuth();
   };
 
   return (
