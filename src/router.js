@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import {loadJson} from './sendJson';
-import {Register} from './Register.js';
-import {App} from './App';
+import {AdminPage} from './App';
 import {Home} from './Home.js';
 
 export const DootRouter = () => {
@@ -18,7 +17,7 @@ export const DootRouter = () => {
     }
   };
 
-  const logout = async e => {
+  const logout = async () => {
     await loadJson('logout');
     setCurrentUser('');
   };
@@ -69,40 +68,41 @@ export const DootRouter = () => {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/adminpage">
-            <App />
+            <AdminPage />
           </Route>
           <Route path="/">
             <Home checkAuth={checkAuth} currentUser={currentUser} />
-            <div className="container">
-              <form id="signup">
-                <div className="header">
-                  <h3>UNA App Sign In</h3>
-
-                  <p>If you are already a user sign in here:</p>
-                </div>
-
-                <div className="sep"></div>
-
-                <div className="inputs">
-                  <input type="email" placeholder="e-mail" autoFocus />
-
-                  <input type="password" placeholder="Password" />
-
-                  <div className="checkboxy">
-                    <input name="cecky" id="checky" value="1" type="checkbox" />
-                    <label className="terms">Set cookie?</label>
-                  </div>
-
-                  <a id="submit" href="#">
-                    SIGN IN
-                  </a>
-                </div>
-              </form>
-            </div>
-            );
           </Route>
         </Switch>
       </div>
     </Router>
   );
 };
+
+//   <div className="container">
+//     <form id="signup">
+//       <div className="header">
+//         <h3>UNA App Sign In</h3>
+
+//         <p>If you are already a user sign in here:</p>
+//       </div>
+
+//       <div className="sep"></div>
+
+//       <div className="inputs">
+//         <input type="email" placeholder="e-mail" autoFocus />
+
+//         <input type="password" placeholder="Password" />
+
+//         <div className="checkboxy">
+//           <input name="cecky" id="checky" value="1" type="checkbox" />
+//           <label className="terms">Set cookie?</label>
+//         </div>
+
+//         <a id="submit" href="#">
+//           SIGN IN
+//         </a>
+//       </div>
+//     </form>
+//   </div>
+// );

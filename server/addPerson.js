@@ -27,7 +27,6 @@ export const addPerson = async (req, res) => {
     'INSERT INTO "users"(email, password, admin) VALUES ($1, $2, $3) RETURNING *',
     [email, hash, false]
   );
-  console.log(newUser);
 
   await setAuthCookie(res, newUser);
 
