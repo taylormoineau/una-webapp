@@ -9,7 +9,8 @@ pool.on('error', err => {
 
 export const query = async (sqlString, params) => {
   try {
-    return (await pool.query(sqlString, params)).rows;
+    const result = await pool.query(sqlString, params);
+    return result.rows;
   } catch (e) {
     console.error(e.stack);
   }

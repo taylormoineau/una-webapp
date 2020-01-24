@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {sendJson} from './sendJson';
 
-export const Register = () => {
+export const Register = ({checkAuth}) => {
   //The hooks. We might be able to slim the register/login hooks down to one single hook holding an object.
   const [emailRegisterState, setEmailRegisterState] = useState('');
   const [passwordRegisterState, setPasswordRegisterState] = useState('');
@@ -13,12 +13,12 @@ export const Register = () => {
     e.preventDefault();
     const result = await sendJson('addPerson', {
       email: emailRegisterState,
-      password: passwordRegisterState,
-      admin: false
+      password: passwordRegisterState
     });
     if (result.error) {
       setError(result.error);
     }
+    await checkAuth();
   };
 
   return (

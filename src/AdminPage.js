@@ -11,7 +11,7 @@ const loadPeople = async (onLoad, setError) => {
   }
 };
 
-const App = () => {
+export const AdminPage = () => {
   //The hooks. We might be able to slim the register/login hooks down to one single hook holding an object.
   const [people, setPeople] = useState([]);
   const [emailRegisterState, setEmailRegisterState] = useState('');
@@ -86,7 +86,12 @@ const App = () => {
               </td>
               <td>
                 {!master_admin ? (
-                  <button onClick={deletePerson(id)}>Delete</button>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={deletePerson(id)}
+                  >
+                    Delete
+                  </button>
                 ) : (
                   ''
                 )}
@@ -119,5 +124,3 @@ const App = () => {
     </div>
   );
 };
-
-export default App;
