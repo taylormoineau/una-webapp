@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import {loadJson} from './sendJson';
-import {AdminPage} from './App';
+import {AdminPage} from './AdminPage';
 import {Home} from './Home.js';
 
 export const DootRouter = () => {
