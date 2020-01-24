@@ -4,15 +4,18 @@ import {sendJson} from './sendJson';
 export const LoginPage = ({checkAuth}) => {
   const [emailLoginState, setEmailLoginState] = useState('');
   const [passwordLoginState, setPasswordLoginState] = useState('');
+  const [errorState, setErrorState] = useState('');
 
   //function to submit request to create new user.
   const loginUser = async e => {
     e.preventDefault();
-    await sendJson('login', {
+    const result = await sendJson('login', {
       email: emailLoginState,
       password: passwordLoginState
     });
-    // TODO: need to show errors if they happen
+    if (result.error) {
+      setErrorState(result.error);
+    }
     await checkAuth();
   };
 
@@ -38,6 +41,7 @@ export const LoginPage = ({checkAuth}) => {
         <br />
         <button>Log in</button>
       </form>
+      {errorState}
     </div>
   );
 };
