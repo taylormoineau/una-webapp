@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {sendJson} from './sendJson';
 
-export const LoginPage = () => {
+export const LoginPage = ({checkAuth}) => {
   const [emailLoginState, setEmailLoginState] = useState('');
   const [passwordLoginState, setPasswordLoginState] = useState('');
 
   //function to submit request to create new user.
-  const loginUser = async (checkAuth, e) => {
+  const loginUser = async e => {
     e.preventDefault();
     await sendJson('login', {
       email: emailLoginState,

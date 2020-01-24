@@ -1,28 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import {loadJson} from './sendJson';
-import {LoginPage} from './loginPage';
-import {Register} from './Register';
+import {Register} from './Register.js';
 import {App} from './App';
+import {Home} from './Home.js';
 
 export const DootRouter = () => {
   const [currentUser, setCurrentUser] = useState('');
 
   const checkAuth = async () => {
     const user = await loadJson('checkAuth');
+    console.log(user);
     setCurrentUser(user);
   };
 
   const logout = async e => {
     await loadJson('logout');
+    setCurrentUser('');
   };
-
-  const Home = ({currentUser, checkAuth}) =>
-    !currentUser ? (
-      <LoginPage checkAuth={checkAuth} />
-    ) : (
-      `Welcome, ${currentUser.email}`
-    );
 
   useEffect(() => {
     checkAuth();
@@ -35,17 +30,7 @@ export const DootRouter = () => {
           <Link to="/" className="navbar-brand">
             Home
           </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
+
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
@@ -61,11 +46,11 @@ export const DootRouter = () => {
               </li>
               <li className="nav-item">
                 <span className="navbar-text">
-                  {currentUser.email && `Logged in as ${currentUser.email}`}
+                  {currentUser && `Logged in as ${currentUser.email}`}
                 </span>
               </li>
               <li className="nav-item">
-                {currentUser.email && (
+                {currentUser && (
                   <button
                     className="btn btn-sm btn-outline-secondary"
                     type="button"
@@ -84,7 +69,7 @@ export const DootRouter = () => {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/">
-            <Home />
+            <Home checkAuth={checkAuth} currentUser={currentUser} />
           </Route>
           <Route path="/register">
             <Register />

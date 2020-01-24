@@ -10,7 +10,6 @@ import {addPerson} from './addPerson.js';
 import {deletePerson} from './deletePerson.js';
 import {editPerson} from './editPerson.js';
 import {authCookie, adminsOnly, loggedInOnly} from './authCookie.js';
-import {checkAuth} from './checkAuth.js';
 
 const app = express();
 
@@ -21,7 +20,7 @@ app.use(authCookie);
 
 // not protected
 
-app.use('/checkAuth', (req, res) => res.json(req.user));
+app.use('/checkAuth', (req, res) => res.json(req.user || ''));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html')); // serve the UI
 });
