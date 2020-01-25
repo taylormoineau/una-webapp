@@ -3,6 +3,8 @@ import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 
+//Notice: strictly requires suffix .js or it can't find these files
+
 import {login} from './login.js';
 import {logout} from './logout.js';
 import {getPeople} from './getPeople.js';
@@ -10,6 +12,7 @@ import {addPerson} from './addPerson.js';
 import {deletePerson} from './deletePerson.js';
 import {editPerson} from './editPerson.js';
 import {authCookie, adminsOnly, loggedInOnly} from './authCookie.js';
+import {createBook} from './createBook.js';
 
 const app = express();
 
@@ -29,6 +32,7 @@ app.use('/addPerson', addPerson);
 
 app.use(loggedInOnly); // user must be logged in to access endpoints below
 app.use('/logout', logout);
+app.use('/createBook', createBook);
 
 app.use(adminsOnly); // user must be admin to access endpoints below
 app.use('/people', getPeople);

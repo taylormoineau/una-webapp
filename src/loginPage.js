@@ -41,7 +41,7 @@ export const LoginPage = ({checkAuth}) => {
         <br />
         <button>Log in</button>
       </form>
-      {errorState}
+      <h3 style={{color: 'red'}}>{errorState}</h3>
     </div>
   );
 };
