@@ -2,20 +2,20 @@ import React, {useState, useEffect} from 'react';
 import './App.css';
 import {sendJson, loadJson} from './sendJson';
 
+const loadBook = async (onLoad, setError) => {
+  const result = await loadJson('getBook');
+  if (result.error) {
+    setError(result.error);
+  } else {
+    onLoad(result);
+  }
+};
+
 export const CreateBookPage = () => {
   const [titleState, setTitleState] = useState('');
   const [userState, setUserState] = useState('');
-  const [bookState, setBookState] = useState('');
+  const [bookState, setBookState] = useState([]);
   const [error, setError] = useState('');
-
-  const loadBook = async (onLoad, setError) => {
-    const result = await loadJson('getBook');
-    if (result.error) {
-      setError(result.error);
-    } else {
-      onLoad(result);
-    }
-  };
 
   //function to submit request to create new user.
   const submitNewBook = async e => {
@@ -31,7 +31,6 @@ export const CreateBookPage = () => {
   };
 
   useEffect(() => {
-    // second argument is [], so only do once
     loadBook(setBookState, setError);
   }, []);
 
