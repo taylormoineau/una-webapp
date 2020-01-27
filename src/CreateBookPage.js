@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 import {sendJson, loadJson} from './sendJson';
+import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
+import {Book} from './Book.js';
 
-const loadBook = async (onLoad, setError) => {
-  const result = await loadJson('getBook');
+const loadAllBooks = async (onLoad, setError) => {
+  const result = await loadJson('getAllBooks');
   if (result.error) {
     setError(result.error);
   } else {
@@ -11,10 +13,9 @@ const loadBook = async (onLoad, setError) => {
   }
 };
 
-export const CreateBookPage = () => {
+export const CreateBookPage = ({currentUser}) => {
   const [titleState, setTitleState] = useState('');
-  const [userState, setUserState] = useState('');
-  const [bookState, setBookState] = useState([]);
+  const [booksState, setBooksState] = useState([]);
   const [error, setError] = useState('');
 
   //function to submit request to create new user.
@@ -22,16 +23,16 @@ export const CreateBookPage = () => {
     e.preventDefault();
     const result = await sendJson('createBook', {
       title: titleState,
-      createdByUser: userState
+      createdByUser: currentUser
     });
     if (result.error) {
       setError(result.error);
     }
-    await loadBook(setBookState, setError);
+    await loadAllBooks(setBooksState, setError);
   };
 
   useEffect(() => {
-    loadBook(setBookState, setError);
+    loadAllBooks(setBooksState, setError);
   }, []);
 
   return (
@@ -45,13 +46,6 @@ export const CreateBookPage = () => {
           onChange={e => setTitleState(e.target.value)}
         />
         <br />
-        Created_by_user{' '}
-        <input
-          type="text"
-          value={userState}
-          onChange={e => setUserState(e.target.value)}
-        />
-        <br name="my third most favorite line break" />
         <button>Create book!</button>
       </form>
       <h3 style={{color: 'red'}}>{error}</h3>
@@ -70,7 +64,7 @@ export const CreateBookPage = () => {
             </tr>
           </thead>
           <tbody>
-            {bookState.map(
+            {booksState.map(
               ({
                 id,
                 title,
@@ -81,7 +75,12 @@ export const CreateBookPage = () => {
               }) => (
                 <tr key={id}>
                   <td>{id}</td>
-                  <td>{title}</td>
+                  {/* Note for later: Make book ID something random and interesting, not just 1, 2, 3 etc. */}
+                  <td>
+                    <Link to={`/book/${id}`} id={id}>
+                      {title}
+                    </Link>
+                  </td>
                   <td>{created_by_user}</td>
                   <td>{created_date}</td>
                   <td>{edited_by_user}</td>
@@ -91,7 +90,11 @@ export const CreateBookPage = () => {
             )}
           </tbody>
         </table>
-
+        <Switch>
+          <Route path="/book">
+            <Book />
+          </Route>
+        </Switch>
         <h3 style={{color: 'red'}}>{error}</h3>
       </div>
     </div>

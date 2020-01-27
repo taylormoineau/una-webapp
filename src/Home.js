@@ -13,6 +13,6 @@ export const Home = ({currentUser, checkAuth}) =>
   ) : (
     <div className="container">
       <h1>Welcome, {currentUser.email}</h1>
-      <CreateBookPage />
+      <CreateBookPage currentUser={currentUser.email} />
     </div>
   );
