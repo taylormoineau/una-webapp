@@ -14,6 +14,7 @@ import {deletePerson} from './deletePerson.js';
 import {editPerson} from './editPerson.js';
 import {authCookie, adminsOnly, loggedInOnly} from './authCookie.js';
 import {createBook} from './createBook.js';
+import {deleteBook} from './deleteBook.js';
 
 const app = express();
 
@@ -28,18 +29,19 @@ app.use('/checkAuth', (req, res) => res.json(req.user || ''));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html')); // serve the UI
 });
-app.use('/login', login);
-app.use('/addPerson', addPerson);
+app.post('/login', login);
+app.post('/addPerson', addPerson);
 
 app.use(loggedInOnly); // user must be logged in to access endpoints below
-app.use('/logout', logout);
-app.use('/getAllBooks', getAllBooks);
-app.use('/getOneBook', getOneBook);
-app.use('/createBook', createBook);
+app.post('/logout', logout);
+app.get('/getAllBooks', getAllBooks);
+app.get('/getOneBook/:id', getOneBook);
+app.post('/createBook', createBook);
 
 app.use(adminsOnly); // user must be admin to access endpoints below
-app.use('/people', getPeople);
-app.use('/deletePerson', deletePerson);
-app.use('/editPerson', editPerson);
+app.get('/people', getPeople);
+app.post('/deletePerson', deletePerson);
+app.post('/deleteBook', deleteBook);
+app.post('/editPerson', editPerson);
 
 app.listen(process.env.PORT || 8080);

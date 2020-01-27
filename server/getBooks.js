@@ -8,6 +8,6 @@ export const getAllBooks = async (req, res) => {
 
 export const getOneBook = async (req, res) => {
   res.json(
-    await query('SELECT * FROM "books_data" WHERE id=$1', [req.body.id])
+    await query('SELECT * FROM "books_data" WHERE id=$1', [req.params.id])
   );
 };

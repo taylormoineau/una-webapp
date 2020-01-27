@@ -6,7 +6,8 @@ export const createBook = async (req, res) => {
   if (!req.body)
     return res.status(406).send('What are you even trying to do here?');
 
-  const {title, createdByUser} = req.body;
+  const {title} = req.body;
+  const createdByUser = req.user.email;
 
   if (!title) return res.status(406).send('Please enter a book title!');
 

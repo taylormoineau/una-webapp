@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import {loadJson} from './sendJson';
 import {AdminPage} from './AdminPage';
 import {Home} from './Home.js';
+import {Book} from './Book';
 
 export const DootRouter = () => {
   const [currentUser, setCurrentUser] = useState('');
@@ -70,6 +71,11 @@ export const DootRouter = () => {
           <Route path="/adminpage">
             <AdminPage />
           </Route>
+          <Route path="/book/:id">
+            <Book />
+          </Route>
+
+          {/* DO NOT MOVE THE HOME PATH FFS! */}
           <Route path="/">
             <Home checkAuth={checkAuth} currentUser={currentUser} />
           </Route>
