@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 import {sendJson, loadJson} from './sendJson';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
+import {render} from '@testing-library/react';
 
 const loadAllBooks = async (onLoad, setError) => {
   const result = await loadJson('getAllBooks');
@@ -17,7 +18,6 @@ export const CreateBookPage = () => {
   const [booksState, setBooksState] = useState([]);
   const [error, setError] = useState('');
 
-  //function to submit request to create new user.
   const submitNewBook = async e => {
     e.preventDefault();
     const result = await sendJson('createBook', {
@@ -27,6 +27,7 @@ export const CreateBookPage = () => {
       setError(result.error);
     }
     await loadAllBooks(setBooksState, setError);
+    setTitleState('');
   };
 
   const deleteBook = id => async () => {
@@ -55,7 +56,6 @@ export const CreateBookPage = () => {
       <h3 style={{color: 'red'}}>{error}</h3>
       <h1>LIST NEW BOOKS BELOW</h1>
       <div className="container">
-        <h1>New Book Table (using admin table for testing)</h1>
         <table className="table table-condensed">
           <thead>
             <tr>

@@ -4,6 +4,25 @@ import {loadJson} from './sendJson';
 import {AdminPage} from './AdminPage';
 import {Home} from './Home.js';
 import {Book} from './Book';
+import {makeStyles} from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
+  menuButton: {
+    marginRight: theme.spacing(2)
+  },
+  title: {
+    flexGrow: 1
+  }
+}));
 
 export const DootRouter = () => {
   const [currentUser, setCurrentUser] = useState('');
@@ -27,60 +46,62 @@ export const DootRouter = () => {
     checkAuth();
   }, []);
 
+  const classes = useStyles();
+
   return (
     <Router>
-      <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <Link to="/" className="navbar-brand">
-            Home
-          </Link>
-
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
-              {currentUser && currentUser.admin && (
-                <li className="nav-item">
-                  <Link to="/adminpage" className="nav-link">
-                    Admin Page
-                  </Link>
-                </li>
-              )}
-              <li className="nav-item">
-                <span className="navbar-text">
-                  {currentUser && `Logged in as ${currentUser.email}`}
-                </span>
-              </li>
-              <li className="nav-item">
-                {currentUser && (
-                  <button
-                    className="btn btn-sm btn-outline-secondary"
-                    type="button"
-                    onClick={logout}
-                  >
-                    Log out
-                  </button>
-                )}
-              </li>
-            </ul>
-          </div>
-        </nav>
-        <br />
-        <br name="very professional line breaks" />
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/adminpage">
-            <AdminPage />
-          </Route>
-          <Route path="/book/:id">
-            <Book />
-          </Route>
-
-          {/* DO NOT MOVE THE HOME PATH FFS! */}
-          <Route path="/">
-            <Home checkAuth={checkAuth} currentUser={currentUser} />
-          </Route>
-        </Switch>
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar>
+            {/* <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            >
+              <MenuIcon />
+            </IconButton> */}
+            <Typography variant="h6" className={classes.title}>
+              <Button
+                color="inherit"
+                size="large"
+                onClick={e => (window.location.href = '/')}
+              >
+                Home
+              </Button>
+            </Typography>
+            <Typography variant="h6" className={classes.title}>
+              {currentUser && `Logged in as ${currentUser.email}`}
+            </Typography>
+            {currentUser && currentUser.admin && (
+              <Button
+                size="large"
+                color="inherit"
+                onClick={event => (window.location.href = '/adminpage')}
+              >
+                Admin
+              </Button>
+            )}
+            {currentUser && (
+              <Button color="inherit" size="large" onClick={logout}>
+                Logout
+              </Button>
+            )}
+          </Toolbar>
+        </AppBar>
       </div>
+
+      <Switch>
+        <Route path="/adminpage">
+          <AdminPage />
+        </Route>
+        <Route path="/book/:id">
+          <Book />
+        </Route>
+        <Route path="/">
+          <Home checkAuth={checkAuth} currentUser={currentUser} />
+        </Route>
+      </Switch>
     </Router>
   );
 };

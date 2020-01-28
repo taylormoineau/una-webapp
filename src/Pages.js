@@ -3,8 +3,8 @@ import './App.css';
 import {loadJson, sendJson} from './sendJson';
 import {useParams} from 'react-router-dom';
 
-const loadOneBook = async (id, onLoad, setError) => {
-  const result = await loadJson('/getOneBook/' + id);
+const loadOnePage = async (id, onLoad, setError) => {
+  const result = await loadJson('/getOnePage/' + id);
   if (result.error) {
     setError(result.error);
   } else {
@@ -12,10 +12,9 @@ const loadOneBook = async (id, onLoad, setError) => {
   }
 };
 
-export const Book = () => {
-  const [bookState, setBookState] = useState([]);
+export const Pages = () => {
+  const [pageNumber, setPageNumber] = useState('');
   const [error, setError] = useState('');
-  const [titleState, setTitleState] = useState('');
   const {id} = useParams();
 
   // This is breaking the server. Need to figure out why.
@@ -32,12 +31,12 @@ export const Book = () => {
   // };
 
   useEffect(() => {
-    loadOneBook(id, setBookState, setError);
+    loadOnePage(id, setBookState, setError);
   }, []);
 
   return (
     <div className="container">
-      <h2>Edit Book Details:</h2>
+      <h2>Info of page</h2>
 
       <h3 style={{color: 'red'}}>{error}</h3>
       <div className="container">
