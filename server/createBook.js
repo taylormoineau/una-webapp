@@ -20,10 +20,13 @@ export const createBook = async (req, res) => {
       .status(401)
       .send('This book title is already used! Please be more creative!');
   const currentDate = new Date();
-  await query(
+
+  const [
+    result
+  ] = await query(
     'INSERT INTO "books_data"(title, created_by_user, created_date) VALUES ($1, $2, $3) RETURNING *',
     [title, createdByUser, currentDate]
   );
 
-  res.json('Book created!');
+  res.json(result);
 };

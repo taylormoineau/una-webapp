@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import {sendJson} from './sendJson';
+import {sendJson} from './utils';
 
 export const Register = ({checkAuth}) => {
   //The hooks. We might be able to slim the register/login hooks down to one single hook holding an object.

@@ -1,15 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
-import {sendJson, loadJson} from './sendJson';
-
-const loadPeople = async (onLoad, setError) => {
-  const result = await loadJson('people');
-  if (result.error) {
-    setError(result.error);
-  } else {
-    onLoad(result);
-  }
-};
+import {sendJson, loadData} from './utils';
 
 export const AdminPage = () => {
   //The hooks. We might be able to slim the register/login hooks down to one single hook holding an object.
@@ -28,7 +19,7 @@ export const AdminPage = () => {
     if (result.error) {
       setError(result.error);
     } else {
-      await loadPeople(setPeople, setError);
+      await loadData('people', setPeople, setError);
     }
   };
 
@@ -37,19 +28,19 @@ export const AdminPage = () => {
     setPeople(people.map(p => (p.id === id ? {...p, admin: !p.admin} : p)));
     await sendJson('editPerson', {id});
     //This can only be changed by administrators, so only server errors should be a problem here.
-    await loadPeople(setPeople, setError);
+    await loadData('people', setPeople, setError);
   };
 
   //function to delete a user
   const deletePerson = id => async () => {
     await sendJson('deletePerson', {id});
     //This can only be changed by administrators, so only server errors should be a problem here.
-    await loadPeople(setPeople, setError);
+    await loadData('people', setPeople, setError);
   };
 
   useEffect(() => {
     // second argument is [], so only do once
-    loadPeople(setPeople, setError);
+    loadData('people', setPeople, setError);
   }, []);
 
   return (

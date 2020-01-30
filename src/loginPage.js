@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {sendJson} from './sendJson';
+import {sendJson} from './utils';
 
 export const LoginPage = ({checkAuth}) => {
   const [emailLoginState, setEmailLoginState] = useState('');

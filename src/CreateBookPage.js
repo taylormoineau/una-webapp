@@ -1,22 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
-import {sendJson, loadJson} from './sendJson';
-import {Link, Redirect} from 'react-router-dom';
-import {render} from '@testing-library/react';
-
-const loadAllBooks = async (onLoad, setError) => {
-  const result = await loadJson('getAllBooks');
-  if (result.error) {
-    setError(result.error);
-  } else {
-    onLoad(result);
-  }
-};
+import {sendJson, loadData} from './utils';
+import {Link, useHistory} from 'react-router-dom';
 
 export const CreateBookPage = () => {
   const [titleState, setTitleState] = useState('');
   const [booksState, setBooksState] = useState([]);
   const [error, setError] = useState('');
+  const history = useHistory();
 
   const submitNewBook = async e => {
     e.preventDefault();
@@ -26,18 +17,17 @@ export const CreateBookPage = () => {
     if (result.error) {
       setError(result.error);
     }
-    await loadAllBooks(setBooksState, setError);
-    setTitleState('');
+    history.push('/book/' + result.id);
   };
 
   const deleteBook = id => async () => {
     await sendJson('deleteBook', {id});
     //This can only be changed by administrators, so only server errors should be a problem here.
-    await loadAllBooks(setBooksState, setError);
+    await loadData('getAllBooks', setBooksState, setError);
   };
 
   useEffect(() => {
-    loadAllBooks(setBooksState, setError);
+    loadData('getAllBooks', setBooksState, setError);
   }, []);
 
   return (
