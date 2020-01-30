@@ -1,15 +1,29 @@
 import React, {useEffect, useState} from 'react';
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
-import {loadJson} from './sendJson';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {loadJson} from './utils';
 import {AdminPage} from './AdminPage';
 import {Home} from './Home.js';
+import {Book} from './Book';
+import {NavBar} from './NavBar';
+import {makeStyles} from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
+  menuButton: {
+    marginRight: theme.spacing(2)
+  },
+  title: {
+    flexGrow: 1
+  }
+}));
 
 export const DootRouter = () => {
   const [currentUser, setCurrentUser] = useState('');
 
   const checkAuth = async () => {
     const user = await loadJson('checkAuth');
-    console.log(user);
     if (user.error) {
       console.error(user.error);
     } else {
@@ -26,56 +40,25 @@ export const DootRouter = () => {
     checkAuth();
   }, []);
 
-  return (
-    <Router>
-      <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <Link to="/" className="navbar-brand">
-            Home
-          </Link>
+  const classes = useStyles();
 
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
-              {currentUser && currentUser.admin && (
-                <li className="nav-item">
-                  <Link to="/adminpage" className="nav-link">
-                    Admin Page
-                  </Link>
-                </li>
-              )}
-              <li className="nav-item">
-                <span className="navbar-text">
-                  {currentUser && `Logged in as ${currentUser.email}`}
-                </span>
-              </li>
-              <li className="nav-item">
-                {currentUser && (
-                  <button
-                    className="btn btn-sm btn-outline-secondary"
-                    type="button"
-                    onClick={logout}
-                  >
-                    Log out
-                  </button>
-                )}
-              </li>
-            </ul>
-          </div>
-        </nav>
-        <br />
-        <br name="very professional line breaks" />
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
+  return (
+    <div className={classes.root}>
+      <Router>
+        <NavBar classes={classes} currentUser={currentUser} logout={logout} />
         <Switch>
           <Route path="/adminpage">
             <AdminPage />
+          </Route>
+          <Route path="/book/:id">
+            <Book />
           </Route>
           <Route path="/">
             <Home checkAuth={checkAuth} currentUser={currentUser} />
           </Route>
         </Switch>
-      </div>
-    </Router>
+      </Router>
+    </div>
   );
 };
 

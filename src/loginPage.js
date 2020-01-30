@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {sendJson} from './sendJson';
+import {sendJson} from './utils';
 
 export const LoginPage = ({checkAuth}) => {
   const [emailLoginState, setEmailLoginState] = useState('');
@@ -41,7 +41,7 @@ export const LoginPage = ({checkAuth}) => {
         <br />
         <button>Log in</button>
       </form>
-      {errorState}
+      <h3 style={{color: 'red'}}>{errorState}</h3>
     </div>
   );
 };

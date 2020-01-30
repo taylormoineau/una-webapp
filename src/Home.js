@@ -2,6 +2,7 @@ import React from 'react';
 
 import {LoginPage} from './loginPage';
 import {Register} from './Register';
+import {CreateBookPage} from './CreateBookPage';
 
 export const Home = ({currentUser, checkAuth}) =>
   !currentUser ? (
@@ -10,5 +11,7 @@ export const Home = ({currentUser, checkAuth}) =>
       <Register checkAuth={checkAuth} />
     </>
   ) : (
-    `Welcome, ${currentUser.email}`
+    <div className="container">
+      <CreateBookPage />
+    </div>
   );

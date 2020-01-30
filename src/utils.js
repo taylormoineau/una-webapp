@@ -1,6 +1,6 @@
 export const loadJson = async endPoint => {
   try {
-    const response = await fetch(endPoint, {
+    const response = await fetch('/' + endPoint, {
       credentials: 'include'
     });
     if (response && !response.ok) {
@@ -15,7 +15,7 @@ export const loadJson = async endPoint => {
 
 export const sendJson = async (endPoint, data) => {
   try {
-    const response = await fetch(endPoint, {
+    const response = await fetch('/' + endPoint, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
@@ -27,5 +27,14 @@ export const sendJson = async (endPoint, data) => {
     return await response.json();
   } catch (error) {
     return {error: error.message};
+  }
+};
+
+export const loadData = async (endpoint, onLoad, setError) => {
+  const result = await loadJson(endpoint);
+  if (result.error) {
+    setError(result.error);
+  } else {
+    onLoad(result);
   }
 };
