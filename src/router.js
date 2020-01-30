@@ -4,11 +4,7 @@ import {loadJson} from './utils';
 import {AdminPage} from './AdminPage';
 import {Home} from './Home.js';
 import {Book} from './Book';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import {useHistory} from 'react-router-dom';
+import {NavBar} from './NavBar';
 import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -24,12 +20,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const DootRouter = () => {
-  let history = useHistory();
   const [currentUser, setCurrentUser] = useState('');
-
-  function handleClick() {
-    history.push('/adminpage');
-  }
 
   const checkAuth = async () => {
     const user = await loadJson('checkAuth');
@@ -40,11 +31,6 @@ export const DootRouter = () => {
     }
   };
 
-  const logout = async () => {
-    await loadJson('logout');
-    setCurrentUser('');
-  };
-
   useEffect(() => {
     checkAuth();
   }, []);
@@ -53,38 +39,8 @@ export const DootRouter = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          {/* <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="menu"
-            >
-              <MenuIcon />
-            </IconButton> */}
-          <Typography variant="h6" className={classes.title}>
-            <Button color="inherit" size="large" onClick={handleClick}>
-              Home
-            </Button>
-          </Typography>
-          <Typography variant="h6" className={classes.title}>
-            {currentUser && `Logged in as ${currentUser.email}`}
-          </Typography>
-          {currentUser && currentUser.admin && (
-            // History.push
-            <Button size="large" color="inherit" onClick={handleClick}>
-              Admin
-            </Button>
-          )}
-          {currentUser && (
-            <Button color="inherit" size="large" onClick={logout}>
-              Logout
-            </Button>
-          )}
-        </Toolbar>
-      </AppBar>
       <Router>
+        <NavBar classes={classes} />
         <Switch>
           <Route path="/adminpage">
             <AdminPage />
