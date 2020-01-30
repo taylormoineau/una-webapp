@@ -1,33 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {loadJson} from './utils';
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import {useHistory} from 'react-router-dom';
 
-export const NavBar = ({classes}) => {
+export const NavBar = ({classes, currentUser, logout}) => {
   let history = useHistory();
-  const [currentUser, setCurrentUser] = useState('');
-
-  const checkAuth = async () => {
-    const user = await loadJson('checkAuth');
-    if (user.error) {
-      console.error(user.error);
-    } else {
-      setCurrentUser(user);
-    }
-  };
-
-  const logout = async () => {
-    await loadJson('logout');
-    setCurrentUser('');
-  };
-
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
   return (
     <AppBar position="static">
       <Toolbar>

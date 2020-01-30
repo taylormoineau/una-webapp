@@ -31,6 +31,11 @@ export const DootRouter = () => {
     }
   };
 
+  const logout = async () => {
+    await loadJson('logout');
+    setCurrentUser('');
+  };
+
   useEffect(() => {
     checkAuth();
   }, []);
@@ -40,7 +45,7 @@ export const DootRouter = () => {
   return (
     <div className={classes.root}>
       <Router>
-        <NavBar classes={classes} />
+        <NavBar classes={classes} currentUser={currentUser} logout={logout} />
         <Switch>
           <Route path="/adminpage">
             <AdminPage />
