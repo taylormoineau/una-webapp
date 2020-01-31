@@ -3,7 +3,7 @@ import './App.css';
 import {sendJson, loadData} from './utils';
 import {Link, useHistory} from 'react-router-dom';
 
-export const CreateBookPage = () => {
+export const CreateBookPage = ({isAdmin}) => {
   const [titleState, setTitleState] = useState('');
   const [booksState, setBooksState] = useState([]);
   const [error, setError] = useState('');
@@ -55,8 +55,7 @@ export const CreateBookPage = () => {
               <th>Created_date:</th>
               <th>Last Edited by:</th>
               <th>Last Edited_date:</th>
-              <th>Edit?</th>
-              <th>Delete?</th>
+              {isAdmin && <th>Delete?</th>}
             </tr>
           </thead>
           <tbody>
@@ -81,17 +80,16 @@ export const CreateBookPage = () => {
                   <td>{created_date}</td>
                   <td>{edited_by_user}</td>
                   <td>{edited_date}</td>
-                  <td>
-                    <button className="btn btn-success btn-sm">Edit</button>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={deleteBook(id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
+                  {isAdmin && (
+                    <td>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={deleteBook(id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  )}
                 </tr>
               )
             )}
