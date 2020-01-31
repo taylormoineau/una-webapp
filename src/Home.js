@@ -12,6 +12,6 @@ export const Home = ({currentUser, checkAuth}) =>
     </>
   ) : (
     <div className="container">
-      <CreateBookPage />
+      <CreateBookPage isAdmin={currentUser.admin} />
     </div>
   );
