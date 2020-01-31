@@ -5,18 +5,18 @@ import cookieParser from 'cookie-parser';
 
 //Notice: strictly requires suffix .js or it can't find these files
 
-import { login } from './login.js';
-import { logout } from './logout.js';
-import { getPeople } from './getPeople.js';
-import { getAllBooks, getOneBook } from './getBooks.js';
-import { addPerson } from './addPerson.js';
-import { deletePerson } from './deletePerson.js';
-import { editPerson } from './editPerson.js';
-import { authCookie, adminsOnly, loggedInOnly } from './authCookie.js';
-import { createBook } from './createBook.js';
-import { deleteBook } from './deleteBook.js';
-import { editBook } from './editBook.js';
-import { getOnePage } from './getPages.js';
+import {login} from './login.js';
+import {logout} from './logout.js';
+import {getPeople} from './getPeople.js';
+import {getAllBooks, getOneBook} from './getBooks.js';
+import {addPerson} from './addPerson.js';
+import {deletePerson} from './deletePerson.js';
+import {editPerson} from './editPerson.js';
+import {authCookie, adminsOnly, loggedInOnly} from './authCookie.js';
+import {createBook} from './createBook.js';
+import {deleteBook} from './deleteBook.js';
+import {editBook} from './editBook.js';
+import {getAllPages} from './getPages.js';
 
 const app = express();
 
@@ -38,9 +38,9 @@ app.use(loggedInOnly); // user must be logged in to access endpoints below
 app.get('/logout', logout);
 app.get('/getAllBooks', getAllBooks);
 app.get('/getOneBook/:id', getOneBook);
-app.post('/getPages/:id', getOnePage);
+app.get('/getPagesForBook/:id', getAllPages);
 app.post('/createBook', createBook);
-app.post('/editBook', editBook);
+app.post('/editBook/:id', editBook);
 
 app.use(adminsOnly); // user must be admin to access endpoints below
 app.get('/people', getPeople);

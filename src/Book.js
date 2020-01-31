@@ -5,15 +5,15 @@ import {useParams} from 'react-router-dom';
 
 export const Book = () => {
   const [bookState, setBookState] = useState();
+  const [pages, setPages] = useState([]);
   const [error, setError] = useState('');
   const [titleState, setTitleState] = useState('');
   const {id} = useParams();
 
   const changeTitle = async e => {
     e.preventDefault();
-    const result = await sendJson('editBook', {
-      newTitle: titleState,
-      id
+    const result = await sendJson('editBook/' + id, {
+      newTitle: titleState
     });
     if (result.error) {
       setError(result.error);
@@ -24,6 +24,7 @@ export const Book = () => {
 
   useEffect(() => {
     loadData('getOneBook/' + id, setBookState, setError);
+    loadData('getPagesForBook/' + id, setPages, setError);
   }, [id]);
 
   return (
@@ -60,6 +61,12 @@ export const Book = () => {
         ) : (
           <h1>LOADING BOOK</h1>
         )}
+        {pages.map(({id, page_image, page_description}) => (
+          <div key={id}>
+            <img src={page_image} height="300px" alt="poop" />
+            <p>{page_description}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
