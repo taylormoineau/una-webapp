@@ -10,18 +10,22 @@ export const createPage = async (req, res) => {
 
   if (!pageDes) return res.status(406).send('Please enter a page description!');
 
-  let newNumber = 1;
-  // Figure out next page number
-  const [pageNumber] = await query(
-    `SELECT page_number FROM "pages_data" ORDER by page_number DESC LIMIT 1`
+  const [
+    page_number
+  ] = await query(
+    `SELECT MAX("page_number") FROM pages_data WHERE book_id = $1`,
+    [req.params.id]
   );
-  if (pageNumber) newNumber = page_number + 1;
+
+  let newPageNumber = 1;
+
+  if (page_number.max > 0) newPageNumber = page_number.max + 1;
 
   const [
     result
   ] = await query(
     'INSERT INTO "pages_data"(page_description, page_number, book_id) VALUES ($1, $2, $3) RETURNING *',
-    [pageDes, newNumber, req.params.id]
+    [pageDes, newPageNumber, req.params.id]
   );
 
   res.json(result);

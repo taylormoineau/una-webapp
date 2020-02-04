@@ -23,13 +23,21 @@ export const Book = () => {
     setTitleState('');
   };
 
-  const createNewPage = async () => {
-    const result = await sendJson('createPage', {
+  const createNewPage = async e => {
+    e.preventDefault();
+    const result = await sendJson('createPageInBook/' + id, {
       pageDes: newPageDes
     });
     if (result.error) {
       setError(result.error);
     }
+    await loadData('getPagesForBook/' + id, setPages, setError);
+  };
+
+  const deletePage = pageNum => async () => {
+    await sendJson('deletePage', {pageNum, id});
+    //This can only be changed by administrators, so only server errors should be a problem here.
+    await loadData('getPagesForBook/' + id, setPages, setError);
   };
 
   useEffect(() => {
@@ -79,6 +87,12 @@ export const Book = () => {
               alt={'Page number: ' + page_number}
             />
             <p>{page_description}</p>
+            <button
+              className="btn btn-danger btn-sm"
+              onClick={deletePage(page_number)}
+            >
+              Delete Page
+            </button>
           </div>
         ))}
       </div>
@@ -91,7 +105,7 @@ export const Book = () => {
             value={newPageDes}
             onChange={e => setNewPageDes(e.target.value)}
           ></input>
-          <button>Create new page</button>
+          <button className="btn btn-success btn-lg">Create new page</button>
         </form>
       </div>
     </div>
