@@ -1,4 +1,5 @@
 import {query} from './query.js';
+import {placeHolder} from './placeHolderPic.js';
 
 //Book creator endpoint
 
@@ -17,15 +18,13 @@ export const createPage = async (req, res) => {
     [req.params.id]
   );
 
-  let newPageNumber = 1;
-
-  if (page_number.max > 0) newPageNumber = page_number.max + 1;
+  const newPageNumber = page_number.max > 0 ? page_number.max + 1 : 1;
 
   const [
     result
   ] = await query(
-    'INSERT INTO "pages_data"(page_description, page_number, book_id) VALUES ($1, $2, $3) RETURNING *',
-    [pageDes, newPageNumber, req.params.id]
+    'INSERT INTO "pages_data"(page_description, page_number, book_id, page_image) VALUES ($1, $2, $3, $4) RETURNING *',
+    [pageDes, newPageNumber, req.params.id, placeHolder]
   );
 
   res.json(result);

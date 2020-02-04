@@ -34,8 +34,8 @@ export const Book = () => {
     await loadData('getPagesForBook/' + id, setPages, setError);
   };
 
-  const deletePage = pageNum => async () => {
-    await sendJson('deletePage', {pageNum, id});
+  const deletePage = id => async () => {
+    await sendJson('deletePage', {id});
     //This can only be changed by administrators, so only server errors should be a problem here.
     await loadData('getPagesForBook/' + id, setPages, setError);
   };
@@ -87,10 +87,7 @@ export const Book = () => {
               alt={'Page number: ' + page_number}
             />
             <p>{page_description}</p>
-            <button
-              className="btn btn-danger btn-sm"
-              onClick={deletePage(page_number)}
-            >
+            <button className="btn btn-danger btn-sm" onClick={deletePage(id)}>
               Delete Page
             </button>
           </div>
