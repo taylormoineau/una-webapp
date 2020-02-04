@@ -17,6 +17,7 @@ import {createBook} from './createBook.js';
 import {deleteBook} from './deleteBook.js';
 import {editBook} from './editBook.js';
 import {getAllPages} from './getPages.js';
+import {createPage} from './createPage.js';
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.get('/getAllBooks', getAllBooks);
 app.get('/getOneBook/:id', getOneBook);
 app.get('/getPagesForBook/:id', getAllPages);
 app.post('/createBook', createBook);
+app.post('/createPage', createPage);
 app.post('/editBook/:id', editBook);
 
 app.use(adminsOnly); // user must be admin to access endpoints below

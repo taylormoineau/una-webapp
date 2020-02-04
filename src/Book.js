@@ -8,6 +8,7 @@ export const Book = () => {
   const [pages, setPages] = useState([]);
   const [error, setError] = useState('');
   const [titleState, setTitleState] = useState('');
+  const [newPageDes, setNewPageDes] = useState('');
   const {id} = useParams();
 
   const changeTitle = async e => {
@@ -20,6 +21,15 @@ export const Book = () => {
     }
     await loadData('getOneBook/' + id, setBookState, setError);
     setTitleState('');
+  };
+
+  const createNewPage = async () => {
+    const result = await sendJson('createPage', {
+      pageDes: newPageDes
+    });
+    if (result.error) {
+      setError(result.error);
+    }
   };
 
   useEffect(() => {
@@ -61,12 +71,28 @@ export const Book = () => {
         ) : (
           <h1>LOADING BOOK</h1>
         )}
-        {pages.map(({id, page_image, page_description}) => (
+        {pages.map(({id, page_image, page_description, page_number}) => (
           <div key={id}>
-            <img src={page_image} height="300px" alt="poop" />
+            <img
+              src={page_image}
+              height="300px"
+              alt={'Page number: ' + page_number}
+            />
             <p>{page_description}</p>
           </div>
         ))}
+      </div>
+      <div>
+        <h2>Create new Page below:</h2>
+        <form onSubmit={createNewPage}>
+          <label>Title:</label>
+          <input
+            type="text"
+            value={newPageDes}
+            onChange={e => setNewPageDes(e.target.value)}
+          ></input>
+          <button>Create new page</button>
+        </form>
       </div>
     </div>
   );
