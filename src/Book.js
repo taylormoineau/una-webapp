@@ -96,12 +96,14 @@ export const Book = () => {
       <div>
         <h2>Create new Page below:</h2>
         <form onSubmit={createNewPage}>
-          <label>Title:</label>
-          <input
-            type="text"
-            value={newPageDes}
-            onChange={e => setNewPageDes(e.target.value)}
-          ></input>
+          <label>
+            Title:
+            <input
+              type="text"
+              value={newPageDes}
+              onChange={e => setNewPageDes(e.target.value)}
+            />
+          </label>
           <button className="btn btn-success btn-lg">Create new page</button>
         </form>
       </div>
