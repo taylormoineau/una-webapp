@@ -8,6 +8,7 @@ export const Book = () => {
   const [pages, setPages] = useState([]);
   const [error, setError] = useState('');
   const [titleState, setTitleState] = useState('');
+  const [newPageDes, setNewPageDes] = useState('');
   const {id} = useParams();
 
   const changeTitle = async e => {
@@ -20,6 +21,23 @@ export const Book = () => {
     }
     await loadData('getOneBook/' + id, setBookState, setError);
     setTitleState('');
+  };
+
+  const createNewPage = async e => {
+    e.preventDefault();
+    const result = await sendJson('createPageInBook/' + id, {
+      pageDes: newPageDes
+    });
+    if (result.error) {
+      setError(result.error);
+    }
+    await loadData('getPagesForBook/' + id, setPages, setError);
+  };
+
+  const deletePage = id => async () => {
+    await sendJson('deletePage', {id});
+    //This can only be changed by administrators, so only server errors should be a problem here.
+    await loadData('getPagesForBook/' + id, setPages, setError);
   };
 
   useEffect(() => {
@@ -61,12 +79,33 @@ export const Book = () => {
         ) : (
           <h1>LOADING BOOK</h1>
         )}
-        {pages.map(({id, page_image, page_description}) => (
+        {pages.map(({id, page_image, page_description, page_number}) => (
           <div key={id}>
-            <img src={page_image} height="300px" alt="poop" />
+            <img
+              src={page_image}
+              height="300px"
+              alt={'Page number: ' + page_number}
+            />
             <p>{page_description}</p>
+            <button className="btn btn-danger btn-sm" onClick={deletePage(id)}>
+              Delete Page
+            </button>
           </div>
         ))}
+      </div>
+      <div>
+        <h2>Create new Page below:</h2>
+        <form onSubmit={createNewPage}>
+          <label>
+            Title:
+            <input
+              type="text"
+              value={newPageDes}
+              onChange={e => setNewPageDes(e.target.value)}
+            />
+          </label>
+          <button className="btn btn-success btn-lg">Create new page</button>
+        </form>
       </div>
     </div>
   );
