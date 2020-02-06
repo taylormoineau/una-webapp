@@ -23,6 +23,18 @@ export const Book = () => {
     setTitleState('');
   };
 
+  const editPageOrder = async (pageInfo, e) => {
+    e.preventDefault();
+    const result = await sendJson('editPageOrder/', {
+      pageId: pageInfo[0],
+      dir: pageInfo[1]
+    });
+    if (result.error) {
+      setError(result.error);
+    }
+    await loadData('getPagesForBook/' + id, setPages, setError);
+  };
+
   const createNewPage = async e => {
     e.preventDefault();
     const result = await sendJson('createPageInBook/' + id, {
@@ -89,6 +101,24 @@ export const Book = () => {
             <p>{page_description}</p>
             <button className="btn btn-danger btn-sm" onClick={deletePage(id)}>
               Delete Page
+            </button>
+            <button
+              className="btn btn-info btn-sm"
+              onClick={editPageOrder([id, 'up'])}
+            >
+              Edit
+            </button>
+            <button
+              className="btn btn-info btn-sm"
+              onClick={editPageOrder([id, 'up'])}
+            >
+              UP
+            </button>
+            <button
+              className="btn btn-info btn-sm"
+              onClick={editPageOrder([id, 'down'])}
+            >
+              DN
             </button>
           </div>
         ))}
