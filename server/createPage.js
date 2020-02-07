@@ -1,6 +1,4 @@
 import {query} from './query.js';
-import {placeHolder} from './placeHolderPic.js';
-
 //Book creator endpoint
 
 export const createPage = async (req, res) => {
@@ -23,8 +21,8 @@ export const createPage = async (req, res) => {
   const [
     result
   ] = await query(
-    'INSERT INTO "pages_data"(page_description, page_number, book_id, page_image) VALUES ($1, $2, $3, $4) RETURNING *',
-    [pageDes, newPageNumber, req.params.id, placeHolder]
+    'INSERT INTO "pages_data"(page_description, page_number, book_id) VALUES ($1, $2, $3) RETURNING *',
+    [pageDes, newPageNumber, req.params.id]
   );
 
   res.json(result);

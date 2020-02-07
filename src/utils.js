@@ -38,3 +38,9 @@ export const loadData = async (endpoint, onLoad, setError) => {
     onLoad(result);
   }
 };
+
+export const assocPath = ([first, ...rest], value, data) => {
+  const copy = Array.isArray(data) ? [...data] : {...data};
+  copy[first] = rest.length ? assocPath(rest, value, copy[first]) : value;
+  return copy;
+};

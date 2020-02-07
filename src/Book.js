@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
-import {loadData, sendJson} from './utils';
+import {loadData, sendJson, assocPath} from './utils';
 import {useParams} from 'react-router-dom';
+import {FileInput} from './FileInput';
 
 const swap = (arr, index, dir) => {
   const otherIndex = dir === 'down' ? index + 1 : index - 1;
@@ -51,6 +52,8 @@ export const Book = () => {
   };
 
   const deletePage = async id => {
+    if (!window.confirm('Are you sure??????/?')) return;
+
     await sendJson('deletePage', {id});
     //This can only be changed by administrators, so only server errors should be a problem here.
     await loadData('getPagesForBook/' + bookId, setPages, setError);
@@ -97,10 +100,19 @@ export const Book = () => {
         )}
         {pages.map(({id, page_image, page_description, page_number}, i) => (
           <div key={id}>
-            <img
-              src={page_image}
-              height="300px"
-              alt={'Page number: ' + page_number}
+            {page_image ? (
+              <img
+                src={page_image}
+                height="300px"
+                alt={'Page number: ' + page_number}
+              />
+            ) : (
+              <h3>No image</h3>
+            )}
+            <FileInput
+              onChange={data =>
+                setPages(assocPath([i, 'page_image'], data, pages))
+              }
             />
             <p>{page_description}</p>
             <button
