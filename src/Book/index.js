@@ -1,53 +1,33 @@
 import React, {useState, useEffect} from 'react';
-import './App.css';
-import {loadData, sendJson, assocPath} from './utils';
+import {loadData, sendJson, assocPath, swap} from '../utils';
 import {useParams} from 'react-router-dom';
-import {FileInput} from './FileInput';
-
-const swap = (arr, index, dir) => {
-  const otherIndex = dir === 'down' ? index + 1 : index - 1;
-  [arr[index], arr[otherIndex]] = [arr[otherIndex], arr[index]];
-};
+import {FileInput} from '../FileInput';
+import {CreatePage} from './CreatePage';
+import {EditTitle} from './EditTitle';
 
 export const Book = () => {
   const [bookState, setBookState] = useState();
   const [pages, setPages] = useState([]);
   const [error, setError] = useState('');
-  const [titleState, setTitleState] = useState('');
-  const [newPageDes, setNewPageDes] = useState('');
   const {bookId} = useParams();
 
-  const changeTitle = async e => {
-    e.preventDefault();
-    const result = await sendJson('editBook/' + bookId, {
-      newTitle: titleState
-    });
-    if (result.error) {
-      setError(result.error);
-    }
+  const changeTitle = async newTitle => {
+    const result = await sendJson('editBook/' + bookId, {newTitle});
+    if (result.error) setError(result.error);
     await loadData('getOneBook/' + bookId, setBookState, setError);
-    setTitleState('');
   };
 
   const editPageOrder = async (index, dir) => {
     const ids = pages.map(p => p.id);
     swap(ids, index, dir);
-
     const result = await sendJson('editPageNumber', ids);
-    if (result.error) {
-      setError(result.error);
-    }
+    if (result.error) setError(result.error);
     await loadData('getPagesForBook/' + bookId, setPages, setError);
   };
 
-  const createNewPage = async e => {
-    e.preventDefault();
-    const result = await sendJson('createPageInBook/' + bookId, {
-      pageDes: newPageDes
-    });
-    if (result.error) {
-      setError(result.error);
-    }
+  const createNewPage = async pageDes => {
+    const result = await sendJson('createPageInBook/' + bookId, {pageDes});
+    if (result.error) setError(result.error);
     await loadData('getPagesForBook/' + bookId, setPages, setError);
   };
 
@@ -76,16 +56,7 @@ export const Book = () => {
             <h2>{bookId}</h2>
             <h1>Title:</h1>
             <h2>{bookState.title}</h2>
-            <form onSubmit={changeTitle}>
-              Edit title:{' '}
-              <input
-                value={titleState}
-                type="text"
-                onChange={e => setTitleState(e.target.value)}
-              />
-              <button>Update title</button>
-            </form>
-
+            <EditTitle onChangeTitle={changeTitle} />
             <h1>Author:</h1>
             <h2>{bookState.created_by_user}</h2>
             <h1>Created_date:</h1>
@@ -109,12 +80,13 @@ export const Book = () => {
             ) : (
               <h3>No image</h3>
             )}
+            <p>{page_description}</p>
             <FileInput
+              className="btn btn-info btn-sm"
               onChange={data =>
                 setPages(assocPath([i, 'page_image'], data, pages))
               }
             />
-            <p>{page_description}</p>
             <button
               className="btn btn-danger btn-sm"
               onClick={() => deletePage(id)}
@@ -126,35 +98,21 @@ export const Book = () => {
                 className="btn btn-info btn-sm"
                 onClick={() => editPageOrder(i, 'up')}
               >
-                UP
+                Move Up
               </button>
             )}
-
             {i < pages.length - 1 && (
               <button
                 className="btn btn-info btn-sm"
                 onClick={() => editPageOrder(i, 'down')}
               >
-                DN
+                Move Down
               </button>
             )}
           </div>
         ))}
       </div>
-      <div>
-        <h2>Create new Page below:</h2>
-        <form onSubmit={createNewPage}>
-          <label>
-            Title:
-            <input
-              type="text"
-              value={newPageDes}
-              onChange={e => setNewPageDes(e.target.value)}
-            />
-          </label>
-          <button className="btn btn-success btn-lg">Create new page</button>
-        </form>
-      </div>
+      <CreatePage onCreateNewPage={createNewPage} />
     </div>
   );
 };

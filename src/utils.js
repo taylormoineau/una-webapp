@@ -44,3 +44,8 @@ export const assocPath = ([first, ...rest], value, data) => {
   copy[first] = rest.length ? assocPath(rest, value, copy[first]) : value;
   return copy;
 };
+
+export const swap = (arr, index, dir) => {
+  const otherIndex = dir === 'down' ? index + 1 : index - 1;
+  [arr[index], arr[otherIndex]] = [arr[otherIndex], arr[index]];
+};

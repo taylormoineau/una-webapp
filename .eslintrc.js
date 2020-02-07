@@ -11,11 +11,11 @@ module.exports = {
     'prettier',
     'plugin:react/recommended',
     'plugin:sonarjs/recommended',
-    "plugin:import/errors",
-    "plugin:jsx-a11y/recommended",
-    "prettier/react"
+    'plugin:import/errors',
+    'plugin:jsx-a11y/recommended',
+    'prettier/react'
   ],
-  plugins: ['prettier', 'react', 'sonarjs', "jsx-a11y", "react-hooks"],
+  plugins: ['prettier', 'react', 'sonarjs', 'jsx-a11y', 'react-hooks'],
   rules: {
     'no-console': 'warn',
     'prettier/prettier': ['warn', { singleQuote: true, bracketSpacing: false }],
@@ -25,11 +25,12 @@ module.exports = {
     'object-shorthand': 'warn',
     'sonarjs/cognitive-complexity': 'off',
     'react/prop-types': 'off',
-    "react-hooks/rules-of-hooks": "error"
+    'react-hooks/rules-of-hooks': 'error',
+    'sonarjs/no-duplicate-string': 'off'
   },
-  "settings": {
-    "react": {
-      "version": "detect"
+  'settings': {
+    'react': {
+      'version': 'detect'
     }
   }
 };
