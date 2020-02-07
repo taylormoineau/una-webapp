@@ -20,7 +20,7 @@ export const CreateBookPage = ({isAdmin}) => {
     history.push('/book/' + result.id);
   };
 
-  const deleteBook = id => async () => {
+  const deleteBook = async id => {
     await sendJson('deleteBook', {id});
     //This can only be changed by administrators, so only server errors should be a problem here.
     await loadData('getAllBooks', setBooksState, setError);
@@ -84,7 +84,7 @@ export const CreateBookPage = ({isAdmin}) => {
                     <td>
                       <button
                         className="btn btn-danger btn-sm"
-                        onClick={deleteBook(id)}
+                        onClick={() => deleteBook(id)}
                       >
                         Delete
                       </button>

@@ -50,7 +50,7 @@ export const DootRouter = () => {
           <Route path="/adminpage">
             <AdminPage />
           </Route>
-          <Route path="/book/:id">
+          <Route path="/book/:bookId">
             <Book />
           </Route>
           <Route path="/">
@@ -61,31 +61,3 @@ export const DootRouter = () => {
     </div>
   );
 };
-
-//   <div className="container">
-//     <form id="signup">
-//       <div className="header">
-//         <h3>UNA App Sign In</h3>
-
-//         <p>If you are already a user sign in here:</p>
-//       </div>
-
-//       <div className="sep"></div>
-
-//       <div className="inputs">
-//         <input type="email" placeholder="e-mail" autoFocus />
-
-//         <input type="password" placeholder="Password" />
-
-//         <div className="checkboxy">
-//           <input name="cecky" id="checky" value="1" type="checkbox" />
-//           <label className="terms">Set cookie?</label>
-//         </div>
-
-//         <a id="submit" href="#">
-//           SIGN IN
-//         </a>
-//       </div>
-//     </form>
-//   </div>
-// );
