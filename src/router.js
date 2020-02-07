@@ -50,7 +50,7 @@ export const DootRouter = () => {
           <Route path="/adminpage">
             <AdminPage />
           </Route>
-          <Route path="/book/:id">
+          <Route path="/book/:bookId">
             <Book />
           </Route>
           <Route path="/">

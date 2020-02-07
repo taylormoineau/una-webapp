@@ -3,59 +3,63 @@ import './App.css';
 import {loadData, sendJson} from './utils';
 import {useParams} from 'react-router-dom';
 
+const swap = (arr, index, dir) => {
+  const otherIndex = dir === 'down' ? index + 1 : index - 1;
+  [arr[index], arr[otherIndex]] = [arr[otherIndex], arr[index]];
+};
+
 export const Book = () => {
   const [bookState, setBookState] = useState();
   const [pages, setPages] = useState([]);
   const [error, setError] = useState('');
   const [titleState, setTitleState] = useState('');
   const [newPageDes, setNewPageDes] = useState('');
-  const {id} = useParams();
+  const {bookId} = useParams();
 
   const changeTitle = async e => {
     e.preventDefault();
-    const result = await sendJson('editBook/' + id, {
+    const result = await sendJson('editBook/' + bookId, {
       newTitle: titleState
     });
     if (result.error) {
       setError(result.error);
     }
-    await loadData('getOneBook/' + id, setBookState, setError);
+    await loadData('getOneBook/' + bookId, setBookState, setError);
     setTitleState('');
   };
 
-  const editPageOrder = async (pageInfo, e) => {
-    e.preventDefault();
-    const result = await sendJson('editPageOrder/', {
-      pageId: pageInfo[0],
-      dir: pageInfo[1]
-    });
+  const editPageOrder = async (index, dir) => {
+    const ids = pages.map(p => p.id);
+    swap(ids, index, dir);
+
+    const result = await sendJson('editPageNumber', ids);
     if (result.error) {
       setError(result.error);
     }
-    await loadData('getPagesForBook/' + id, setPages, setError);
+    await loadData('getPagesForBook/' + bookId, setPages, setError);
   };
 
   const createNewPage = async e => {
     e.preventDefault();
-    const result = await sendJson('createPageInBook/' + id, {
+    const result = await sendJson('createPageInBook/' + bookId, {
       pageDes: newPageDes
     });
     if (result.error) {
       setError(result.error);
     }
-    await loadData('getPagesForBook/' + id, setPages, setError);
+    await loadData('getPagesForBook/' + bookId, setPages, setError);
   };
 
-  const deletePage = id => async () => {
+  const deletePage = async id => {
     await sendJson('deletePage', {id});
     //This can only be changed by administrators, so only server errors should be a problem here.
-    await loadData('getPagesForBook/' + id, setPages, setError);
+    await loadData('getPagesForBook/' + bookId, setPages, setError);
   };
 
   useEffect(() => {
-    loadData('getOneBook/' + id, setBookState, setError);
-    loadData('getPagesForBook/' + id, setPages, setError);
-  }, [id]);
+    loadData('getOneBook/' + bookId, setBookState, setError);
+    loadData('getPagesForBook/' + bookId, setPages, setError);
+  }, [bookId]);
 
   return (
     <div className="container">
@@ -64,9 +68,9 @@ export const Book = () => {
       <h3 style={{color: 'red'}}>{error}</h3>
       <div className="container">
         {bookState ? (
-          <div key={id}>
+          <div key={bookId}>
             <h1>Unique id:</h1>
-            <h2>{id}</h2>
+            <h2>{bookId}</h2>
             <h1>Title:</h1>
             <h2>{bookState.title}</h2>
             <form onSubmit={changeTitle}>
@@ -91,7 +95,7 @@ export const Book = () => {
         ) : (
           <h1>LOADING BOOK</h1>
         )}
-        {pages.map(({id, page_image, page_description, page_number}) => (
+        {pages.map(({id, page_image, page_description, page_number}, i) => (
           <div key={id}>
             <img
               src={page_image}
@@ -99,27 +103,29 @@ export const Book = () => {
               alt={'Page number: ' + page_number}
             />
             <p>{page_description}</p>
-            <button className="btn btn-danger btn-sm" onClick={deletePage(id)}>
+            <button
+              className="btn btn-danger btn-sm"
+              onClick={() => deletePage(id)}
+            >
               Delete Page
             </button>
-            <button
-              className="btn btn-info btn-sm"
-              onClick={editPageOrder([id, 'up'])}
-            >
-              Edit
-            </button>
-            <button
-              className="btn btn-info btn-sm"
-              onClick={editPageOrder([id, 'up'])}
-            >
-              UP
-            </button>
-            <button
-              className="btn btn-info btn-sm"
-              onClick={editPageOrder([id, 'down'])}
-            >
-              DN
-            </button>
+            {i > 0 && (
+              <button
+                className="btn btn-info btn-sm"
+                onClick={() => editPageOrder(i, 'up')}
+              >
+                UP
+              </button>
+            )}
+
+            {i < pages.length - 1 && (
+              <button
+                className="btn btn-info btn-sm"
+                onClick={() => editPageOrder(i, 'down')}
+              >
+                DN
+              </button>
+            )}
           </div>
         ))}
       </div>

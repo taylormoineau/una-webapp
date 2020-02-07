@@ -45,7 +45,7 @@ app.get('/getPagesForBook/:id', getAllPages);
 app.post('/createBook', createBook);
 app.use('/createPageInBook/:id', createPage);
 app.post('/editBook/:id', editBook);
-app.post('/editPageNumber/:id', editPageNumber);
+app.post('/editPageNumber', editPageNumber);
 
 app.use(adminsOnly); // user must be admin to access endpoints below
 app.get('/people', getPeople);
