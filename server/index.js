@@ -20,8 +20,13 @@ import {editPageNumber} from './editPage.js';
 import {getAllPages} from './getPages.js';
 import {createPage} from './createPage.js';
 import {deletePage} from './deletePage.js';
+import {updateImage} from './updateImage.js';
+import bodyParser from 'body-parser';
 
 const app = express();
+
+app.use(bodyParser.json({limit: '8mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.use(cookieParser());
 app.use(express.static(path.join(path.resolve(), 'build')));
@@ -46,6 +51,7 @@ app.post('/createBook', createBook);
 app.use('/createPageInBook/:id', createPage);
 app.post('/editBook/:id', editBook);
 app.post('/editPageNumber', editPageNumber);
+app.post('/updateImage', updateImage);
 
 app.use(adminsOnly); // user must be admin to access endpoints below
 app.get('/people', getPeople);

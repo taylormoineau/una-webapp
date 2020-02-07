@@ -39,6 +39,11 @@ export const Book = () => {
     await loadData('getPagesForBook/' + bookId, setPages, setError);
   };
 
+  const updateImage = async (data, id) => {
+    const result = await sendJson('updateImage', {img: data, id});
+    if (result.error) setError(result.error);
+  };
+
   useEffect(() => {
     loadData('getOneBook/' + bookId, setBookState, setError);
     loadData('getPagesForBook/' + bookId, setPages, setError);
@@ -84,7 +89,10 @@ export const Book = () => {
             <FileInput
               className="btn btn-info btn-sm"
               onChange={data =>
-                setPages(assocPath([i, 'page_image'], data, pages))
+                setPages(
+                  assocPath([i, 'page_image'], data, pages),
+                  updateImage(data, id)
+                )
               }
             />
             <button
