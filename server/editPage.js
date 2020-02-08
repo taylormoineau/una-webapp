@@ -13,3 +13,17 @@ export const editPageNumber = async (req, res) => {
 
   res.json('Successful swap');
 };
+
+export const editPageDescription = async (req, res) => {
+  if (!req.body)
+    return res.status(406).json('What are you even trying to do here?');
+
+  const {des, id} = req.body;
+
+  await query(`UPDATE pages_data SET page_description = $1 WHERE id= $2`, [
+    des,
+    id
+  ]);
+
+  res.json('Description successfully updated');
+};

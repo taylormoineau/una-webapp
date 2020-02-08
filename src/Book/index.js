@@ -9,6 +9,8 @@ export const Book = () => {
   const [bookState, setBookState] = useState();
   const [pages, setPages] = useState([]);
   const [error, setError] = useState('');
+  const [desTrigger, setDesTrigger] = useState(0);
+  const [editDes, setEditDes] = useState('');
   const {bookId} = useParams();
 
   const changeTitle = async newTitle => {
@@ -21,6 +23,12 @@ export const Book = () => {
     const ids = pages.map(p => p.id);
     swap(ids, index, dir);
     const result = await sendJson('editPageNumber', ids);
+    if (result.error) setError(result.error);
+    await loadData('getPagesForBook/' + bookId, setPages, setError);
+  };
+
+  const editPageDescription = async (des, id) => {
+    const result = await sendJson('editPageDescription', {des, id});
     if (result.error) setError(result.error);
     await loadData('getPagesForBook/' + bookId, setPages, setError);
   };
@@ -85,7 +93,30 @@ export const Book = () => {
             ) : (
               <h3>No image</h3>
             )}
-            <p>{page_description}</p>
+            {desTrigger === id ? (
+              <form
+                onSubmit={e => {
+                  e.preventDefault();
+                  editPageDescription(editDes, id);
+                }}
+              >
+                <textarea
+                  type="textarea"
+                  placeholder={page_description}
+                  value={editDes}
+                  onChange={e => setEditDes(e.target.value)}
+                ></textarea>
+                <button type="submit">Update</button>
+              </form>
+            ) : (
+              <p>{'Page ' + (page_number + 1) + ' : ' + page_description}</p>
+            )}
+            <button
+              className="btn btn-warning btn-sm"
+              onClick={() => setDesTrigger(id)}
+            >
+              Edit Description
+            </button>
             <FileInput
               className="btn btn-info btn-sm"
               onChange={data =>

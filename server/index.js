@@ -16,7 +16,7 @@ import {authCookie, adminsOnly, loggedInOnly} from './authCookie.js';
 import {createBook} from './createBook.js';
 import {deleteBook} from './deleteBook.js';
 import {editBook} from './editBook.js';
-import {editPageNumber} from './editPage.js';
+import {editPageNumber, editPageDescription} from './editPage.js';
 import {getAllPages} from './getPages.js';
 import {createPage} from './createPage.js';
 import {deletePage} from './deletePage.js';
@@ -51,6 +51,7 @@ app.post('/createBook', createBook);
 app.use('/createPageInBook/:id', createPage);
 app.post('/editBook/:id', editBook);
 app.post('/editPageNumber', editPageNumber);
+app.post('/editPageDescription', editPageDescription);
 app.post('/updateImage', updateImage);
 
 app.use(adminsOnly); // user must be admin to access endpoints below

@@ -3,6 +3,8 @@ import './App.css';
 import {sendJson, loadData} from './utils';
 import {Link, useHistory} from 'react-router-dom';
 
+//Rename this page. It's confusing.
+
 export const CreateBookPage = ({isAdmin}) => {
   const [titleState, setTitleState] = useState('');
   const [booksState, setBooksState] = useState([]);
