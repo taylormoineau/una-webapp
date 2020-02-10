@@ -10,7 +10,7 @@ export const Book = () => {
   const [pages, setPages] = useState([]);
   const [error, setError] = useState('');
   const [desTrigger, setDesTrigger] = useState(0);
-  const [editDes, setEditDes] = useState('');
+  const [editDes, setEditDes] = useState([]);
   const {bookId} = useParams();
 
   const changeTitle = async newTitle => {
@@ -30,7 +30,6 @@ export const Book = () => {
   const editPageDescription = async (des, id) => {
     const result = await sendJson('editPageDescription', {des, id});
     if (result.error) setError(result.error);
-    await loadData('getPagesForBook/' + bookId, setPages, setError);
   };
 
   const createNewPage = async pageDes => {
@@ -97,15 +96,19 @@ export const Book = () => {
               <form
                 onSubmit={e => {
                   e.preventDefault();
-                  editPageDescription(editDes, id);
+                  editDes && editPageDescription(editDes, id);
+                  setDesTrigger(0);
                 }}
               >
-                <textarea
-                  type="textarea"
-                  placeholder={page_description}
-                  value={editDes}
-                  onChange={e => setEditDes(e.target.value)}
-                ></textarea>
+                <input
+                  value={page_description}
+                  onChange={e =>
+                    setPages(
+                      assocPath([i, 'page_description'], e.target.value, pages),
+                      setEditDes(e.target.value)
+                    )
+                  }
+                />
                 <button type="submit">Update</button>
               </form>
             ) : (
