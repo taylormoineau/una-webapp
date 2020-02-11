@@ -16,7 +16,7 @@ export const createPage = async (req, res) => {
     [req.params.id]
   );
 
-  const newPageNumber = page_number.max > 0 ? page_number.max + 1 : 1;
+  const newPageNumber = page_number.max >= 0 ? page_number.max + 1 : 1;
 
   const [
     result

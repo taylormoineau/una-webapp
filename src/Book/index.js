@@ -4,12 +4,14 @@ import {useParams} from 'react-router-dom';
 import {FileInput} from '../FileInput';
 import {CreatePage} from './CreatePage';
 import {EditTitle} from './EditTitle';
+import {Link} from 'react-router-dom';
 
 export const Book = () => {
   const [bookState, setBookState] = useState();
   const [pages, setPages] = useState([]);
   const [error, setError] = useState('');
   const [desTrigger, setDesTrigger] = useState(0);
+  const [printTrigger, setPrintTrigger] = useState(false);
   const [editDes, setEditDes] = useState('');
   const {bookId} = useParams();
 
@@ -152,6 +154,9 @@ export const Book = () => {
         ))}
       </div>
       <CreatePage onCreateNewPage={createNewPage} />
+      <button className="btn btn-info btn-sm">
+        <Link to={'/print/' + bookId}>Print book</Link>
+      </button>
     </div>
   );
 };
