@@ -31,7 +31,7 @@ width: 836px;
     z-index: 2;
     position: absolute;
     top: 20px;
-    left: 25px;
+    left: 28px;
     
 
 }
@@ -46,17 +46,18 @@ width: 836px;
  text-align: center;
  width: 340px;
  height: 100px;
- background-color: seagreen;
 }
 
 .leftPageNumber {
     position:absolute;
-    top: -32px;
+    bottom: -14px;
     left: 16px;
     z-index: 3;
     font-family: 'Patrick Hand', cursive;
  font-size: 20px;
  font-weight: bold;
+ text-align: center;
+
 }
 
 .rightImage {
@@ -72,23 +73,119 @@ width: 836px;
 
 .rightText {
  position:absolute;
- bottom: 200px;
- left: 35px;
+ bottom:10px;
+ left: 44px;
  z-index: 3;
  font-family: 'Patrick Hand', cursive;
  font-size: 20px;
  text-align: center;
- width: 370px;
- height: 120px;
- background-color: seagreen;
+ width: 340px;
+ height: 100px;
 }
 
 .rightPageNumber {
     position:absolute;
-    bottom: 34px;
-    left: 50px;
+    bottom: -14px;
+    left: 394px;
     z-index: 3;
     font-family: 'Patrick Hand', cursive;
  font-size: 20px;
  font-weight: bold;
+ text-align: center;
+}
+
+.printDivPRINT{
+position: relative;
+width: 3344‬px;
+
+}
+
+.templateDivLeftPRINT {
+    height: 100%;
+    width: 1672px;
+    position: relative;
+    background-color: salmon;
+    float: left;
+}
+
+.templateDivRightPRINT{
+    height: 100%;
+    width: 1672px;
+    position: relative;
+    background-color: burlywood;
+    float: right;
+}
+
+.backgroundPRINT {
+    height: 2480;
+    width:1672px;
+}
+
+.leftImagePRINT {
+    height: 1700px;
+    width:  1400px;
+    z-index: 2;
+    position: absolute;
+    top: 80px;
+    left: 112px;
+    
+
+}
+
+.leftTextPRINT {
+ position:absolute;
+ bottom:40px;
+ left: 140px;
+ z-index: 3;
+ font-family: 'Patrick Hand', cursive;
+ font-size: 80px;
+ text-align: center;
+ width: 1360px;
+ height: 400px;
+}
+
+.leftPageNumberPRINT {
+    position:absolute;
+    bottom: -56px;
+    left: 64px;
+    z-index: 3;
+    font-family: 'Patrick Hand', cursive;
+ font-size: 80px;
+ font-weight: bold;
+ text-align: center;
+
+}
+
+.rightImagePRINT {
+    height: 1700px;
+    width:  1400px;
+    z-index: 2;
+    position: absolute;
+    top: 80px;
+    left: 160px;
+    
+
+}
+
+.rightTextPRINT {
+ position:absolute;
+ bottom:40px;
+ left: 176px;
+ z-index: 3;
+ font-family: 'Patrick Hand', cursive;
+ font-size: 80px;
+ text-align: center;
+ width: 1360px;
+ height: 400px;
+}
+
+.rightPageNumberPRINT {
+    position:absolute;
+    bottom: -56px;
+    left: 1576px;
+    z-index: 3;
+    font-family: 'Patrick Hand', cursive;
+ font-size: 80px;
+ font-weight: bold;
+ text-align: center;
 }
