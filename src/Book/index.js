@@ -10,7 +10,6 @@ export const Book = () => {
   const [pages, setPages] = useState([]);
   const [error, setError] = useState('');
   const [desTrigger, setDesTrigger] = useState(0);
-  const [editDes, setEditDes] = useState([]);
   const {bookId} = useParams();
 
   const changeTitle = async newTitle => {
@@ -96,7 +95,7 @@ export const Book = () => {
               <form
                 onSubmit={e => {
                   e.preventDefault();
-                  editDes && editPageDescription(editDes, id);
+                  page_description && editPageDescription(page_description, id);
                   setDesTrigger(0);
                 }}
               >
@@ -104,8 +103,7 @@ export const Book = () => {
                   value={page_description}
                   onChange={e =>
                     setPages(
-                      assocPath([i, 'page_description'], e.target.value, pages),
-                      setEditDes(e.target.value)
+                      assocPath([i, 'page_description'], e.target.value, pages)
                     )
                   }
                 />
