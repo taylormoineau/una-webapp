@@ -1,3 +1,123 @@
+// import React, {useState} from 'react';
+// import {
+//   TextField,
+//   AppBar,
+//   Button,
+//   List,
+//   ListItem,
+//   ListItemText
+// } from '@material-ui/core';
+
+// const FormUserDetails = ({nextStep, setFirstname, values}) => (
+//   <div>
+//     <TextField
+//       defaultValue={values.firstname}
+//       label="Enter your first name"
+//       onChange={event => setFirstname(event.target.value)}
+//     />
+//     <br />
+
+//     <Button onClick={nextStep} variant="primary">
+//       Next
+//     </Button>
+//   </div>
+// );
+
+// const FormPersonalDetails = ({
+//   nextStep,
+//   prevStep,
+//   setLastname,
+//   setWorkStatus,
+//   values
+// }) => (
+//   <div>
+//     <TextField
+//       defaultValue={values.lastname}
+//       label="Enter your last name"
+//       onChange={event => setLastname(event.target.value)}
+//     />
+//     <br />
+//     <TextField
+//       defaultValue={values.workStatus}
+//       label="Enter your work status"
+//       onChange={event => setWorkStatus(event.target.value)}
+//     />
+//     <br />
+//     <Button onClick={nextStep} variant="primary">
+//       Next
+//     </Button>
+//     <Button onClick={prevStep}>Back</Button>
+//   </div>
+// );
+
+// const Confirm = ({values, nextStep, prevStep}) => {
+//   const {firstname, lastname, workStatus} = values;
+//   return (
+//     <div>
+//       <List component="nav">
+//         <ListItem>
+//           <ListItemText primary={firstname} />
+//         </ListItem>
+//         <ListItem>
+//           <ListItemText primary={lastname} />
+//         </ListItem>
+//         <ListItem>
+//           <ListItemText primary={workStatus} />
+//         </ListItem>
+//       </List>
+
+//       <Button variant="primary" onClick={nextStep}>
+//         Confirm
+//       </Button>
+//       <Button onClick={prevStep}>Back</Button>
+//     </div>
+//   );
+// };
+
+// export const DootForm = () => {
+//   const [step, setStep] = useState(1);
+//   const [firstname, setFirstname] = useState('');
+//   const [lastname, setLastname] = useState('');
+//   const [workStatus, setWorkStatus] = useState('');
+
+//   // proceed to the next step
+//   const nextStep = () => setStep(step + 1);
+
+//   // previous step
+//   const prevStep = () => setStep(step - 1);
+
+//   const values = {firstname, lastname, workStatus};
+
+//   switch (step) {
+//     case 1:
+//       return (
+//         <FormUserDetails
+//           nextStep={nextStep}
+//           values={values}
+//           setFirstname={setFirstname}
+//           setLastname={setLastname}
+//           setWorkStatus={setWorkStatus}
+//         />
+//       );
+//     case 2:
+//       return (
+//         <FormPersonalDetails
+//           nextStep={nextStep}
+//           values={values}
+//           prevStep={prevStep}
+//           setLastname={setLastname}
+//           setWorkStatus={setWorkStatus}
+//         />
+//       );
+//     case 3:
+//       return (
+//         <Confirm nextStep={nextStep} prevStep={prevStep} values={values} />
+//       );
+//     case 4:
+//       return <h1>Success</h1>;
+//   }
+// };
+
 import {sendJson} from './utils';
 import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
@@ -48,7 +168,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const LoginPage = ({checkAuth}) => {
+export const LoginForm = ({checkAuth}) => {
   const [emailLoginState, setEmailLoginState] = useState('');
   const [passwordLoginState, setPasswordLoginState] = useState('');
   const [errorState, setErrorState] = useState('');

@@ -4,6 +4,7 @@ import {loadJson} from './utils';
 import {AdminPage} from './AdminPage';
 import {Home} from './Home.js';
 import {Book} from './Book';
+import {Register} from './Register';
 import {NavBar} from './NavBar';
 import {makeStyles} from '@material-ui/core/styles';
 
@@ -52,6 +53,9 @@ export const DootRouter = () => {
           </Route>
           <Route path="/book/:bookId">
             <Book />
+          </Route>
+          <Route path="/register">
+            <Register checkAuth={checkAuth} currentUser={currentUser} />
           </Route>
           <Route path="/">
             <Home checkAuth={checkAuth} currentUser={currentUser} />
