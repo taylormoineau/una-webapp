@@ -4,12 +4,9 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import CreateOutlined from '@material-ui/icons/CreateOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -19,7 +16,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="https://www.linkedin.com/in/taylor-moineau/">
         Taylor Moineau
       </Link>{' '}
       {new Date().getFullYear()}
@@ -45,38 +42,33 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  error: {
+    color: theme.palette.secondary.main
   }
 }));
 
-export const LoginPage = ({checkAuth}) => {
-  const [emailLoginState, setEmailLoginState] = useState('');
-  const [passwordLoginState, setPasswordLoginState] = useState('');
-  const [errorState, setErrorState] = useState('');
+export const LoginForm = ({
+  onSubmit,
+  setEmail,
+  setPassword,
+  error,
+  icon,
+  text,
+  linkText,
+  linkURL
+}) => {
   const classes = useStyles();
-
-  const loginUser = async e => {
-    e.preventDefault();
-    const result = await sendJson('login', {
-      email: emailLoginState,
-      password: passwordLoginState
-    });
-    if (result.error) {
-      setErrorState(result.error);
-    }
-    await checkAuth();
-  };
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <Avatar className={classes.avatar}>{icon}</Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          {text}
         </Typography>
-        <form className={classes.form} noValidate onSubmit={loginUser}>
+        <form className={classes.form} onSubmit={onSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -84,9 +76,10 @@ export const LoginPage = ({checkAuth}) => {
             fullWidth
             id="email"
             label="Email Address"
+            type="email"
             name="email"
             autoComplete="email"
-            onChange={e => setEmailLoginState(e.target.value)}
+            onChange={e => setEmail(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -98,8 +91,12 @@ export const LoginPage = ({checkAuth}) => {
             type="password"
             id="password"
             autoComplete="current-password"
-            onChange={e => setPasswordLoginState(e.target.value)}
+            onChange={e => setPassword(e.target.value)}
           />
+
+          <Typography component="h3" variant="h5" className={classes.error}>
+            {error}
+          </Typography>
 
           <Button
             type="submit"
@@ -108,13 +105,13 @@ export const LoginPage = ({checkAuth}) => {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            {text}
           </Button>
           <Grid container>
             <Grid item xs></Grid>
             <Grid item>
-              <Link href="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link href={linkURL} variant="body2">
+                {linkText}
               </Link>
             </Grid>
           </Grid>
@@ -124,5 +121,36 @@ export const LoginPage = ({checkAuth}) => {
         <Copyright />
       </Box>
     </Container>
+  );
+};
+
+export const LoginPage = ({checkAuth}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const loginUser = async e => {
+    e.preventDefault();
+    const result = await sendJson('login', {
+      email,
+      password
+    });
+    if (result.error) {
+      setError(result.error);
+    }
+    await checkAuth();
+  };
+
+  return (
+    <LoginForm
+      onSubmit={loginUser}
+      setEmail={setEmail}
+      setPassword={setPassword}
+      error={error}
+      icon={<LockOutlinedIcon />}
+      text="Log In"
+      linkText="Don't have an account? Sign Up"
+      linkURL="/register"
+    />
   );
 };
