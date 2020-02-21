@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
+import {Link as RRLink} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -16,7 +17,11 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://www.linkedin.com/in/taylor-moineau/">
+      <Link
+        color="inherit"
+        href="https://www.linkedin.com/in/taylor-moineau/"
+        target="_blank"
+      >
         Taylor Moineau
       </Link>{' '}
       {new Date().getFullYear()}
@@ -110,9 +115,9 @@ export const LoginForm = ({
           <Grid container>
             <Grid item xs></Grid>
             <Grid item>
-              <Link href={linkURL} variant="body2">
-                {linkText}
-              </Link>
+              <RRLink to={linkURL}>
+                <Link variant="body2">{linkText}</Link>
+              </RRLink>
             </Grid>
           </Grid>
         </form>
