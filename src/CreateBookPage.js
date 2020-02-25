@@ -12,12 +12,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
-// import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
-// import MenuBookIcon from '@material-ui/icons/MenuBook';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 
 //Rename this page. It's confusing.
 
@@ -83,15 +82,14 @@ export const CreateBookPage = ({isAdmin}) => {
         <Typography component="h1" variant="h5">
           {'Create New Book'}
         </Typography>
+        <MenuBookIcon />
         <form className={classes.form} onSubmit={submitNewBook}>
           <TextField
             variant="outlined"
             margin="normal"
-            required
             fullWidth
-            id="email"
+            id="bookTitle"
             label="Book Title"
-            autoComplete="email"
             onChange={e => setTitleState(e.target.value)}
           />
 
