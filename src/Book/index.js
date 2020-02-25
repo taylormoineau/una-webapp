@@ -170,7 +170,7 @@ export const Book = () => {
                       color="textSecondary"
                       paragraph
                     >
-                      Language: INSERT LANGUAGE HERE
+                      Language: {bookState.language}
                     </Typography>
                   </Grid>
                 </Grid>

@@ -16,6 +16,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 //Rename this page. It's confusing.
 
@@ -42,6 +47,13 @@ const useStyles = makeStyles(theme => ({
   },
   error: {
     color: theme.palette.secondary.main
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2)
   }
 }));
 
@@ -49,13 +61,24 @@ export const CreateBookPage = ({isAdmin}) => {
   const [titleState, setTitleState] = useState('');
   const [booksState, setBooksState] = useState([]);
   const [error, setError] = useState('');
+  const [pgNum, setPgNum] = useState(8);
+  const [lang, setLang] = useState('ENG');
+
   const history = useHistory();
   const classes = useStyles();
+
+  const inputLabel = React.useRef(null);
+  const [labelWidth, setLabelWidth] = React.useState(0);
+  React.useEffect(() => {
+    setLabelWidth(inputLabel.current.offsetWidth);
+  }, []);
 
   const submitNewBook = async e => {
     e.preventDefault();
     const result = await sendJson('createBook', {
-      title: titleState
+      title: titleState,
+      pageCount: pgNum,
+      language: lang
     });
     if (result.error) {
       setError(result.error);
@@ -77,7 +100,6 @@ export const CreateBookPage = ({isAdmin}) => {
     <Container component="main" maxWidth="lg">
       <CssBaseline />
       <div className={classes.paper}>
-        {/* <Avatar className={classes.avatar}>{MenuBookIcon}</Avatar> */}
         <Typography component="h1" variant="h5">
           {'Create New Book'}
         </Typography>
@@ -91,6 +113,40 @@ export const CreateBookPage = ({isAdmin}) => {
             label="Book Title"
             onChange={e => setTitleState(e.target.value)}
           />
+          <FormControl variant="outlined" className={classes.formControl}>
+            <InputLabel ref={inputLabel} id="demo-simple-select-outlined-label">
+              Pages
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={pgNum}
+              onChange={e => setPgNum(e.target.value)}
+              labelWidth={labelWidth}
+            >
+              <MenuItem value={4}>4</MenuItem>
+              <MenuItem value={8}>8</MenuItem>
+              <MenuItem value={12}>12</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl variant="outlined" className={classes.formControl}>
+            <InputLabel ref={inputLabel} id="demo-simple-select-outlined-label">
+              Language
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={lang}
+              onChange={e => setLang(e.target.value)}
+              labelWidth={labelWidth}
+            >
+              <MenuItem value={'ENG'}>English</MenuItem>
+              <MenuItem value={'SRB'}>Serbian</MenuItem>
+              <MenuItem value={'HR'}>Croatian</MenuItem>
+              <MenuItem value={'HU'}>Hungarian</MenuItem>
+            </Select>
+          </FormControl>
 
           <Typography component="h3" variant="h5" className={classes.error}>
             {error}

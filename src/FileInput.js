@@ -19,7 +19,6 @@ export const FileInput = ({onChange}) => {
     <Button
       size="large"
       color="primary"
-      variant="outlined"
       onClick={() => realFileInput.current.click()}
     >
       <AddPhotoAlternateIcon />
