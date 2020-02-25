@@ -152,7 +152,7 @@ export const Book = () => {
                 By: {bookState.created_by_user}
               </Typography>
               <div className={classes.heroButtons}>
-                <Grid container spacing={2} justify="center">
+                <Grid container spacing={3} justify="center">
                   <Grid item>
                     <Typography
                       variant="h5"
@@ -160,7 +160,7 @@ export const Book = () => {
                       color="textSecondary"
                       paragraph
                     >
-                      Info 1
+                      Book id: {bookId}
                     </Typography>
                   </Grid>
                   <Grid item>
@@ -170,7 +170,7 @@ export const Book = () => {
                       color="textSecondary"
                       paragraph
                     >
-                      Info 2
+                      Language: INSERT LANGUAGE HERE
                     </Typography>
                   </Grid>
                 </Grid>
@@ -190,7 +190,7 @@ export const Book = () => {
       {/* PAGES */}
       {bookState ? (
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
+          {/* End INSTRUCTION */}
           <Grid container spacing={4}>
             {pages.map(({id, page_image, page_description, page_number}, i) => (
               <Grid item key={id} xs={6}>
