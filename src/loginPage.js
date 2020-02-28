@@ -55,13 +55,15 @@ const useStyles = makeStyles(theme => ({
 
 export const LoginForm = ({
   onSubmit,
+  setName,
   setEmail,
   setPassword,
   error,
   icon,
   text,
   linkText,
-  linkURL
+  linkURL,
+  addName
 }) => {
   const classes = useStyles();
 
@@ -74,6 +76,19 @@ export const LoginForm = ({
           {text}
         </Typography>
         <form className={classes.form} onSubmit={onSubmit}>
+          {addName && (
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="Name"
+              type="text"
+              name="name"
+              onChange={e => setName(e.target.value)}
+            />
+          )}
           <TextField
             variant="outlined"
             margin="normal"
