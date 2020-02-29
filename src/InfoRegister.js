@@ -1,4 +1,4 @@
-import {sendJson} from './utils';
+import {sendJson, assocPath} from './utils';
 import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,7 +14,7 @@ import Container from '@material-ui/core/Container';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {useHistory} from 'react-router-dom';
 import userIcon from './userIcon.png';
-import CardMedia from '@material-ui/core/CardMedia';
+import {FileInput} from './FileInput.js';
 
 function Copyright() {
   return (
@@ -40,11 +40,9 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center'
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-    height: 120,
-    width: 120
+  large: {
+    width: theme.spacing(15),
+    height: theme.spacing(15)
   },
   media: {
     height: 110,
@@ -65,7 +63,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const InfoRegister = ({checkAuth}) => {
+export const InfoRegister = ({checkAuth, currentUser}) => {
+  const [userInfo, setUserInfo] = useState(userIcon);
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -74,10 +73,11 @@ export const InfoRegister = ({checkAuth}) => {
   const classes = useStyles();
   const [error, setError] = useState('');
   let history = useHistory();
+  console.log(currentUser);
 
-  const updateUser = async e => {
-    e.preventDefault();
+  const updateUser = async () => {
     const result = await sendJson('updatePerson', {
+      user_photo: userInfo.user_photo,
       email,
       firstName,
       lastName,
@@ -87,19 +87,33 @@ export const InfoRegister = ({checkAuth}) => {
     if (result.error) {
       setError(result.error);
     }
-    await checkAuth();
-    history.push('/');
   };
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <CardMedia
-          className={classes.media}
-          image={userIcon}
-          title="Paella dish"
-        />
+        {/* {currentUser.map(({id, user_photo, name}, i) => (
+          <div key={id}> */}
+        <form>
+          <Avatar
+            alt={
+              currentUser.user_photo ? currentUser.name : 'Add User Photo here'
+            }
+            src={currentUser.user_photo ? currentUser.user_photo : userInfo}
+            className={classes.large}
+          />
+          <FileInput
+            onChange={data =>
+              setUserInfo(
+                assocPath([[userInfo], 'user_photo'], data, userInfo),
+                updateUser(data)
+              )
+            }
+          />
+        </form>
+        {/* </div>
+        ))} */}
         <Typography component="h1" variant="h5">
           Please add add your photo! (600x600px max)
         </Typography>
