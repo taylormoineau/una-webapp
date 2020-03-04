@@ -6,7 +6,7 @@ import {Home} from './Home.js';
 import {Book} from './Book';
 import {Register} from './Register';
 import {InfoRegister} from './InfoRegister';
-
+import {UserProfile} from './UserProfile';
 import {NavBar} from './NavBar';
 import {makeStyles} from '@material-ui/core/styles';
 
@@ -61,6 +61,9 @@ export const DootRouter = () => {
           </Route>
           <Route path="/infoRegister">
             <InfoRegister checkAuth={checkAuth} currentUser={currentUser} />
+          </Route>
+          <Route path="/userProfile">
+            <UserProfile checkAuth={checkAuth} currentUser={currentUser} />
           </Route>
           <Route path="/">
             <Home checkAuth={checkAuth} currentUser={currentUser} />

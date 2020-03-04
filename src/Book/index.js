@@ -5,7 +5,6 @@ import {FileInput} from '../FileInput';
 import {CreatePage} from './CreatePage';
 import {EditTitle} from './EditTitle';
 import Button from '@material-ui/core/Button';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -84,11 +83,14 @@ export const Book = () => {
   };
 
   const editPageOrder = async (index, dir) => {
-    const ids = pages.map(p => p.id);
-    swap(ids, index, dir);
-    const result = await sendJson('editPageNumber', ids);
+    const newPages = pages.slice();
+    swap(newPages, index, dir);
+    setPages(newPages);
+    const result = await sendJson(
+      'editPageNumber',
+      newPages.map(p => p.id)
+    );
     if (result.error) setError(result.error);
-    await loadData('getPagesForBook/' + bookId, setPages, setError);
   };
 
   const editPageDescription = async (des, id) => {
@@ -191,13 +193,13 @@ export const Book = () => {
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End INSTRUCTION */}
           <Grid container spacing={4}>
-            {pages.map(({id, page_image, page_description, page_number}, i) => (
+            {pages.map(({id, page_image, page_description}, i) => (
               <Grid item key={id} xs={6}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
                     image={page_image ? page_image : placeHolderImage}
-                    title={'Page Number: ' + page_number + '.'}
+                    title={'Page Number: ' + (i + 1) + '.'}
                   />
                   <CardContent className={classes.cardContent}>
                     {desTrigger === id ? (
@@ -237,7 +239,7 @@ export const Book = () => {
                       </form>
                     ) : (
                       <Typography>
-                        {'Page ' + (page_number + 1) + ' : ' + page_description}
+                        {'Page ' + (i + 1) + ' : ' + page_description}
                       </Typography>
                     )}
                   </CardContent>
@@ -272,12 +274,10 @@ export const Book = () => {
                     )}
 
                     <FileInput
-                      onChange={data =>
-                        setPages(
-                          assocPath([i, 'page_image'], data, pages),
-                          updateImage(data, id)
-                        )
-                      }
+                      onChange={data => {
+                        setPages(assocPath([i, 'page_image'], data, pages));
+                        updateImage(data, id);
+                      }}
                     />
                     <Button
                       size="large"
