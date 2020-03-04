@@ -194,7 +194,11 @@ export const CreateBookPage = ({isAdmin}) => {
                       {title}
                     </RRLink>
                   </TableCell>
-                  <TableCell align="right">{created_by_user}</TableCell>
+                  <TableCell align="right">
+                    <RRLink to={'/book/' + id} id={id}>
+                      {created_by_user}
+                    </RRLink>
+                  </TableCell>
                   <TableCell align="right">
                     {new Date(created_date).toDateString()}
                   </TableCell>

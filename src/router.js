@@ -62,7 +62,7 @@ export const DootRouter = () => {
           <Route path="/infoRegister">
             <InfoRegister checkAuth={checkAuth} currentUser={currentUser} />
           </Route>
-          <Route path="/userProfile">
+          <Route path="/userProfile/:userId">
             <UserProfile checkAuth={checkAuth} currentUser={currentUser} />
           </Route>
           <Route path="/">
