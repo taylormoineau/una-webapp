@@ -7,7 +7,9 @@ export const createBook = async (req, res) => {
     return res.status(406).send('What are you even trying to do here?');
 
   const {title, pageCount, language} = req.body;
-  const createdByUser = req.user.email;
+  const {first_name, last_name, id} = req.user;
+
+  const name = first_name + ' ' + last_name;
 
   if (!title) return res.status(406).send('Please enter a book title!');
 
@@ -24,8 +26,8 @@ export const createBook = async (req, res) => {
   const [
     result
   ] = await query(
-    'INSERT INTO "books_data"(title, created_by_user, created_date, language) VALUES ($1, $2, $3, $4) RETURNING *',
-    [title, createdByUser, currentDate, language]
+    'INSERT INTO "books_data"(title, author, created_date, language, author_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+    [title, name, currentDate, language, id]
   );
 
   for (let i = 0; i < pageCount; i++) {

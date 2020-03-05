@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 
 import {login} from './login.js';
 import {logout} from './logout.js';
-import {getPeople} from './getPeople.js';
+import {getPeople, getUser} from './getPeople.js';
 import {getAllBooks, getOneBook} from './getBooks.js';
 import {addPerson} from './addPerson.js';
 import {deletePerson} from './deletePerson.js';
@@ -54,6 +54,7 @@ app.post('/updateInfo', updateInfo);
 app.post('/editPageNumber', editPageNumber);
 app.post('/editPageDescription', editPageDescription);
 app.post('/updateImage', updateImage);
+app.get('/getUser/:id', getUser);
 
 app.use(adminsOnly); // user must be admin to access endpoints below
 app.get('/people', getPeople);

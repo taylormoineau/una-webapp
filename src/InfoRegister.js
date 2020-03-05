@@ -13,6 +13,7 @@ import Container from '@material-ui/core/Container';
 import {useHistory} from 'react-router-dom';
 import userIcon from './userIcon.png';
 import {FileInput} from './FileInput.js';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const fieldArr = [
   {fieldName: 'first_name', label: 'First Name'},
@@ -71,6 +72,7 @@ export const InfoRegister = ({currentUser}) => {
   const classes = useStyles();
   const [error, setError] = useState('');
   let history = useHistory();
+  const languageArr = ['English', 'Serbian', 'Croatian', 'Hungarian'];
 
   if (currentUser.initial_info) {
     history.push('/');
@@ -149,6 +151,19 @@ export const InfoRegister = ({currentUser}) => {
             <Typography component="h3" variant="h5" className={classes.error}>
               {error}
             </Typography>
+            <Typography component="h3" variant="h5">
+              Spoken Languages:
+            </Typography>
+            {languageArr.map(l => (
+              <div key={l}>
+                {l}
+                <Checkbox
+                  value="secondary"
+                  color="primary"
+                  inputProps={{'aria-label': 'secondary checkbox'}}
+                />
+              </div>
+            ))}
 
             <Button
               type="submit"

@@ -20,6 +20,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Link from '@material-ui/core/Link';
 
 //Rename this page. It's confusing.
 
@@ -53,10 +54,18 @@ const useStyles = makeStyles(theme => ({
   },
   selectEmpty: {
     marginTop: theme.spacing(2)
+  },
+  userPaper: {
+    backgroundColor: theme.palette.primary.light,
+    borderRadius: 50,
+    padding: 10
+  },
+  authorLink: {
+    color: 'white'
   }
 }));
 
-export const CreateBookPage = ({isAdmin}) => {
+export const CreateBookPage = ({isAdmin}, {currentUser}) => {
   const [titleState, setTitleState] = useState('');
   const [booksState, setBooksState] = useState([]);
   const [error, setError] = useState('');
@@ -180,24 +189,33 @@ export const CreateBookPage = ({isAdmin}) => {
               ({
                 id,
                 title,
-                created_by_user,
+                author,
                 created_date,
                 edited_by_user,
-                edited_date
+                edited_date,
+                author_id
               }) => (
                 <TableRow key={id}>
                   <TableCell component="th" scope="row">
                     {id}
                   </TableCell>
                   <TableCell align="right">
-                    <RRLink to={'/book/' + id} id={id}>
-                      {title}
-                    </RRLink>
+                    <Link>
+                      <RRLink to={'/book/' + id} id={id}>
+                        {title}
+                      </RRLink>
+                    </Link>
                   </TableCell>
                   <TableCell align="right">
-                    <RRLink to={'/book/' + id} id={id}>
-                      {created_by_user}
-                    </RRLink>
+                    <Paper color="primary" className={classes.userPaper}>
+                      <RRLink
+                        className={classes.authorLink}
+                        to={'/UserInfo/' + author_id}
+                        author_id={author_id}
+                      >
+                        <Link variant="body2">{author}</Link>
+                      </RRLink>
+                    </Paper>
                   </TableCell>
                   <TableCell align="right">
                     {new Date(created_date).toDateString()}
@@ -221,73 +239,5 @@ export const CreateBookPage = ({isAdmin}) => {
         </Table>
       </TableContainer>
     </Container>
-
-    // <div className="container">
-    //   <h2>Create New Book Here:</h2>
-    //   <form onSubmit={submitNewBook}>
-    //     Book Title:{' '}
-    //     <input
-    //       value={titleState}
-    //       type="text"
-    //       onChange={e => setTitleState(e.target.value)}
-    //     />
-    //     <br />
-    //     <button>Create book!</button>
-    //   </form>
-    //   <h3 style={{color: 'red'}}>{error}</h3>
-    //   <h1>LIST NEW BOOKS BELOW</h1>
-    //   <div className="container">
-    //     <table className="table table-condensed">
-    //       <thead>
-    //         <tr>
-    //           <th>Unique id:</th>
-    //           <th>Title:</th>
-    //           <th>Author:</th>
-    //           <th>Created_date:</th>
-    //           <th>Last Edited by:</th>
-    //           <th>Last Edited_date:</th>
-    //           {isAdmin && <th>Delete?</th>}
-    //         </tr>
-    //       </thead>
-    //       <tbody>
-    //         {booksState.map(
-    //           ({
-    //             id,
-    //             title,
-    //             created_by_user,
-    //             created_date,
-    //             edited_by_user,
-    //             edited_date
-    //           }) => (
-    //             <tr key={id}>
-    //               <td>{id}</td>
-    //               {/* Note for later: Make book ID something random and interesting, not just 1, 2, 3 etc. */}
-    //               <td>
-    //                 <Link to={'/book/' + id} id={id}>
-    //                   {title}
-    //                 </Link>
-    //               </td>
-    //               <td>{created_by_user}</td>
-    //               <td>{created_date}</td>
-    //               <td>{edited_by_user}</td>
-    //               <td>{edited_date}</td>
-    //               {isAdmin && (
-    //                 <td>
-    //                   <button
-    //                     className="btn btn-danger btn-sm"
-    //                     onClick={() => }
-    //                   >
-    //                     Delete
-    //                   </button>
-    //                 </td>
-    //               )}
-    //             </tr>
-    //           )
-    //         )}
-    //       </tbody>
-    //     </table>
-    //     <h3 style={{color: 'red'}}>{error}</h3>
-    //   </div>
-    // </div>
   );
 };
