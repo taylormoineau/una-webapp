@@ -7,7 +7,7 @@ export const addPerson = async (req, res) => {
   if (!req.body)
     return res.status(406).send('What are you even trying to do here?');
 
-  const {email, password} = req.body;
+  const {email, password, name} = req.body;
 
   if (!email || !password)
     return res.status(406).send('Please enter information!');
@@ -24,8 +24,8 @@ export const addPerson = async (req, res) => {
   const [
     newUser
   ] = await query(
-    'INSERT INTO "users"(email, password, admin) VALUES ($1, $2, $3) RETURNING *',
-    [email, hash, false]
+    'INSERT INTO "users"(email, password, first_name, admin) VALUES ($1, $2, $3, $4) RETURNING *',
+    [email, hash, name, false]
   );
 
   await setAuthCookie(res, newUser);

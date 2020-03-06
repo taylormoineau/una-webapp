@@ -1,10 +1,16 @@
 import React, {createRef} from 'react';
+import Button from '@material-ui/core/Button';
+import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 
-export const FileInput = ({onChange, className}) => {
+export const FileInput = ({onChange}) => {
   const realFileInput = createRef();
   return (
-    <button className={className} onClick={() => realFileInput.current.click()}>
-      Upload Image
+    <Button
+      size="large"
+      color="primary"
+      onClick={() => realFileInput.current.click()}
+    >
+      <AddPhotoAlternateIcon />
       <input
         type="file"
         style={{display: 'none'}}
@@ -15,6 +21,6 @@ export const FileInput = ({onChange, className}) => {
           reader.readAsDataURL(e.target.files[0]);
         }}
       />
-    </button>
+    </Button>
   );
 };

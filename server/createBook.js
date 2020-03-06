@@ -6,8 +6,10 @@ export const createBook = async (req, res) => {
   if (!req.body)
     return res.status(406).send('What are you even trying to do here?');
 
-  const {title} = req.body;
-  const createdByUser = req.user.email;
+  const {title, pageCount, language} = req.body;
+  const {first_name, last_name, id} = req.user;
+
+  const name = first_name + ' ' + last_name;
 
   if (!title) return res.status(406).send('Please enter a book title!');
 
@@ -24,9 +26,16 @@ export const createBook = async (req, res) => {
   const [
     result
   ] = await query(
-    'INSERT INTO "books_data"(title, created_by_user, created_date) VALUES ($1, $2, $3) RETURNING *',
-    [title, createdByUser, currentDate]
+    'INSERT INTO "books_data"(title, author, created_date, language, author_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+    [title, name, currentDate, language, id]
   );
+
+  for (let i = 0; i < pageCount; i++) {
+    await query(
+      'INSERT INTO "pages_data"(page_description, page_number, book_id) VALUES ($1, $2, $3) RETURNING *',
+      ['Add description here.', i, result.id]
+    );
+  }
 
   res.json(result);
 };

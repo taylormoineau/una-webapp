@@ -1,6 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import {sendJson, loadData} from './utils';
+import {makeStyles} from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650
+  }
+});
 
 export const AdminPage = () => {
   //The hooks. We might be able to slim the register/login hooks down to one single hook holding an object.
@@ -8,6 +25,8 @@ export const AdminPage = () => {
   const [emailRegisterState, setEmailRegisterState] = useState('');
   const [passwordRegisterState, setPasswordRegisterState] = useState('');
   const [error, setError] = useState('');
+
+  const classes = useStyles();
 
   //function to submit request to create new user.
   const submitNewUser = async e => {
@@ -44,74 +63,53 @@ export const AdminPage = () => {
   }, []);
 
   return (
-    <div className="container">
-      <h1>Administration Table</h1>
-      <table className="table table-condensed">
-        <thead>
-          <tr>
-            <th>Unique id:</th>
-            <th>Email:</th>
-            <th>Password Hash</th>
-            <th>Type</th>
-            <th>Is Admin?</th>
-            <th>Delete User</th>
-          </tr>
-        </thead>
-        <tbody>
-          {people.map(({id, email, password, admin, master_admin}) => (
-            <tr key={id}>
-              <td>{id}</td>
-              <td>{email}</td>
-              <td>{password}</td>
-              <td>{admin ? 'ADMIN' : 'PLEB'}</td>
-              <td>
-                {!master_admin ? (
-                  <input
-                    type="checkbox"
-                    checked={admin}
-                    onChange={changeAdmin(id)}
-                  />
-                ) : (
-                  ''
-                )}
-              </td>
-              <td>
-                {!master_admin ? (
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={deletePerson(id)}
-                  >
-                    Delete
-                  </button>
-                ) : (
-                  ''
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <h2>Create new user from Admin Page</h2>
-      <form onSubmit={submitNewUser}>
-        New email:{' '}
-        <input
-          name="emailRegister"
-          value={emailRegisterState}
-          type="text"
-          onChange={e => setEmailRegisterState(e.target.value)}
-        />
-        <br />
-        Password:{' '}
-        <input
-          name="passwordRegister"
-          type="password"
-          value={passwordRegisterState}
-          onChange={e => setPasswordRegisterState(e.target.value)}
-        />
-        <br name="my most favorite line break" />
-        <button>Add User</button>
-      </form>
-      <h3 style={{color: 'red'}}>{error}</h3>
-    </div>
+    <Container component="main" maxWidth="lg">
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>User Id:</TableCell>
+              <TableCell align="right">Name:</TableCell>
+              <TableCell align="right">Email Address:</TableCell>
+              <TableCell align="right">Type</TableCell>
+              <TableCell align="right">Is Admin?</TableCell>
+              <TableCell align="right">Delete User</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {people.map(({id, email, password, admin, master_admin}) => (
+              <TableRow key={id}>
+                <TableCell component="th" scope="row">
+                  {id}
+                </TableCell>
+                <TableCell align="right">{password}</TableCell>
+                <TableCell align="right">{email}</TableCell>
+                <TableCell align="right">{admin ? 'ADMIN' : 'PLEB'}</TableCell>
+
+                <TableCell align="right">
+                  {!master_admin && (
+                    <Checkbox
+                      checked={admin}
+                      onChange={changeAdmin(id)}
+                      value="primary"
+                      inputProps={{'aria-label': 'primary checkbox'}}
+                    />
+                  )}
+                </TableCell>
+                <TableCell align="right">
+                  {!master_admin ? (
+                    <Button color="secondary" onClick={deletePerson(id)}>
+                      Delete
+                    </Button>
+                  ) : (
+                    ''
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Container>
   );
 };
