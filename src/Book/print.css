@@ -1,0 +1,203 @@
+
+
+.printPage{
+    width: 100%;
+    height:100%;
+    background-color:white;
+    z-index: 2;
+}
+
+.printDiv{
+position: relative;
+width: 287mm;
+
+
+
+}
+
+.templateDivLeft {
+    height: 10000px;
+    width: 138.5mm;
+    position: relative;
+    background-color: salmon;
+    float: left;
+    
+}
+
+.templateDivRight{
+    height: 10000px;
+    width: 138.5mm;
+    position: relative;
+    background-color: burlywood;
+    float: right;
+}
+
+.background {
+    width: 138.5mm;
+}
+
+.leftImage {
+    height: 425px;
+    width:  350px;
+    z-index: 3;
+    position: absolute;
+    top: 20px;
+    left: 28px;
+    
+
+}
+
+.leftText {
+ position:absolute;
+ bottom:10px;
+ left: 35px;
+ z-index: 4;
+ font-family: 'Patrick Hand', cursive;
+ font-size: 20px;
+ text-align: center;
+ width: 340px;
+ height: 100px;
+}
+
+.leftPageNumber {
+    position:absolute;
+    bottom: -14px;
+    left: 16px;
+    z-index: 4;
+    font-family: 'Patrick Hand', cursive;
+ font-size: 20px;
+ font-weight: bold;
+ text-align: center;
+
+}
+
+.rightImage {
+    height: 425px;
+    width:  350px;
+    z-index: 3;
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    
+
+}
+
+.rightText {
+ position:absolute;
+ bottom:10px;
+ left: 44px;
+ z-index: 4;
+ font-family: 'Patrick Hand', cursive;
+ font-size: 20px;
+ text-align: center;
+ width: 340px;
+ height: 100px;
+}
+
+.rightPageNumber {
+    position:absolute;
+    bottom: -14px;
+    left: 394px;
+    z-index: 4;
+    font-family: 'Patrick Hand', cursive;
+ font-size: 20px;
+ font-weight: bold;
+ text-align: center;
+}
+
+.printDivPRINT{
+position: relative;
+width: 10.5in;
+height: 8.5in;
+
+}
+
+.templateDivLeftPRINT {
+    height: 100%;
+    width: 5.25in;
+    position: relative;
+    background-color: salmon;
+    float: left;
+}
+
+.templateDivRightPRINT{
+    height: 100%;
+    width: 5.25in;
+    position: relative;
+    background-color: burlywood;
+    float: right;
+}
+
+.backgroundPRINT {
+    height: 2480;
+    width:5.25in;
+}
+
+.leftImagePRINT {
+    width:  4.55in;
+    height: 5.3in;
+    z-index: 3;
+    position: absolute;
+    top: .7in;
+    left: .45in;
+    
+
+}
+
+.leftTextPRINT {
+ position:absolute;
+ bottom:1.4in;
+ left: .43in;
+ z-index: 4;
+ font-family: 'Patrick Hand', cursive;
+ font-size: 26px;
+ text-align: center;
+ width: 4.6in;
+ height: 1in;
+}
+
+.leftPageNumberPRINT {
+    position:absolute;
+    bottom: .7in;
+    left: .34in;
+    z-index: 4;
+    font-family: 'Patrick Hand', cursive;
+ font-size: 30px;
+ font-weight: bold;
+ text-align: center;
+
+}
+
+.rightImagePRINT {
+     width:  4.55in;
+    height: 5.3in;
+    z-index: 3;
+    position: absolute;
+    top: .7in;
+    left: 0.25in;
+    
+
+}
+
+.rightTextPRINT {
+position:absolute;
+ bottom:1.4in;
+ left: .2in;
+ z-index: 4;
+ font-family: 'Patrick Hand', cursive;
+ font-size: 26px;
+ text-align: center;
+ width: 4.6in;
+ height: 1in;
+}
+
+.rightPageNumberPRINT {
+    position:absolute;
+    bottom: .7in;
+    left: 4.77in;
+    z-index: 4;
+    font-family: 'Patrick Hand', cursive;
+ font-size: 30px;
+ font-weight: bold;
+ text-align: center;
+}
