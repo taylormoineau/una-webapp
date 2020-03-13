@@ -6,7 +6,7 @@ import {Home} from './Home.js';
 import {Book} from './Book';
 import {Register} from './Register';
 import {InfoRegister} from './InfoRegister';
-import {UserProfile} from './userProfile';
+import {UserProfile} from './UserProfile';
 import {NavBar} from './NavBar';
 import {makeStyles} from '@material-ui/core/styles';
 
