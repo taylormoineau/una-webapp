@@ -154,16 +154,20 @@ export const InfoRegister = ({currentUser}) => {
             <Typography component="h3" variant="h5">
               Spoken Languages:
             </Typography>
-            {languageArr.map(l => (
-              <div key={l}>
-                {l}
-                <Checkbox
-                  value="secondary"
-                  color="primary"
-                  inputProps={{'aria-label': 'secondary checkbox'}}
-                />
-              </div>
-            ))}
+            <Grid container justify="space-between">
+              {languageArr.map(l => (
+                <div key={l}>
+                  <Grid item>
+                    <Checkbox
+                      value="secondary"
+                      color="primary"
+                      inputProps={{'aria-label': 'secondary checkbox'}}
+                    />
+                    {l}
+                  </Grid>
+                </div>
+              ))}
+            </Grid>
 
             <Button
               type="submit"
