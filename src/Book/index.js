@@ -177,7 +177,13 @@ export const Book = () => {
                 </Grid>
                 <Grid container spacing={2} justify="center">
                   <Grid item>
-                    <Button variant="contained" color="primary">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        history.push('/book/' + result.id);
+                      }}
+                    >
                       <PrintIcon /> Print Preview
                     </Button>
                   </Grid>
