@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import {loadJson} from './utils';
+import {Print} from './Print';
 import {AdminPage} from './AdminPage';
 import {Home} from './Home.js';
 import {Book} from './Book';
@@ -64,6 +65,12 @@ export const DootRouter = () => {
           </Route>
           <Route path="/userInfo/:userId">
             <UserProfile checkAuth={checkAuth} currentUser={currentUser} />
+          </Route>
+          <Route path="/print/:bookId">
+            <Print />
+          </Route>
+          <Route path="/printFinal/:bookId">
+            <PrintFinal />
           </Route>
           <Route path="/">
             <Home checkAuth={checkAuth} currentUser={currentUser} />
