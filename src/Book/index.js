@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {loadData, sendJson, assocPath, swap} from '../utils';
+import {useHistory} from 'react-router-dom';
 import {useParams} from 'react-router-dom';
 import {FileInput} from '../FileInput';
 import {CreatePage} from './CreatePage';
@@ -75,6 +76,8 @@ export const Book = () => {
   const [desTrigger, setDesTrigger] = useState(0);
   const {bookId} = useParams();
   const classes = useStyles();
+
+  const history = useHistory();
 
   const changeTitle = async newTitle => {
     const result = await sendJson('editBook/' + bookId, {newTitle});
@@ -180,9 +183,7 @@ export const Book = () => {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => {
-                        history.push('/book/' + result.id);
-                      }}
+                      onClick={() => history.push('/print/' + bookId)}
                     >
                       <PrintIcon /> Print Preview
                     </Button>
