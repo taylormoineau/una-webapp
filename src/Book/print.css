@@ -1,10 +1,24 @@
+/* ACTUAL PRINT CSS FROM HERE UNTIL NEXT COMMENT */
+
+@media print {
+
+  body {
+    margin: 0;
+    color: #000;
+    background-color: #fff;
+  }
+
 
 .template {
-    height: 8.5in;
-    width: 11in;
+    height: 11in;
+    width: 12in;
+    position: absolute;
+    transform: rotate(90deg);
+    
+
 }
 
-
+/* PREVIEW CSS BELOW HERE */
 
 .printPage{
     width: 100%;
@@ -13,42 +27,16 @@
     z-index: 2;
 }
 
-.printDiv{
-position: relative;
-width: 287mm;
 
-
-
-}
-
-.templateDivLeft {
-    height: 10000px;
-    width: 138.5mm;
-    position: relative;
-    background-color: salmon;
-    float: left;
-    
-}
-
-.templateDivRight{
-    height: 10000px;
-    width: 138.5mm;
-    position: relative;
-    background-color: burlywood;
-    float: right;
-}
-
-.background {
-    width: 138.5mm;
-}
 
 .leftImage {
-    height: 425px;
-    width:  350px;
+    height: 5in;
+    width:  4.5in;
     z-index: 3;
     position: absolute;
-    top: 20px;
-    left: 28px;
+    top: 1.1in;
+    left: 4in;
+    transform: rotate(90deg)
     
 
 }
@@ -111,4 +99,4 @@ width: 287mm;
  text-align: center;
 }
 
- 
+ }

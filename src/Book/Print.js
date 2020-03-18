@@ -18,14 +18,13 @@ export const Print = () => {
   }, [bookId]);
 
   return (
-    <div className="printDiv">
-      <h2>Print Preview of Book:</h2>
+    <div>
       <h3 style={{color: 'red'}}>{error}</h3>
       <div>
         {pages.map(({id, page_number, page_description, page_image}) => (
           <div key={id}>
             {page_number < 4 && (
-              <div className="printDiv">
+              <div>
                 <img src={borderTemplate} alt="template" className="template" />
 
                 <p className="leftPageNumber">{page_number + 1}</p>
