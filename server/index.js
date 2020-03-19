@@ -46,6 +46,7 @@ app.use(loggedInOnly); // user must be logged in to access endpoints below
 app.get('/logout', logout);
 app.get('/getAllBooks', getAllBooks);
 app.get('/getOneBook/:id', getOneBook);
+app.get('/getUser/:id', getUser);
 app.get('/getPagesForBook/:id', getAllPages);
 app.post('/createBook', createBook);
 app.use('/createPageInBook/:id', createPage);
@@ -54,7 +55,6 @@ app.post('/updateInfo', updateInfo);
 app.post('/editPageNumber', editPageNumber);
 app.post('/editPageDescription', editPageDescription);
 app.post('/updateImage', updateImage);
-app.get('/getUser/:id', getUser);
 
 app.use(adminsOnly); // user must be admin to access endpoints below
 app.get('/people', getPeople);
