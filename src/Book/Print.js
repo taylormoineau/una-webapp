@@ -23,7 +23,7 @@ export const Print = () => {
       <div>
         {pages.map(({id, page_number, page_description, page_image}) => (
           <div key={id}>
-            {page_number < 4 && (
+            {page_number && (
               <div>
                 <img src={borderTemplate} alt="template" className="template" />
 

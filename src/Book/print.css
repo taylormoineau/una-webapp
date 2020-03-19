@@ -10,22 +10,24 @@
 
 
 .template {
-    height: 11in;
-    width: 12in;
-    position: absolute;
+    
     transform: rotate(90deg);
+    position: relative;
+    
     
 
-}
+
+}  }
 
 /* PREVIEW CSS BELOW HERE */
 
-.printPage{
-    width: 100%;
-    height:100%;
-    background-color:white;
-    z-index: 2;
+.template {
+    
+    width: 15.5in;
+    z-index:1
 }
+
+
 
 
 
@@ -34,9 +36,9 @@
     width:  4.5in;
     z-index: 3;
     position: absolute;
-    top: 1.1in;
+    top: 2.1in;
     left: 4in;
-    transform: rotate(90deg)
+    z-index: 2;
     
 
 }
@@ -99,4 +101,3 @@
  text-align: center;
 }
 
- }

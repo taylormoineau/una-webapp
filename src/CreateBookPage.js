@@ -28,11 +28,14 @@ const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 650
   },
+
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 15,
+    marginBottom: 20
   },
   avatar: {
     margin: theme.spacing(1),
@@ -90,8 +93,9 @@ export const CreateBookPage = ({isAdmin}, {currentUser}) => {
     });
     if (result.error) {
       setError(result.error);
+    } else {
+      history.push('/book/' + result.id);
     }
-    history.push('/book/' + result.id);
   };
 
   const deleteBook = id => async () => {
@@ -107,70 +111,78 @@ export const CreateBookPage = ({isAdmin}, {currentUser}) => {
   return (
     <Container component="main" maxWidth="lg">
       <CssBaseline />
-      <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          {'Create New Book'}
-        </Typography>
-        <MenuBookIcon />
-        <form className={classes.form} onSubmit={submitNewBook}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            id="bookTitle"
-            label="Book Title"
-            onChange={e => setTitleState(e.target.value)}
-          />
-          <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel ref={inputLabel} id="demo-simple-select-outlined-label">
-              Pages
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              value={pgNum}
-              onChange={e => setPgNum(e.target.value)}
-              labelWidth={labelWidth}
-            >
-              <MenuItem value={4}>4</MenuItem>
-              <MenuItem value={8}>8</MenuItem>
-              <MenuItem value={12}>12</MenuItem>
-            </Select>
-          </FormControl>
-
-          <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel ref={inputLabel} id="demo-simple-select-outlined-label">
-              Language
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              value={lang}
-              onChange={e => setLang(e.target.value)}
-              labelWidth={labelWidth}
-            >
-              <MenuItem value={'ENG'}>English</MenuItem>
-              <MenuItem value={'SRB'}>Serbian</MenuItem>
-              <MenuItem value={'HR'}>Croatian</MenuItem>
-              <MenuItem value={'HU'}>Hungarian</MenuItem>
-            </Select>
-          </FormControl>
-
-          <Typography component="h3" variant="h5" className={classes.error}>
-            {error}
+      <Container maxWidth="sm">
+        <Paper className={classes.paper}>
+          <Typography component="h1" variant="h5">
+            {'Create New Book'}
           </Typography>
+          <MenuBookIcon />
+          <form className={classes.form} onSubmit={submitNewBook}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="bookTitle"
+              label="Book Title"
+              onChange={e => setTitleState(e.target.value)}
+            />
+            <FormControl variant="outlined" className={classes.formControl}>
+              <InputLabel
+                ref={inputLabel}
+                id="demo-simple-select-outlined-label"
+              >
+                Pages
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={pgNum}
+                onChange={e => setPgNum(e.target.value)}
+                labelWidth={labelWidth}
+              >
+                <MenuItem value={4}>4</MenuItem>
+                <MenuItem value={8}>8</MenuItem>
+                <MenuItem value={12}>12</MenuItem>
+              </Select>
+            </FormControl>
 
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            {'CREATE'}
-          </Button>
-        </form>
-      </div>
+            <FormControl variant="outlined" className={classes.formControl}>
+              <InputLabel
+                ref={inputLabel}
+                id="demo-simple-select-outlined-label"
+              >
+                Language
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={lang}
+                onChange={e => setLang(e.target.value)}
+                labelWidth={labelWidth}
+              >
+                <MenuItem value={'ENG'}>English</MenuItem>
+                <MenuItem value={'SRB'}>Serbian</MenuItem>
+                <MenuItem value={'HR'}>Croatian</MenuItem>
+                <MenuItem value={'HU'}>Hungarian</MenuItem>
+              </Select>
+            </FormControl>
+
+            <Typography component="h3" variant="h5" className={classes.error}>
+              {error}
+            </Typography>
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              {'CREATE'}
+            </Button>
+          </form>
+        </Paper>
+      </Container>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
