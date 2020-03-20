@@ -17,6 +17,7 @@ import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
+import {LoadingPage} from './../LoadingPage';
 
 //icons
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
@@ -300,17 +301,7 @@ export const Book = () => {
           </Grid>
         </Container>
       ) : (
-        <Container maxWidth="sm">
-          <Typography
-            component="h1"
-            variant="h2"
-            align="center"
-            color="textPrimary"
-            gutterBottom
-          >
-            Loading Book.....
-          </Typography>
-        </Container>
+        <LoadingPage />
       )}
       {/* Footer */}
       <footer className={classes.footer}>

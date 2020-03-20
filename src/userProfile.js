@@ -11,6 +11,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import {LoadingPage} from './LoadingPage';
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -67,9 +68,7 @@ export const UserProfile = () => {
   return (
     <React.Fragment>
       {!userData ? (
-        <div>
-          <h1>PAGE LOADING!</h1>
-        </div>
+        <LoadingPage />
       ) : (
         <div>
           <main>
