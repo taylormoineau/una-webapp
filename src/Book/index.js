@@ -27,6 +27,25 @@ import PrintIcon from '@material-ui/icons/Print';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 
+//Flag imports
+import HU from './../flags/HU.png';
+import ENG from './../flags/ENG.png';
+import SRB from './../flags/SRB.png';
+import HR from './../flags/HR.png';
+
+const flagSelect = language => {
+  switch (language) {
+    case 'HU':
+      return HU;
+    case 'HR':
+      return HR;
+    case 'ENG':
+      return ENG;
+    case 'SRB':
+      return SRB;
+  }
+};
+
 const styles = {
   overlay: {
     position: 'relative',
@@ -67,6 +86,9 @@ const useStyles = makeStyles(theme => ({
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6)
+  },
+  flag: {
+    height: 40
   }
 }));
 
@@ -176,6 +198,12 @@ export const Book = () => {
                       paragraph
                     >
                       Language: {bookState.language}
+                      {'   '}
+                      <img
+                        src={flagSelect(bookState.language)}
+                        alt={bookState.language}
+                        className={classes.flag}
+                      />
                     </Typography>
                   </Grid>
                 </Grid>
