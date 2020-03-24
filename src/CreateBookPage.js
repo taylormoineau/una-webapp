@@ -79,6 +79,14 @@ const useStyles = makeStyles(theme => ({
   selectEmpty: {
     marginTop: theme.spacing(2)
   },
+  errorPaper: {
+    marginTop: theme.spacing(2),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 15,
+    marginBottom: 20
+  },
   userPaper: {
     backgroundColor: theme.palette.primary.light,
     borderRadius: 50,
@@ -130,7 +138,7 @@ export const CreateBookPage = ({isAdmin}, {currentUser}) => {
 
   const submitNewCopy = async e => {
     e.preventDefault();
-    const result = await sendJson('createBook', {
+    const result = await sendJson('createCopy', {
       title: copyTitle,
       pageCount: copyPages,
       language: copyLang,
@@ -207,9 +215,11 @@ export const CreateBookPage = ({isAdmin}, {currentUser}) => {
                 </Select>
               </FormControl>
 
-              <Typography component="h3" variant="h5" className={classes.error}>
-                {error}
-              </Typography>
+              <Typography
+                component="h3"
+                variant="h5"
+                className={classes.error}
+              ></Typography>
 
               <Button
                 type="submit"
@@ -230,7 +240,7 @@ export const CreateBookPage = ({isAdmin}, {currentUser}) => {
               {'Make a Copy'}
             </Typography>
             <FileCopyIcon />
-            <form className={classes.form} onSubmit={submitNewBook}>
+            <form className={classes.form} onSubmit={submitNewCopy}>
               <TextField
                 variant="outlined"
                 value={copyTitle}
@@ -266,9 +276,11 @@ export const CreateBookPage = ({isAdmin}, {currentUser}) => {
                 </Select>
               </FormControl>
 
-              <Typography component="h3" variant="h5" className={classes.error}>
-                {error}
-              </Typography>
+              <Typography
+                component="h3"
+                variant="h5"
+                className={classes.error}
+              ></Typography>
 
               <Button
                 disabled={enableCopy}
@@ -284,6 +296,15 @@ export const CreateBookPage = ({isAdmin}, {currentUser}) => {
           </Paper>
         </Grid>
       </Grid>
+
+      {/* THIS IS A SMALL PAPER ELEMENT TO HOLD USER ERROR MESSAGES */}
+      {error && (
+        <Paper className={classes.errorPaper}>
+          <Typography component="h3" variant="h5" className={classes.error}>
+            {error}
+          </Typography>
+        </Paper>
+      )}
 
       {/* BELOW IS THE BOOK LIST */}
 

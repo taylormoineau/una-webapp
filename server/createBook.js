@@ -68,27 +68,26 @@ export const createCopy = async (req, res) => {
   const [
     result
   ] = await query(
-    'INSERT INTO "books_data"(title, author, created_date, language, author_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-    [title, name, currentDate, language, id]
+    'INSERT INTO "books_data"(title, author, created_date, language, author_id, origin_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+    [titleOfCopy, name, currentDate, language, id, idToCopy]
   );
 
-  const oldBook = await query(`SELECT * FROM "books_data" WHERE title=$1`, [
-    idToCopy
-  ]);
-
-//I need to figure out how to select the pictures, text out of one column and put it in a different column of a new row.
+  const oldBook = await query(
+    `SELECT * FROM "pages_data" WHERE book_id=$1 ORDER BY page_number ASC`,
+    [idToCopy]
+  );
 
   for (let i = 0; i < pageCount; i++) {
     await query(
-      'INSERT INTO "pages_data"(page_description, page_number, book_id, original_text) VALUES ($1, $2, $3)',
-      ['Add translation here.', i, result.id]
+      'INSERT INTO "pages_data"(page_description, page_number, book_id, origin_description, page_image) VALUES ($1, $2, $3, $4, $5)',
+      [
+        'Add translation here.',
+        i,
+        result.id,
+        oldBook[i].page_description,
+        oldBook[i].page_image
+      ]
     );
-
-    for (let i = 0; i < pageCount; i++) {
-      await query(
-        'INSERT INTO "pages_data"(page_image, origin_text) WHERE id=$1 SELECT(page_image, page_description) FROM "pages_data" ($1, $2) FROM "pages_data" WHERE id=$2 RETURNING *',
-        [id, idToCopy, i, result.id]
-      );
   }
 
   res.json(result);
