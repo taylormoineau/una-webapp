@@ -55,7 +55,7 @@ export const DootRouter = () => {
             <AdminPage />
           </Route>
           <Route path="/book/:bookId">
-            <Book />
+            <Book checkAuth={checkAuth} currentUser={currentUser} />
           </Route>
           <Route path="/print/:bookId">
             <Print />

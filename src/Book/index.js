@@ -19,6 +19,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import {LoadingPage} from './../LoadingPage';
+import Paper from '@material-ui/core/Paper';
 
 //icons
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
@@ -28,6 +29,7 @@ import PrintIcon from '@material-ui/icons/Print';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
 
 //Flag imports
 import HU from './../flags/HU.png';
@@ -91,10 +93,32 @@ const useStyles = makeStyles(theme => ({
   },
   flag: {
     height: 40
+  },
+  approvedPaper: {
+    backgroundColor: '#00cc00',
+    color: '#FFFFFF',
+    width: 55,
+    height: 24,
+    borderRadius: 50,
+    position: 'absolute',
+    margin: 20,
+    opacity: 0.8,
+    textAlign: 'center'
+  },
+  notApprovedPaper: {
+    backgroundColor: '#cc0000',
+    color: '#FFFFFF',
+    width: 55,
+    height: 24,
+    borderRadius: 50,
+    position: 'absolute',
+    margin: 20,
+    opacity: 0.6,
+    textAlign: 'center'
   }
 }));
 
-export const Book = () => {
+export const Book = ({currentUser}) => {
   const [bookState, setBookState] = useState();
   const [pages, setPages] = useState([]);
   const [error, setError] = useState('');
@@ -121,8 +145,15 @@ export const Book = () => {
     if (result.error) setError(result.error);
   };
 
+  //combine these two functions into a single function that takes DATA as a param.
+
   const editPageDescription = async (des, id) => {
     const result = await sendJson('editPageDescription', {des, id});
+    if (result.error) setError(result.error);
+  };
+
+  const editPageApproval = async id => {
+    const result = await sendJson('editApproval', {id});
     if (result.error) setError(result.error);
   };
 
@@ -246,7 +277,16 @@ export const Book = () => {
           {/* End INSTRUCTION */}
           <Grid container spacing={4}>
             {pages.map(
-              ({id, page_image, page_description, origin_description}, i) => (
+              (
+                {
+                  id,
+                  page_image,
+                  page_description,
+                  origin_description,
+                  approved
+                },
+                i
+              ) => (
                 <Grid item key={id} xs={6}>
                   <Card className={classes.card}>
                     <CardMedia
@@ -254,6 +294,17 @@ export const Book = () => {
                       image={page_image ? page_image : placeHolderImage}
                       title={'Page Number: ' + (i + 1) + '.'}
                     />
+
+                    {approved ? (
+                      <Paper className={classes.approvedPaper}>
+                        <CheckIcon />
+                      </Paper>
+                    ) : (
+                      <Paper className={classes.notApprovedPaper}>
+                        <ClearIcon />
+                      </Paper>
+                    )}
+
                     <CardContent className={classes.cardContent}>
                       {desTrigger === id ? (
                         <form
@@ -339,9 +390,18 @@ export const Book = () => {
                       >
                         <DeleteIcon />
                       </Button>
-                      <Button size="large" color="secondary">
-                        <CheckIcon />
-                      </Button>
+
+                      {currentUser.id !== bookState.author_id && (
+                        <Button
+                          size="large"
+                          color="secondary"
+                          onClick={() => {
+                            editPageApproval(id);
+                          }}
+                        >
+                          <CheckIcon />
+                        </Button>
+                      )}
                     </CardActions>
                     <CardContent className={classes.cardContent}>
                       <Typography>

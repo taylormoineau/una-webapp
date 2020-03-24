@@ -70,13 +70,10 @@ const useStyles = makeStyles(theme => ({
 export const InfoRegister = ({currentUser}) => {
   const [formData, setFormData] = useState('');
   const classes = useStyles();
+  // const [languagesKnown, setLanguagesKnown] = useState({})
   const [error, setError] = useState('');
   let history = useHistory();
   const languageArr = ['English', 'Serbian', 'Croatian', 'Hungarian'];
-
-  if (currentUser.initial_info) {
-    history.push('/');
-  }
 
   const updateUser = async e => {
     e.preventDefault();
@@ -154,10 +151,10 @@ export const InfoRegister = ({currentUser}) => {
             <Typography component="h3" variant="h5">
               Spoken Languages:
             </Typography>
-            <Grid container justify="space-between">
+            <Grid container justify="space-between" spacing={3}>
               {languageArr.map(l => (
                 <div key={l}>
-                  <Grid item>
+                  <Grid item xs={3}>
                     <Checkbox
                       value="secondary"
                       color="primary"
