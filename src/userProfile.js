@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import Button from '@material-ui/core/Button';
 import {loadData, sendJson, assocPath, swap} from './utils';
 import {useParams} from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
@@ -9,18 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
-
-//icons
-
-const styles = {
-  overlay: {
-    position: 'relative',
-    top: '30px',
-    left: '30px',
-    width: 30,
-    height: 45
-  }
-};
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+import {LoadingPage} from './LoadingPage';
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -38,15 +29,29 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(6)
   },
   large: {
-    width: theme.spacing(20),
-    height: theme.spacing(20)
+    width: theme.spacing(17),
+    height: theme.spacing(17)
   },
   userText: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: theme.palette.primary.light
+  },
+  userHeaders: {
+    fontWeight: 'bold',
+    fontSize: 22,
     color: theme.palette.primary.main
   },
   userName: {
     fontWeight: 'bold',
-    color: '#FFF'
+    fontSize: 35,
+    color: theme.palette.primary.main
+  },
+  idPaper: {
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 40,
+    paddingRight: 40
   }
 }));
 
@@ -56,84 +61,147 @@ export const UserProfile = () => {
   const {author_id} = useParams();
   const classes = useStyles();
 
-  useEffect(() => loadData('getUser/' + author_id, setUserData, setError), [
-    userData
-  ]);
+  useEffect(() => {
+    loadData('getUser/' + author_id, setUserData, setError);
+  }, []);
 
   return (
     <React.Fragment>
       {!userData ? (
-        <div>
-          <h1>PAGE LOADING!</h1>
-        </div>
+        <LoadingPage />
       ) : (
         <div>
           <main>
             <div className={classes.heroContent}>
               <Container maxWidth="sm">
-                <Grid
-                  container
-                  spacing={3}
-                  justify="center"
-                  alignItems="center"
-                >
-                  <Grid item>
-                    <Avatar
-                      src={userData.user_photo ? userData.user_photo : userIcon}
-                      className={classes.large}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Typography
-                      variant="h5"
-                      align="center"
-                      color="textSecondary"
-                      className={classes.userName}
-                      paragraph
-                    >
-                      {userData.firstName + ' ' + userData.lastName}
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <div className={classes.heroButtons}>
-                  <Grid container spacing={3} justify="center">
+                <Paper className={classes.idPaper}>
+                  <Grid
+                    container
+                    spacing={3}
+                    justify="space-between"
+                    alignItems="center"
+                  >
+                    <Grid item>
+                      <Avatar
+                        src={
+                          userData.user_photo ? userData.user_photo : userIcon
+                        }
+                        className={classes.large}
+                      />
+                    </Grid>
                     <Grid item>
                       <Typography
                         variant="h5"
                         align="center"
-                        color="textInverted"
+                        color="textSecondary"
+                        className={classes.userName}
                         paragraph
                       >
-                        St. Louis, MO
+                        {userData.first_name + ' ' + userData.last_name}
+                      </Typography>
+                      <Typography
+                        variant="h5"
+                        align="center"
+                        color="textSecondary"
+                        className={classes.userText}
+                        paragraph
+                      >
+                        {userData.city + ', ' + userData.country}
                       </Typography>
                     </Grid>
                   </Grid>
-                </div>
+                  <Grid
+                    container
+                    spacing={6}
+                    justify="space-between"
+                    alignItems="left"
+                  >
+                    <Grid item>
+                      <Typography
+                        variant="h5"
+                        color="textSecondary"
+                        className={classes.userHeaders}
+                        paragraph
+                      >
+                        Languages:
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        variant="h5"
+                        color="textSecondary"
+                        className={classes.userText}
+                        paragraph
+                      >
+                        {userData.first_name}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    container
+                    spacing={6}
+                    justify="space-between"
+                    alignItems="left"
+                  >
+                    <Grid item>
+                      <Typography
+                        variant="h5"
+                        color="textSecondary"
+                        className={classes.userHeaders}
+                        paragraph
+                      >
+                        Email Address:
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        variant="h5"
+                        color="textSecondary"
+                        className={classes.userText}
+                        paragraph
+                      >
+                        {userData.email}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    container
+                    spacing={6}
+                    justify="space-between"
+                    direction="row"
+                    alignItems="baseline"
+                  >
+                    <Grid item>
+                      <Typography
+                        variant="h5"
+                        color="textSecondary"
+                        className={classes.userHeaders}
+                        paragraph
+                      >
+                        Projects:
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        variant="h5"
+                        color="textSecondary"
+                        className={classes.userHeaders}
+                        paragraph
+                      >
+                        5
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Button size="large" color="primary" variant="contained">
+                        <MenuBookIcon />
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Paper>
               </Container>
             </div>
           </main>
           <CssBaseline />
-
-          <Grid container spacing={3} justify="center">
-            <Grid item>
-              <Typography
-                variant="h5"
-                align="center"
-                color="textSecondary"
-                paragraph
-              ></Typography>
-            </Grid>
-            <Grid item>
-              <Typography
-                variant="h5"
-                align="center"
-                color="textSecondary"
-                paragraph
-              >
-                {"first_name + ' ' + last_name"}
-              </Typography>
-            </Grid>
-          </Grid>
         </div>
       )}
     </React.Fragment>

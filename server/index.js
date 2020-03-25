@@ -13,10 +13,10 @@ import {addPerson} from './addPerson.js';
 import {deletePerson} from './deletePerson.js';
 import {editPerson, updateInfo} from './editPerson.js';
 import {authCookie, adminsOnly, loggedInOnly} from './authCookie.js';
-import {createBook} from './createBook.js';
+import {createBook, createCopy} from './createBook.js';
 import {deleteBook} from './deleteBook.js';
 import {editBook} from './editBook.js';
-import {editPageNumber, editPageDescription} from './editPage.js';
+import {editPageNumber, editPageDescription, editApproval} from './editPage.js';
 import {getAllPages} from './getPages.js';
 import {createPage} from './createPage.js';
 import {deletePage} from './deletePage.js';
@@ -46,15 +46,17 @@ app.use(loggedInOnly); // user must be logged in to access endpoints below
 app.get('/logout', logout);
 app.get('/getAllBooks', getAllBooks);
 app.get('/getOneBook/:id', getOneBook);
+app.get('/getUser/:id', getUser);
 app.get('/getPagesForBook/:id', getAllPages);
 app.post('/createBook', createBook);
+app.post('/createCopy', createCopy);
 app.use('/createPageInBook/:id', createPage);
 app.post('/editBook/:id', editBook);
 app.post('/updateInfo', updateInfo);
 app.post('/editPageNumber', editPageNumber);
 app.post('/editPageDescription', editPageDescription);
+app.post('/editApproval', editApproval);
 app.post('/updateImage', updateImage);
-app.get('/getUser/:id', getUser);
 
 app.use(adminsOnly); // user must be admin to access endpoints below
 app.get('/people', getPeople);

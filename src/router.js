@@ -9,6 +9,7 @@ import {InfoRegister} from './InfoRegister';
 import {UserProfile} from './userProfile';
 import {NavBar} from './NavBar';
 import {makeStyles} from '@material-ui/core/styles';
+import {Print} from './Book/Print';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -54,7 +55,10 @@ export const DootRouter = () => {
             <AdminPage />
           </Route>
           <Route path="/book/:bookId">
-            <Book />
+            <Book checkAuth={checkAuth} currentUser={currentUser} />
+          </Route>
+          <Route path="/print/:bookId">
+            <Print />
           </Route>
           <Route path="/register">
             <Register checkAuth={checkAuth} currentUser={currentUser} />
@@ -62,8 +66,11 @@ export const DootRouter = () => {
           <Route path="/infoRegister">
             <InfoRegister checkAuth={checkAuth} currentUser={currentUser} />
           </Route>
-          <Route path="/userInfo/:userId">
+          <Route path="/userInfo/:author_id">
             <UserProfile checkAuth={checkAuth} currentUser={currentUser} />
+          </Route>
+          <Route path="/print/:bookId">
+            <Print />
           </Route>
           <Route path="/">
             <Home checkAuth={checkAuth} currentUser={currentUser} />

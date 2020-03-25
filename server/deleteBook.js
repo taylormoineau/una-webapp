@@ -13,5 +13,6 @@ export const deleteBook = async (req, res) => {
       .send('u are not admin. u cannot delete bewks that hev pagez.');
 
   await query('DELETE FROM "books_data" WHERE id = $1', [req.body.id]);
-  res.json('Book deleted!');
+  await query('DELETE FROM "pages_data" WHERE book_id = $1', [req.body.id]);
+  res.json(`Book with id ${req.body.id} deleted!`);
 };

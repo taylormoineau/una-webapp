@@ -9,7 +9,7 @@ export const NavBar = ({classes, currentUser, logout}) => {
   let history = useHistory();
   return (
     <AppBar position="static">
-      <Toolbar>
+      <Toolbar className="navBar">
         <Typography variant="h6" className={classes.title}>
           <Button
             color="inherit"
@@ -20,7 +20,8 @@ export const NavBar = ({classes, currentUser, logout}) => {
           </Button>
         </Typography>
         <Typography variant="h6" className={classes.title}>
-          {currentUser && `Logged in as ${currentUser.email}`}
+          {currentUser &&
+            `Logged in as ${currentUser.first_name} ${currentUser.last_name} (${currentUser.email})`}
         </Typography>
         {currentUser && currentUser.admin && (
           <Button

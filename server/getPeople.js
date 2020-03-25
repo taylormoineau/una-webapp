@@ -5,5 +5,10 @@ export const getPeople = async (req, res) => {
 };
 
 export const getUser = async (req, res) => {
-  res.json(await query('SELECT * FROM "users" WHERE id = $1', [req.params.id]));
+  const [result] = await query('SELECT * FROM "users" WHERE id=$1', [
+    req.params.id
+  ]);
+
+  if (!result) res.status(404).send('User does not exist!');
+  else res.json(result);
 };
