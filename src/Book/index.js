@@ -102,7 +102,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 50,
     position: 'absolute',
     margin: 20,
-    opacity: 0.8,
+    opacity: 0.4,
     textAlign: 'center'
   },
   notApprovedPaper: {
@@ -113,7 +113,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 50,
     position: 'absolute',
     margin: 20,
-    opacity: 0.6,
+    opacity: 0.7,
     textAlign: 'center'
   }
 }));
@@ -145,7 +145,7 @@ export const Book = ({currentUser}) => {
     if (result.error) setError(result.error);
   };
 
-  //combine these two functions into a single function that takes DATA as a param.
+  //combine these two functions below into a single function that takes DATA as a param.
 
   const editPageDescription = async (des, id) => {
     const result = await sendJson('editPageDescription', {des, id});
@@ -396,10 +396,13 @@ export const Book = ({currentUser}) => {
                           size="large"
                           color="secondary"
                           onClick={() => {
+                            setPages(
+                              assocPath([i, 'approved'], !approved, pages)
+                            );
                             editPageApproval(id);
                           }}
                         >
-                          <CheckIcon />
+                          {approved ? <ClearIcon /> : <CheckIcon />}
                         </Button>
                       )}
                     </CardActions>

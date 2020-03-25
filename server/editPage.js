@@ -32,9 +32,8 @@ export const editApproval = async (req, res) => {
   if (!req.body)
     return res.status(406).json('What are you even trying to do here?');
 
-  await query(
-    'UPDATE "books_data" SET "approved" = NOT "approved" WHERE id = $1',
-    [req.body.id]
-  );
+  await query('UPDATE "pages_data" SET approved = NOT approved WHERE id = $1', [
+    req.body.id
+  ]);
   return res.json('Page status updated!');
 };
