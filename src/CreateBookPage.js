@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './App.css';
 import {sendJson, loadData} from './utils';
 import {Link as RRLink, useHistory} from 'react-router-dom';
@@ -115,6 +115,7 @@ export const CreateBookPage = ({isAdmin}, {currentUser}) => {
 
   const history = useHistory();
   const classes = useStyles();
+  const copyRef = useRef();
 
   const inputLabel = React.useRef(null);
   const [labelWidth, setLabelWidth] = React.useState(0);
@@ -159,6 +160,9 @@ export const CreateBookPage = ({isAdmin}, {currentUser}) => {
 
   useEffect(() => {
     loadData('getAllBooks', setBooksState, setError);
+    if (!enableCopy) {
+      copyRef.current.focus();
+    }
   }, []);
 
   return (
@@ -247,6 +251,7 @@ export const CreateBookPage = ({isAdmin}, {currentUser}) => {
                 disabled={enableCopy}
                 margin="normal"
                 fullWidth
+                ref={copyRef}
                 id="bookTitle"
                 label="Book Title"
                 onChange={e => setCopyTitle(e.target.value)}
@@ -312,32 +317,21 @@ export const CreateBookPage = ({isAdmin}, {currentUser}) => {
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Book id:</TableCell>
-              <TableCell align="right">Title:</TableCell>
-              <TableCell align="right">Author:</TableCell>
+              {/* <TableCell>Book id:</TableCell> */}
+              <TableCell>Title:</TableCell>
+              <TableCell align="left">Author:</TableCell>
               <TableCell align="right">Date Created:</TableCell>
-              <TableCell align="right">Last Edited By:</TableCell>
-              <TableCell align="right">Date of Last Edit:</TableCell>
               <TableCell align="right">Create Copy?</TableCell>
               {isAdmin && <TableCell align="right">Delete?</TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
             {booksState.map(
-              ({
-                id,
-                title,
-                author,
-                created_date,
-                edited_by_user,
-                edited_date,
-                author_id,
-                language
-              }) => (
+              ({id, title, author, created_date, author_id, language}) => (
                 <TableRow key={id}>
-                  <TableCell component="th" scope="row">
+                  {/* <TableCell component="th" scope="row">
                     {id}
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell align="right">
                     <Link>
                       <RRLink to={'/book/' + id} id={id}>
@@ -365,8 +359,7 @@ export const CreateBookPage = ({isAdmin}, {currentUser}) => {
                   <TableCell align="right">
                     {new Date(created_date).toDateString()}
                   </TableCell>
-                  <TableCell align="right">{edited_by_user}</TableCell>
-                  <TableCell align="right">{edited_date}</TableCell>
+
                   <TableCell align="right">
                     <form
                       onSubmit={e => {

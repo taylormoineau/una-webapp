@@ -115,6 +115,11 @@ const useStyles = makeStyles(theme => ({
     margin: 20,
     opacity: 0.7,
     textAlign: 'center'
+  },
+  loadingModule: {
+    position: 'fixed',
+    height: 400,
+    bottom: 200
   }
 }));
 
@@ -202,7 +207,15 @@ export const Book = ({currentUser}) => {
                 gutterBottom
               >
                 {bookState.title}
+                <Button
+                  size="large"
+                  color="primary"
+                  className="btn btn-info btn-sm"
+                >
+                  <CreateIcon />
+                </Button>
               </Typography>
+
               <Typography
                 variant="h5"
                 align="center"
@@ -383,28 +396,22 @@ export const Book = ({currentUser}) => {
                           updateImage(data, id);
                         }}
                       />
+
                       <Button
+                        disabled={
+                          currentUser.id !== bookState.author_id ? false : true
+                        }
                         size="large"
                         color="secondary"
-                        onClick={() => deletePage(id)}
+                        onClick={() => {
+                          setPages(
+                            assocPath([i, 'approved'], !approved, pages)
+                          );
+                          editPageApproval(id);
+                        }}
                       >
-                        <DeleteIcon />
+                        {approved ? <ClearIcon /> : <CheckIcon />}
                       </Button>
-
-                      {currentUser.id !== bookState.author_id && (
-                        <Button
-                          size="large"
-                          color="secondary"
-                          onClick={() => {
-                            setPages(
-                              assocPath([i, 'approved'], !approved, pages)
-                            );
-                            editPageApproval(id);
-                          }}
-                        >
-                          {approved ? <ClearIcon /> : <CheckIcon />}
-                        </Button>
-                      )}
                     </CardActions>
                     <CardContent className={classes.cardContent}>
                       <Typography>

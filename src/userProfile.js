@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Button from '@material-ui/core/Button';
-import {loadData, sendJson, assocPath, swap} from './utils';
+import {loadData} from './utils';
 import {useParams} from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import userIcon from './userIcon.png';

@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
+import {Link as RRLink} from 'react-router-dom';
 import {sendJson, loadData} from './utils';
 import {makeStyles} from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,34 +15,29 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 650
+  },
+  errorPaper: {
+    marginTop: theme.spacing(2),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 15,
+    marginBottom: 20
+  },
+  error: {
+    color: theme.palette.secondary.main
   }
-});
+}));
 
 export const AdminPage = () => {
   //The hooks. We might be able to slim the register/login hooks down to one single hook holding an object.
   const [people, setPeople] = useState([]);
-  const [emailRegisterState, setEmailRegisterState] = useState('');
-  const [passwordRegisterState, setPasswordRegisterState] = useState('');
   const [error, setError] = useState('');
 
   const classes = useStyles();
-
-  //function to submit request to create new user.
-  const submitNewUser = async e => {
-    e.preventDefault();
-    const result = await sendJson('addPerson', {
-      email: emailRegisterState,
-      password: passwordRegisterState
-    });
-    if (result.error) {
-      setError(result.error);
-    } else {
-      await loadData('people', setPeople, setError);
-    }
-  };
 
   //function to change admin status of user
   const changeAdmin = id => async setError => {
@@ -64,6 +61,15 @@ export const AdminPage = () => {
 
   return (
     <Container component="main" maxWidth="lg">
+      {/* THIS IS A SMALL PAPER ELEMENT TO HOLD USER ERROR MESSAGES */}
+      {error && (
+        <Paper className={classes.errorPaper}>
+          <Typography component="h3" variant="h5" className={classes.error}>
+            {error}
+          </Typography>
+        </Paper>
+      )}
+
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
@@ -77,36 +83,48 @@ export const AdminPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {people.map(({id, email, password, admin, master_admin}) => (
-              <TableRow key={id}>
-                <TableCell component="th" scope="row">
-                  {id}
-                </TableCell>
-                <TableCell align="right">{password}</TableCell>
-                <TableCell align="right">{email}</TableCell>
-                <TableCell align="right">{admin ? 'ADMIN' : 'PLEB'}</TableCell>
+            {people.map(
+              ({id, email, first_name, last_name, admin, master_admin}) => (
+                <TableRow key={id}>
+                  <TableCell component="th" scope="row">
+                    {id}
+                  </TableCell>
+                  <TableCell align="right">
+                    <RRLink
+                      className={classes.authorLink}
+                      to={'/UserInfo/' + id}
+                      author_id={id}
+                    >
+                      {first_name + ' ' + last_name}
+                    </RRLink>
+                  </TableCell>
+                  <TableCell align="right">{email}</TableCell>
+                  <TableCell align="right">
+                    {admin ? 'ADMIN' : 'PLEB'}
+                  </TableCell>
 
-                <TableCell align="right">
-                  {!master_admin && (
-                    <Checkbox
-                      checked={admin}
-                      onChange={changeAdmin(id)}
-                      value="primary"
-                      inputProps={{'aria-label': 'primary checkbox'}}
-                    />
-                  )}
-                </TableCell>
-                <TableCell align="right">
-                  {!master_admin ? (
-                    <Button color="secondary" onClick={deletePerson(id)}>
-                      Delete
-                    </Button>
-                  ) : (
-                    ''
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
+                  <TableCell align="right">
+                    {!master_admin && (
+                      <Checkbox
+                        checked={admin}
+                        onChange={changeAdmin(id)}
+                        value="primary"
+                        inputProps={{'aria-label': 'primary checkbox'}}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell align="right">
+                    {!master_admin ? (
+                      <Button color="secondary" onClick={deletePerson(id)}>
+                        Delete
+                      </Button>
+                    ) : (
+                      ''
+                    )}
+                  </TableCell>
+                </TableRow>
+              )
+            )}
           </TableBody>
         </Table>
       </TableContainer>
