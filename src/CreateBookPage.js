@@ -10,6 +10,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import {Loadule} from './Loadule.js';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -166,231 +167,234 @@ export const CreateBookPage = ({isAdmin}, {currentUser}) => {
   }, []);
 
   return (
-    <Container component="main" maxWidth="lg">
-      <CssBaseline />
+    <>
+      <Loadule />
+      <Container component="main" maxWidth="lg">
+        <CssBaseline />
 
-      {/* CREATE NEW BOOK BLOCK */}
+        {/* CREATE NEW BOOK BLOCK */}
 
-      <Grid container justify="space-between">
-        <Grid item>
-          <Paper className={classes.paper}>
-            <Typography component="h1" variant="h5">
-              {'Create New Book'}
-            </Typography>
-            <MenuBookIcon />
-            <form className={classes.form} onSubmit={submitNewBook}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="bookTitle"
-                label="Book Title"
-                onChange={e => setTitleState(e.target.value)}
-              />
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel
-                  ref={inputLabel}
-                  id="demo-simple-select-outlined-label"
+        <Grid container justify="space-between">
+          <Grid item>
+            <Paper className={classes.paper}>
+              <Typography component="h1" variant="h5">
+                {'Create New Book'}
+              </Typography>
+              <MenuBookIcon />
+              <form className={classes.form} onSubmit={submitNewBook}>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="bookTitle"
+                  label="Book Title"
+                  onChange={e => setTitleState(e.target.value)}
+                />
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel
+                    ref={inputLabel}
+                    id="demo-simple-select-outlined-label"
+                  >
+                    Pages
+                  </InputLabel>
+                  <Select
+                    value={pgNum}
+                    onChange={e => setPgNum(e.target.value)}
+                    labelWidth={labelWidth}
+                  >
+                    <MenuItem value={4}>4</MenuItem>
+                    <MenuItem value={8}>8</MenuItem>
+                    <MenuItem value={12}>12</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel ref={inputLabel}>Language</InputLabel>
+                  <Select
+                    value={lang}
+                    onChange={e => setLang(e.target.value)}
+                    labelWidth={labelWidth}
+                  >
+                    <MenuItem value={'ENG'}>English</MenuItem>
+                    <MenuItem value={'SRB'}>Serbian</MenuItem>
+                    <MenuItem value={'HR'}>Croatian</MenuItem>
+                    <MenuItem value={'HU'}>Hungarian</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <Typography
+                  component="h3"
+                  variant="h5"
+                  className={classes.error}
+                ></Typography>
+
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
                 >
-                  Pages
-                </InputLabel>
-                <Select
-                  value={pgNum}
-                  onChange={e => setPgNum(e.target.value)}
-                  labelWidth={labelWidth}
-                >
-                  <MenuItem value={4}>4</MenuItem>
-                  <MenuItem value={8}>8</MenuItem>
-                  <MenuItem value={12}>12</MenuItem>
-                </Select>
-              </FormControl>
-
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel ref={inputLabel}>Language</InputLabel>
-                <Select
-                  value={lang}
-                  onChange={e => setLang(e.target.value)}
-                  labelWidth={labelWidth}
-                >
-                  <MenuItem value={'ENG'}>English</MenuItem>
-                  <MenuItem value={'SRB'}>Serbian</MenuItem>
-                  <MenuItem value={'HR'}>Croatian</MenuItem>
-                  <MenuItem value={'HU'}>Hungarian</MenuItem>
-                </Select>
-              </FormControl>
-
-              <Typography
-                component="h3"
-                variant="h5"
-                className={classes.error}
-              ></Typography>
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                {'CREATE'}
-              </Button>
-            </form>
-          </Paper>
-        </Grid>
-        {/* COPY BOOK BLOCK */}
-        <Grid item>
-          <Paper className={classes.paper}>
-            <Typography component="h1" variant="h5">
-              {'Make a Copy'}
-            </Typography>
-            <FileCopyIcon />
-            <form className={classes.form} onSubmit={submitNewCopy}>
-              <TextField
-                variant="outlined"
-                value={copyTitle}
-                disabled={enableCopy}
-                margin="normal"
-                fullWidth
-                ref={copyRef}
-                id="bookTitle"
-                label="Book Title"
-                onChange={e => setCopyTitle(e.target.value)}
-              />
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel ref={inputLabel}>Pages</InputLabel>
-                <Select
+                  {'CREATE'}
+                </Button>
+              </form>
+            </Paper>
+          </Grid>
+          {/* COPY BOOK BLOCK */}
+          <Grid item>
+            <Paper className={classes.paper}>
+              <Typography component="h1" variant="h5">
+                {'Make a Copy'}
+              </Typography>
+              <FileCopyIcon />
+              <form className={classes.form} onSubmit={submitNewCopy}>
+                <TextField
+                  variant="outlined"
+                  value={copyTitle}
                   disabled={enableCopy}
-                  value={copyPages}
-                  onChange={e => setPgNum(e.target.value)}
-                  labelWidth={labelWidth}
-                ></Select>
-              </FormControl>
+                  margin="normal"
+                  fullWidth
+                  ref={copyRef}
+                  id="bookTitle"
+                  label="Book Title"
+                  onChange={e => setCopyTitle(e.target.value)}
+                />
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel ref={inputLabel}>Pages</InputLabel>
+                  <Select
+                    disabled={enableCopy}
+                    value={copyPages}
+                    onChange={e => setPgNum(e.target.value)}
+                    labelWidth={labelWidth}
+                  ></Select>
+                </FormControl>
 
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel ref={inputLabel}>Language</InputLabel>
-                <Select
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel ref={inputLabel}>Language</InputLabel>
+                  <Select
+                    disabled={enableCopy}
+                    value={copyLang}
+                    onChange={e => setCopyLang(e.target.value)}
+                    labelWidth={labelWidth}
+                  >
+                    <MenuItem value={'ENG'}>English</MenuItem>
+                    <MenuItem value={'SRB'}>Serbian</MenuItem>
+                    <MenuItem value={'HR'}>Croatian</MenuItem>
+                    <MenuItem value={'HU'}>Hungarian</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <Typography
+                  component="h3"
+                  variant="h5"
+                  className={classes.error}
+                ></Typography>
+
+                <Button
                   disabled={enableCopy}
-                  value={copyLang}
-                  onChange={e => setCopyLang(e.target.value)}
-                  labelWidth={labelWidth}
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  className={classes.submit}
                 >
-                  <MenuItem value={'ENG'}>English</MenuItem>
-                  <MenuItem value={'SRB'}>Serbian</MenuItem>
-                  <MenuItem value={'HR'}>Croatian</MenuItem>
-                  <MenuItem value={'HU'}>Hungarian</MenuItem>
-                </Select>
-              </FormControl>
-
-              <Typography
-                component="h3"
-                variant="h5"
-                className={classes.error}
-              ></Typography>
-
-              <Button
-                disabled={enableCopy}
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="secondary"
-                className={classes.submit}
-              >
-                {'CREATE COPY'}
-              </Button>
-            </form>
-          </Paper>
+                  {'CREATE COPY'}
+                </Button>
+              </form>
+            </Paper>
+          </Grid>
         </Grid>
-      </Grid>
 
-      {/* THIS IS A SMALL PAPER ELEMENT TO HOLD USER ERROR MESSAGES */}
-      {error && (
-        <Paper className={classes.errorPaper}>
-          <Typography component="h3" variant="h5" className={classes.error}>
-            {error}
-          </Typography>
-        </Paper>
-      )}
+        {/* THIS IS A SMALL PAPER ELEMENT TO HOLD USER ERROR MESSAGES */}
+        {error && (
+          <Paper className={classes.errorPaper}>
+            <Typography component="h3" variant="h5" className={classes.error}>
+              {error}
+            </Typography>
+          </Paper>
+        )}
 
-      {/* BELOW IS THE BOOK LIST */}
+        {/* BELOW IS THE BOOK LIST */}
 
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              {/* <TableCell>Book id:</TableCell> */}
-              <TableCell>Title:</TableCell>
-              <TableCell align="left">Author:</TableCell>
-              <TableCell align="right">Date Created:</TableCell>
-              <TableCell align="right">Create Copy?</TableCell>
-              {isAdmin && <TableCell align="right">Delete?</TableCell>}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {booksState.map(
-              ({id, title, author, created_date, author_id, language}) => (
-                <TableRow key={id}>
-                  {/* <TableCell component="th" scope="row">
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                {/* <TableCell>Book id:</TableCell> */}
+                <TableCell>Title:</TableCell>
+                <TableCell align="left">Author:</TableCell>
+                <TableCell align="right">Date Created:</TableCell>
+                <TableCell align="right">Create Copy?</TableCell>
+                {isAdmin && <TableCell align="right">Delete?</TableCell>}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {booksState.map(
+                ({id, title, author, created_date, author_id, language}) => (
+                  <TableRow key={id}>
+                    {/* <TableCell component="th" scope="row">
                     {id}
                   </TableCell> */}
-                  <TableCell align="right">
-                    <Link>
-                      <RRLink to={'/book/' + id} id={id}>
-                        {title}
-                      </RRLink>
-                    </Link>
-                    {'   '}
-                    <img
-                      src={flagSelect(language)}
-                      alt={language}
-                      className={classes.flag}
-                    />
-                  </TableCell>
-                  <TableCell align="right">
-                    <Paper color="primary" className={classes.userPaper}>
-                      <RRLink
-                        className={classes.authorLink}
-                        to={'/UserInfo/' + author_id}
-                        author_id={author_id}
+                    <TableCell align="right">
+                      <Link>
+                        <RRLink to={'/book/' + id} id={id}>
+                          {title}
+                        </RRLink>
+                      </Link>
+                      {'   '}
+                      <img
+                        src={flagSelect(language)}
+                        alt={language}
+                        className={classes.flag}
+                      />
+                    </TableCell>
+                    <TableCell align="right">
+                      <Paper color="primary" className={classes.userPaper}>
+                        <RRLink
+                          className={classes.authorLink}
+                          to={'/UserInfo/' + author_id}
+                          author_id={author_id}
+                        >
+                          <Link variant="body2">{author}</Link>
+                        </RRLink>
+                      </Paper>
+                    </TableCell>
+                    <TableCell align="right">
+                      {new Date(created_date).toDateString()}
+                    </TableCell>
+
+                    <TableCell align="right">
+                      <form
+                        onSubmit={e => {
+                          e.preventDefault();
+                          setEnableCopy(false);
+                          setCopyTitle(title);
+                          setCopyPages(8);
+                          setIdToCopy(id);
+                        }}
                       >
-                        <Link variant="body2">{author}</Link>
-                      </RRLink>
-                    </Paper>
-                  </TableCell>
-                  <TableCell align="right">
-                    {new Date(created_date).toDateString()}
-                  </TableCell>
+                        <Button color="secondary" type="submit">
+                          COPY
+                        </Button>
+                      </form>
+                    </TableCell>
 
-                  <TableCell align="right">
-                    <form
-                      onSubmit={e => {
-                        e.preventDefault();
-                        setEnableCopy(false);
-                        setCopyTitle(title);
-                        setCopyPages(8);
-                        setIdToCopy(id);
-                      }}
-                    >
-                      <Button color="secondary" type="submit">
-                        COPY
-                      </Button>
-                    </form>
-                  </TableCell>
-
-                  <TableCell align="right">
-                    {isAdmin ? (
-                      <Button color="secondary" onClick={deleteBook(id)}>
-                        Delete
-                      </Button>
-                    ) : (
-                      ''
-                    )}
-                  </TableCell>
-                </TableRow>
-              )
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Container>
+                    <TableCell align="right">
+                      {isAdmin ? (
+                        <Button color="secondary" onClick={deleteBook(id)}>
+                          Delete
+                        </Button>
+                      ) : (
+                        ''
+                      )}
+                    </TableCell>
+                  </TableRow>
+                )
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Container>
+    </>
   );
 };
