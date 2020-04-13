@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/taylormoineau/una-webapp/issues"
   },
-  "homepage": "https://github.com/taylormoineau/una-webapp#readme",
+  "homepage": "",
   "dependencies": {
     "@material-ui/core": "^4.9.0",
     "@material-ui/icons": "^4.5.1",

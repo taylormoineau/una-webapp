@@ -37,7 +37,7 @@ app.use(authCookie);
 
 app.use('/checkAuth', (req, res) => res.json(req.user || ''));
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html')); // serve the UI
+  res.sendFile(path.join(path.resolve(), 'build', 'index.html')); // serve the UI
 });
 app.post('/login', login);
 app.post('/addPerson', addPerson);
@@ -65,4 +65,6 @@ app.post('/deletePerson', deletePerson);
 app.post('/deleteBook', deleteBook);
 app.post('/editPerson', editPerson);
 
-app.listen(process.env.PORT || 8080);
+const port = process.env.PORT || 8080;
+console.log(`Starting on ${port}`);
+app.listen(port);
