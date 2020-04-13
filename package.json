@@ -9,7 +9,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "npm i && (npm run start & npm run server)",
-    "server": "nodemon server/index.js"
+    "server": "nodemon -r ../creds server/index.js"
   },
   "type": "module",
   "proxy": "http://localhost:8080",
