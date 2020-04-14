@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 
 export const DootRouter = () => {
   const [currentUser, setCurrentUser] = useState('');
-  console.log(PGDATABASE);
+
   const checkAuth = async () => {
     const user = await loadJson('checkAuth');
     if (user.error) {
