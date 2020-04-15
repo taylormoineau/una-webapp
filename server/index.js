@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 
 //Notice: strictly requires suffix .js or it can't find these files
 
@@ -20,7 +21,8 @@ import {getAllPages} from './getPages.js';
 import {createPage} from './createPage.js';
 import {deletePage} from './deletePage.js';
 import {updateImage} from './updateImage.js';
-import bodyParser from 'body-parser';
+
+if (!process.env.SECRET) throw new Error('MISSING CREDS!');
 
 const app = express();
 
