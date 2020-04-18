@@ -4,13 +4,13 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "NODE_ENV=production node server/index.js",
     "startDev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "npm i && (npm run startDev & npm run server)",
-    "server": "sh ./runWithCreds"
+    "dev": "npm i && (npm run startDev & npm run serverDev)",
+    "serverDev": "sh ./runWithCreds"
   },
   "type": "module",
   "proxy": "http://localhost:8080",
