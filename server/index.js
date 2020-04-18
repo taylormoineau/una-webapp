@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import helmet from 'helmet';
 
 //Notice: strictly requires suffix .js or it can't find these files
 
@@ -25,6 +26,8 @@ import {updateImage} from './updateImage.js';
 if (!process.env.SECRET) throw new Error('MISSING CREDS!');
 
 const app = express();
+
+app.use(helmet());
 
 app.use(bodyParser.json({limit: '8mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
