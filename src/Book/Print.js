@@ -19,7 +19,11 @@ export const Print = () => {
 
   return (
     <div>
-      <h3 style={{color: 'red'}}>{error}</h3>
+      <h1>
+        Currently addressing some errors on this page regarding the transition
+        over to A4 paper, from the USA standard of 8.5"x11"
+      </h1>
+      {/* <h3 style={{color: 'red'}}>{error}</h3>
       <div>
         {pages.map(({id, page_number, page_description, page_image}) => (
           <div key={id}>
@@ -40,7 +44,7 @@ export const Print = () => {
             )}
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
