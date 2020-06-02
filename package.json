@@ -13,7 +13,7 @@
     "serverDev": "sh ./runWithCreds"
   },
   "type": "module",
-  "proxy": "http://localhost:8080",
+  "proxy": "http://localhost:8081",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/taylormoineau/una-webapp.git"
@@ -36,6 +36,7 @@
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
     "helmet": "^3.22.0",
+    "pdfkit": "^0.11.0",
     "pg": "^7.12.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
