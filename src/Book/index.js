@@ -272,9 +272,9 @@ export const Book = ({currentUser}) => {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => history.push('/print/' + bookId)}
+                      onClick={() => console.log(pages)}
                     >
-                      <PrintIcon /> Print Preview
+                      <PrintIcon /> Print to PDF
                     </Button>
                   </Grid>
                 </Grid>
