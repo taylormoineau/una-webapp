@@ -1,50 +1,83 @@
-import React, {useState, useEffect} from 'react';
-import {loadData} from '../utils';
-import {Link, useHistory} from 'react-router-dom';
-import {useParams} from 'react-router-dom';
-import borderTemplate from './borderTemplate.png';
-import './print.css';
+import PDFDocument from 'pdfkit';
+import fs from 'fs';
 
-export const Print = () => {
-  const [pages, setPages] = useState([]);
-  const [bookState, setBookState] = useState([]);
-  const [printFail, setPrintFail] = useState(false);
-  const [error, setError] = useState('');
-  const {bookId} = useParams();
+var doc = new PDFDocument({autoFirstPage: false});
 
-  useEffect(() => {
-    loadData('getOneBook/' + bookId, setBookState, setError);
-    loadData('getPagesForBook/' + bookId, setPages, setError);
-  }, [bookId]);
+export const printPDF = pageContents => {
+  doc.pipe(fs.createWriteStream('output.pdf'));
+  for (let i = 0; i <= 3; i++) {
+    const leftPage = i % 2 != 0 ? i : Math.abs(i - 9);
+    const rightPage = Math.abs(leftPage - 9);
 
-  return (
-    <div>
-      <h1>
-        Currently addressing some errors on this page regarding the transition
-        over to A4 paper, from the USA standard of 8.5"x11"
-      </h1>
-      {/* <h3 style={{color: 'red'}}>{error}</h3>
-      <div>
-        {pages.map(({id, page_number, page_description, page_image}) => (
-          <div key={id}>
-            {page_number && (
-              <div>
-                <img src={borderTemplate} alt="template" className="template" />
+    doc
+      .addPage({
+        layout: 'landscape',
+        margins: {top: 35, bottom: 35, left: 20, right: 20}
+      })
+      .image('letterTemplate.png', {width: 750})
+      .image(pageContents[leftPage].page_image, 42, 48, {
+        width: 335
+      })
+      .image(pageContents[rightPage].page_image, 414, 48, {
+        width: 335
+      })
+      .font('KGPrimaryPenmanship2.ttf')
+      .fontSize(22)
+      .text(pageContents[leftPage].page_description, 42, 425, {
+        width: 335,
+        align: 'justify'
+      })
+      .text(pageContents[rightPage].page_description, 414, 425, {
+        width: 335,
+        align: 'justify'
+      })
+      .font('beachday.ttf')
+      .fontSize(24)
+      .text(leftPage)
+      .text(rightPage);
+  }
 
-                <p className="leftPageNumber">{page_number + 1}</p>
-
-                <p className="leftText">{page_description}</p>
-
-                <img
-                  src={page_image}
-                  className="leftImage"
-                  alt={'Page number: ' + page_number}
-                />
-              </div>
-            )}
-          </div>
-        ))}
-      </div> */}
-    </div>
-  );
+  doc.end();
 };
+
+// import PDFDocument from 'pdfkit';
+// import fs from 'fs';
+
+// var doc = new PDFDocument({autoFirstPage: false});
+
+// doc.pipe(fs.createWriteStream('output.pdf'));
+
+// for (let i = 1; i <= 4; i++) {
+//   doc
+//     .addPage({
+//       layout: 'landscape',
+//       margins: {top: 35, bottom: 35, left: 20, right: 20}
+//     })
+//     .image('letterTemplate.png', {width: 750})
+//     .image('../../testPictures/testPicture.png', 42, 48, {
+//       width: 335
+//     })
+//     .image('../../testPictures/testPicture.png', 414, 48, {
+//       width: 335
+//     })
+//     .font('KGPrimaryPenmanship2.ttf')
+//     .fontSize(22)
+//     .text(
+//       'David was a good man. i i i i i i i i i i i i i i i i i i He had a few small problems, but we wont talk about those so much.',
+//       42,
+//       425,
+//       {width: 335, align: 'justify'}
+//     )
+//     .text(
+//       'David was a good man. i i i i i i i i i i i i i i i i i i He had a few small problems, but we wont talk about those so much.',
+//       414,
+//       425,
+//       {width: 335, align: 'justify'}
+//     )
+//     .font('beachday.ttf')
+//     .fontSize(24)
+//     .text(i % 2 == 0 ? i : Math.abs(i - 9), 35.5, 537)
+//     .text(i % 2 != 0 ? i : Math.abs(i - 9), 748.5, 537);
+// }
+
+// doc.end();

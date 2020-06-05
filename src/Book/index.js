@@ -20,6 +20,7 @@ import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import {LoadingPage} from './../LoadingPage';
 import Paper from '@material-ui/core/Paper';
+import {printPDF} from './Print.js';
 
 //icons
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
@@ -272,7 +273,7 @@ export const Book = ({currentUser}) => {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => console.log(pages)}
+                      onClick={() => printPDF(pages)}
                     >
                       <PrintIcon /> Print to PDF
                     </Button>

@@ -9,7 +9,7 @@ import {InfoRegister} from './InfoRegister';
 import {UserProfile} from './userProfile';
 import {NavBar} from './NavBar';
 import {makeStyles} from '@material-ui/core/styles';
-import {Print} from './Book/Print';
+// import {Print} from './Book/Print';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -57,9 +57,9 @@ export const DootRouter = () => {
           <Route path="/book/:bookId">
             <Book checkAuth={checkAuth} currentUser={currentUser} />
           </Route>
-          <Route path="/print/:bookId">
+          {/* <Route path="/print/:bookId">
             <Print />
-          </Route>
+          </Route> */}
           <Route path="/register">
             <Register checkAuth={checkAuth} currentUser={currentUser} />
           </Route>
@@ -69,9 +69,9 @@ export const DootRouter = () => {
           <Route path="/userInfo/:author_id">
             <UserProfile checkAuth={checkAuth} currentUser={currentUser} />
           </Route>
-          <Route path="/print/:bookId">
+          {/* <Route path="/print/:bookId">
             <Print />
-          </Route>
+          </Route> */}
           <Route path="/">
             <Home checkAuth={checkAuth} currentUser={currentUser} />
           </Route>
