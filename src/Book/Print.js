@@ -1,12 +1,12 @@
 import PDFDocument from 'pdfkit';
-import fs from 'fs';
-
-var doc = new PDFDocument({autoFirstPage: false});
+import blobStream from 'blob-stream';
 
 export const printPDF = pageContents => {
-  doc.pipe(fs.createWriteStream('output.pdf'));
+  // doc.pipe(fs.createWriteStream('output.pdf'));
+  const doc = new PDFDocument({autoFirstPage: false});
+  const stream = doc.pipe(blobStream());
   for (let i = 0; i <= 3; i++) {
-    const leftPage = i % 2 != 0 ? i : Math.abs(i - 9);
+    const leftPage = i % 2 ? i : Math.abs(i - 9);
     const rightPage = Math.abs(leftPage - 9);
 
     doc
@@ -38,6 +38,11 @@ export const printPDF = pageContents => {
   }
 
   doc.end();
+  stream.on('finish', function() {
+    const iframe = document.createElement('iframe');
+    document.body.append(iframe);
+    iframe.src = stream.toBlobURL('application/pdf');
+  });
 };
 
 // import PDFDocument from 'pdfkit';
