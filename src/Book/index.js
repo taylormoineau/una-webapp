@@ -20,7 +20,6 @@ import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import {LoadingPage} from './../LoadingPage';
 import Paper from '@material-ui/core/Paper';
-import {printPDF} from './Print.js';
 
 //icons
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
@@ -169,17 +168,9 @@ export const Book = ({currentUser}) => {
     await loadData('getPagesForBook/' + bookId, setPages, setError);
   };
 
-  const deletePage = async id => {
-    if (
-      !window.confirm(
-        'Are you sure you want to delete this page? Deleted pages cannot be restored!'
-      )
-    )
-      return;
-
-    await sendJson('deletePage', {id});
-    //This can only be changed by administrators, so only server errors should be a problem here.
-    await loadData('getPagesForBook/' + bookId, setPages, setError);
+  const printPDF = async () => {
+    const result = await sendJson('print/', {data: 'string'});
+    if (result.error) setError(result.error);
   };
 
   const updateImage = async (data, id) => {
@@ -199,7 +190,7 @@ export const Book = ({currentUser}) => {
       {bookState && (
         <main>
           <div className={classes.heroContent}>
-            <Container maxWidth="sm" onClick={console.log(bookState)}>
+            <Container maxWidth="sm">
               <Typography
                 component="h1"
                 variant="h2"
@@ -273,7 +264,7 @@ export const Book = ({currentUser}) => {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => printPDF(pages)}
+                      onClick={() => printPDF()}
                     >
                       <PrintIcon /> Print to PDF
                     </Button>

@@ -22,6 +22,7 @@ import {getAllPages} from './getPages.js';
 import {createPage} from './createPage.js';
 import {deletePage} from './deletePage.js';
 import {updateImage} from './updateImage.js';
+import {printPDF} from './printing/Print.js';
 
 if (!process.env.SECRET) throw new Error('MISSING CREDS!');
 
@@ -61,6 +62,7 @@ app.post('/editPageNumber', editPageNumber);
 app.post('/editPageDescription', editPageDescription);
 app.post('/editApproval', editApproval);
 app.post('/updateImage', updateImage);
+app.use('/print', printPDF);
 
 app.use(adminsOnly); // user must be admin to access endpoints below
 app.get('/people', getPeople);
