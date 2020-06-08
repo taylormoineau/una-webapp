@@ -26,7 +26,6 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import CreateIcon from '@material-ui/icons/Create';
 import PrintIcon from '@material-ui/icons/Print';
-import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
@@ -169,7 +168,7 @@ export const Book = ({currentUser}) => {
   };
 
   const printPDF = async () => {
-    const result = await sendJson('print/', {data: 'string'});
+    const result = await sendJson('print/', {bookId});
     if (result.error) setError(result.error);
   };
 

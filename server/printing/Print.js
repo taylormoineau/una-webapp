@@ -5,7 +5,7 @@ import {query} from '../query.js';
 export const printPDF = async (req, res) => {
   const book = await query(
     'SELECT * FROM "pages_data" WHERE book_id=$1 ORDER BY page_number ASC',
-    [75]
+    [req.bookId]
   );
 
   const doc = new PDFDocument({autoFirstPage: false});
@@ -40,7 +40,7 @@ export const printPDF = async (req, res) => {
       .font(
         '/Users/helenmoineau/una-webapp/server/printing/KGPrimaryPenmanship2.ttf'
       )
-      .fontSize(22)
+      .fontSize(25)
       .text(book[leftPage].page_description, 42, 425, {
         width: 335,
         align: 'justify'
@@ -50,7 +50,6 @@ export const printPDF = async (req, res) => {
         align: 'justify'
       })
       .font('/Users/helenmoineau/una-webapp/server/printing/beachday.ttf')
-      .fontSize(24)
       .text(leftPage + 1, 34.5, 538)
       .text(rightPage + 1, 748.5, 538);
   }
