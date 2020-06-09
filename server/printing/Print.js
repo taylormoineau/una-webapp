@@ -3,9 +3,11 @@ import fs from 'fs';
 import {query} from '../query.js';
 
 export const printPDF = async (req, res) => {
+  console.log(req.body.bookId);
+
   const book = await query(
     'SELECT * FROM "pages_data" WHERE book_id=$1 ORDER BY page_number ASC',
-    [req.bookId]
+    [req.body.bookId]
   );
 
   const doc = new PDFDocument({autoFirstPage: false});
@@ -60,6 +62,8 @@ export const printPDF = async (req, res) => {
     )
   );
   doc.end();
+  res.json('step 1: print');
+  // res.download('/Users/helenmoineau/una-webapp/server/printing/output.pdf');
 
   // var file = fs.createReadStream(
   //   '/Users/helenmoineau/una-webapp/server/printing/output.pdf'

@@ -30,7 +30,7 @@ const app = express();
 
 app.use(helmet());
 
-app.use(bodyParser.json({limit: '8mb'}));
+app.use(bodyParser.json({limit: '40mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.use(cookieParser());
@@ -63,6 +63,12 @@ app.post('/editPageDescription', editPageDescription);
 app.post('/editApproval', editApproval);
 app.post('/updateImage', updateImage);
 app.use('/print', printPDF);
+app.get('/download', (req, res) => {
+  res.download(
+    '/Users/helenmoineau/una-webapp/server/printing/output.pdf',
+    'output.pdf'
+  );
+});
 
 app.use(adminsOnly); // user must be admin to access endpoints below
 app.get('/people', getPeople);

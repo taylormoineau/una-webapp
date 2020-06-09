@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {loadData, sendJson, assocPath, swap} from '../utils';
+import {loadData, sendJson, assocPath, swap, loadJson} from '../utils';
 import {useHistory} from 'react-router-dom';
 import {useParams} from 'react-router-dom';
 import {FileInput} from '../FileInput';
@@ -35,6 +35,13 @@ import HU from './../flags/HU.png';
 import ENG from './../flags/ENG.png';
 import SRB from './../flags/SRB.png';
 import HR from './../flags/HR.png';
+
+const downloadFile = filePath => {
+  var link = document.createElement('a');
+  link.href = filePath;
+  link.download = filePath.substr(filePath.lastIndexOf('/') + 1);
+  link.click();
+};
 
 const flagSelect = language => {
   switch (language) {
@@ -167,9 +174,10 @@ export const Book = ({currentUser}) => {
     await loadData('getPagesForBook/' + bookId, setPages, setError);
   };
 
-  const printPDF = async () => {
+  const printPDF = async bookId => {
     const result = await sendJson('print/', {bookId});
     if (result.error) setError(result.error);
+    downloadFile('/Users/helenmoineau/una-webapp/server/printing/output.pdf');
   };
 
   const updateImage = async (data, id) => {
@@ -251,6 +259,7 @@ export const Book = ({currentUser}) => {
                     align="center"
                     color="textSecondary"
                     paragraph
+                    onLoad={console.log(bookId)}
                   >
                     <RRLink to={'/book/' + bookState.origin_id}>
                       Click here for origin (id: {bookState.origin_id})
@@ -263,7 +272,7 @@ export const Book = ({currentUser}) => {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => printPDF()}
+                      onClick={() => printPDF(bookId)}
                     >
                       <PrintIcon /> Print to PDF
                     </Button>
