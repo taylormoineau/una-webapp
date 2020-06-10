@@ -39,7 +39,7 @@ import HR from './../flags/HR.png';
 const downloadFile = filePath => {
   var link = document.createElement('a');
   link.href = filePath;
-  link.download = filePath.substr(filePath.lastIndexOf('/') + 1);
+  // link.download = filePath.substr(filePath.lastIndexOf('/') + 1);
   link.click();
 };
 
@@ -174,10 +174,10 @@ export const Book = ({currentUser}) => {
     await loadData('getPagesForBook/' + bookId, setPages, setError);
   };
 
-  const printPDF = async bookId => {
+  const printPDF = async () => {
     const result = await sendJson('print/', {bookId});
     if (result.error) setError(result.error);
-    downloadFile('/Users/helenmoineau/una-webapp/server/printing/output.pdf');
+    // downloadFile('../printing/output.pdf');
   };
 
   const updateImage = async (data, id) => {

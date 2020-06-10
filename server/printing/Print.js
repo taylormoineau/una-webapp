@@ -12,11 +12,23 @@ export const printPDF = async (req, res) => {
 
   const doc = new PDFDocument({autoFirstPage: false});
 
-  // res.setHeader(
-  //   'Content-disposition',
-  //   'attachment; filename="' + 'newPDF.pdf' + '"'
-  // );
-  // res.setHeader('Content-type', 'application/pdf');
+  doc
+    .addPage({
+      layout: 'landscape',
+      margins: {top: 10, bottom: 10, left: 10, right: 10}
+    })
+    .image(
+      '/Users/helenmoineau/una-webapp/server/printing/coverENGLetter.png',
+      {width: 772}
+    )
+    .addPage({
+      layout: 'landscape',
+      margins: {top: 10, bottom: 10, left: 10, right: 10}
+    })
+    .image(
+      '/Users/helenmoineau/una-webapp/server/printing/innerENGLetter.png',
+      {width: 772}
+    );
 
   for (let i = 0; i <= 3; i++) {
     const leftPage = i % 2 ? i : Math.abs(i - 7);
