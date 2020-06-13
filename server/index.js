@@ -46,9 +46,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/checkAuth', (req, res) => res.json(req.user || ''));
-app.get('/download', (req, res) => {
-  res.download('./server/printing/output.pdf', 'testPDF.pdf');
-});
 app.get('/', (req, res) => {
   res.sendFile(path.join(path.resolve(), 'build', 'index.html')); // serve the UI
 });
@@ -70,7 +67,7 @@ app.post('/editPageNumber', editPageNumber);
 app.post('/editPageDescription', editPageDescription);
 app.post('/editApproval', editApproval);
 app.post('/updateImage', updateImage);
-app.use('/print', printPDF);
+app.get('/print/:bookId', printPDF);
 
 app.use(adminsOnly); // user must be admin to access endpoints below
 app.get('/people', getPeople);

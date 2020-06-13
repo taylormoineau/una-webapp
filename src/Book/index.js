@@ -261,7 +261,11 @@ export const Book = ({currentUser}) => {
 
                 <Grid container spacing={2} justify="center">
                   <Grid item>
-                    <a target="_blank" rel="noreferrer" href={'/download'}>
+                    <a
+                      target="_blank"
+                      rel="noreferrer"
+                      href={'/print/' + bookId}
+                    >
                       Print to PDF
                     </a>
                   </Grid>
