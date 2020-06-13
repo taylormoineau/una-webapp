@@ -167,11 +167,11 @@ export const Book = ({currentUser}) => {
     await loadData('getPagesForBook/' + bookId, setPages, setError);
   };
 
-  const printPDF = async () => {
-    const result = await sendJson('print/', {bookId});
-    if (result.error) setError(result.error);
-    downloadFile('src/Book/output.pdf');
-  };
+  // const printPDF = async () => {
+  //   const result = await sendJson('print/', {bookId});
+  //   if (result.error) setError(result.error);
+  //   downloadFile('src/Book/output.pdf');
+  // };
 
   const updateImage = async (data, id) => {
     const result = await sendJson('updateImage', {img: data, id});
