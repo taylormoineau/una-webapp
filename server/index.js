@@ -47,10 +47,7 @@ app.use((req, res, next) => {
 
 app.use('/checkAuth', (req, res) => res.json(req.user || ''));
 app.get('/download', (req, res) => {
-  res.download(
-    '/Users/helenmoineau/una-webapp/server/printing/output.pdf',
-    'output.pdf'
-  );
+  res.download('./server/printing/output.pdf', 'testPDF.pdf');
 });
 app.get('/', (req, res) => {
   res.sendFile(path.join(path.resolve(), 'build', 'index.html')); // serve the UI
