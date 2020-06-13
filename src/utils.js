@@ -30,6 +30,31 @@ export const sendJson = async (endPoint, data) => {
   }
 };
 
+export const downloadPDF = async (endPoint, data) => {
+  try {
+    const response = await fetch('/download', {
+      method: 'GET',
+      headers: {'Content-Type': 'application/pdf'},
+      body: JSON.stringify(data),
+      credentials: 'include'
+    });
+    if (response && !response.ok) {
+      throw new Error(await response.text());
+    }
+    return await response.json();
+  } catch (error) {
+    return {error: error.message};
+  }
+};
+
+// var file = fs.createReadStream('./public/modules/datacollectors/output.pdf', 'binary');
+// var stat = fs.statSync('./public/modules/datacollectors/output.pdf');
+// res.setHeader('Content-Length', stat.size);
+// res.setHeader('Content-Type', 'application/pdf');
+// res.setHeader('Content-Disposition', 'attachment; filename=quote.pdf');
+// res.pipe(file, 'binary');
+// res.end();
+
 export const loadData = async (endpoint, onLoad, setError) => {
   const result = await loadJson(endpoint);
   if (result.error) {

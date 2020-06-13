@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {loadData, sendJson, assocPath, swap} from '../utils';
+import {loadData, sendJson, assocPath, swap, loadJson} from '../utils';
 import {useHistory} from 'react-router-dom';
 import {useParams} from 'react-router-dom';
 import {FileInput} from '../FileInput';
@@ -26,7 +26,6 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import CreateIcon from '@material-ui/icons/Create';
 import PrintIcon from '@material-ui/icons/Print';
-import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
@@ -36,6 +35,16 @@ import HU from './../flags/HU.png';
 import ENG from './../flags/ENG.png';
 import SRB from './../flags/SRB.png';
 import HR from './../flags/HR.png';
+
+const downloadFile = filePath => {
+  var link = document.createElement('a');
+  link.setAttribute(
+    'href',
+    'data:text/plain;charset=utf-8,' + encodeURIComponent(filePath)
+  );
+  link.setAttribute('download', 'newPDF.pdf');
+  link.click();
+};
 
 const flagSelect = language => {
   switch (language) {
@@ -168,17 +177,10 @@ export const Book = ({currentUser}) => {
     await loadData('getPagesForBook/' + bookId, setPages, setError);
   };
 
-  const deletePage = async id => {
-    if (
-      !window.confirm(
-        'Are you sure you want to delete this page? Deleted pages cannot be restored!'
-      )
-    )
-      return;
-
-    await sendJson('deletePage', {id});
-    //This can only be changed by administrators, so only server errors should be a problem here.
-    await loadData('getPagesForBook/' + bookId, setPages, setError);
+  const printPDF = async () => {
+    const result = await sendJson('print/', {bookId});
+    if (result.error) setError(result.error);
+    downloadFile('src/Book/output.pdf');
   };
 
   const updateImage = async (data, id) => {
@@ -198,7 +200,7 @@ export const Book = ({currentUser}) => {
       {bookState && (
         <main>
           <div className={classes.heroContent}>
-            <Container maxWidth="sm" onClick={console.log(bookState)}>
+            <Container maxWidth="sm">
               <Typography
                 component="h1"
                 variant="h2"
@@ -269,13 +271,9 @@ export const Book = ({currentUser}) => {
 
                 <Grid container spacing={2} justify="center">
                   <Grid item>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => history.push('/print/' + bookId)}
-                    >
-                      <PrintIcon /> Print Preview
-                    </Button>
+                    <a target="_blank" rel="noreferrer" href={'/download'}>
+                      Print to PDF
+                    </a>
                   </Grid>
                 </Grid>
               </div>

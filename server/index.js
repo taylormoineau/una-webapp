@@ -22,6 +22,7 @@ import {getAllPages} from './getPages.js';
 import {createPage} from './createPage.js';
 import {deletePage} from './deletePage.js';
 import {updateImage} from './updateImage.js';
+import {printPDF} from './printing/Print.js';
 
 if (!process.env.SECRET) throw new Error('MISSING CREDS!');
 
@@ -29,7 +30,7 @@ const app = express();
 
 app.use(helmet());
 
-app.use(bodyParser.json({limit: '8mb'}));
+app.use(bodyParser.json({limit: '40mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.use(cookieParser());
@@ -39,7 +40,18 @@ app.use(authCookie);
 
 // not protected
 
+app.use((req, res, next) => {
+  console.log(req.url);
+  next();
+});
+
 app.use('/checkAuth', (req, res) => res.json(req.user || ''));
+app.get('/download', (req, res) => {
+  res.download(
+    '/Users/helenmoineau/una-webapp/server/printing/output.pdf',
+    'output.pdf'
+  );
+});
 app.get('/', (req, res) => {
   res.sendFile(path.join(path.resolve(), 'build', 'index.html')); // serve the UI
 });
@@ -61,6 +73,7 @@ app.post('/editPageNumber', editPageNumber);
 app.post('/editPageDescription', editPageDescription);
 app.post('/editApproval', editApproval);
 app.post('/updateImage', updateImage);
+app.use('/print', printPDF);
 
 app.use(adminsOnly); // user must be admin to access endpoints below
 app.get('/people', getPeople);
@@ -69,6 +82,6 @@ app.post('/deletePerson', deletePerson);
 app.post('/deleteBook', deleteBook);
 app.post('/editPerson', editPerson);
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8081;
 console.log(`Starting on ${port}`);
 app.listen(port);
