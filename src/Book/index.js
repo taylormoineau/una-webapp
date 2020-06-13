@@ -36,16 +36,6 @@ import ENG from './../flags/ENG.png';
 import SRB from './../flags/SRB.png';
 import HR from './../flags/HR.png';
 
-const downloadFile = filePath => {
-  var link = document.createElement('a');
-  link.setAttribute(
-    'href',
-    'data:text/plain;charset=utf-8,' + encodeURIComponent(filePath)
-  );
-  link.setAttribute('download', 'newPDF.pdf');
-  link.click();
-};
-
 const flagSelect = language => {
   switch (language) {
     case 'HU':
