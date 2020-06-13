@@ -73,10 +73,31 @@ export const printPDF = async (req, res) => {
       '/Users/helenmoineau/una-webapp/server/printing/output.pdf'
     )
   );
-  doc.end();
-  res.json('step 1: print');
-  // res.download('/Users/helenmoineau/una-webapp/server/printing/output.pdf');
 
+  doc.end();
+
+  //HERE IS ONE WAY TO TRY
+  var stream = fs.readStream(
+    '/Users/helenmoineau/una-webapp/server/printing/output.pdf'
+  );
+  var filename = 'downloadedPDF';
+  // Be careful of special characters
+
+  filename = encodeURIComponent(filename);
+  // Ideally this should strip them
+
+  res.setHeader(
+    'Content-disposition',
+    'attachment; filename="' + filename + '"'
+  );
+  res.setHeader('Content-type', 'application/pdf');
+
+  stream.pipe(res);
+  res
+    .json('attempting to download')
+    .download('/Users/helenmoineau/una-webapp/server/printing/output.pdf');
+
+  //ANOTHER WAY
   // var file = fs.createReadStream(
   //   '/Users/helenmoineau/una-webapp/server/printing/output.pdf'
   // );

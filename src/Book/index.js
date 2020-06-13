@@ -38,8 +38,11 @@ import HR from './../flags/HR.png';
 
 const downloadFile = filePath => {
   var link = document.createElement('a');
-  link.href = filePath;
-  // link.download = filePath.substr(filePath.lastIndexOf('/') + 1);
+  link.setAttribute(
+    'href',
+    'data:text/plain;charset=utf-8,' + encodeURIComponent(filePath)
+  );
+  link.setAttribute('download', 'newPDF.pdf');
   link.click();
 };
 
@@ -177,7 +180,7 @@ export const Book = ({currentUser}) => {
   const printPDF = async () => {
     const result = await sendJson('print/', {bookId});
     if (result.error) setError(result.error);
-    // downloadFile('../printing/output.pdf');
+    downloadFile('src/Book/output.pdf');
   };
 
   const updateImage = async (data, id) => {
@@ -259,7 +262,6 @@ export const Book = ({currentUser}) => {
                     align="center"
                     color="textSecondary"
                     paragraph
-                    onLoad={console.log(bookId)}
                   >
                     <RRLink to={'/book/' + bookState.origin_id}>
                       Click here for origin (id: {bookState.origin_id})
@@ -269,13 +271,9 @@ export const Book = ({currentUser}) => {
 
                 <Grid container spacing={2} justify="center">
                   <Grid item>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => printPDF(bookId)}
-                    >
-                      <PrintIcon /> Print to PDF
-                    </Button>
+                    <a target="_blank" rel="noreferrer" href={'/download'}>
+                      Print to PDF
+                    </a>
                   </Grid>
                 </Grid>
               </div>

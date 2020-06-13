@@ -40,7 +40,18 @@ app.use(authCookie);
 
 // not protected
 
+app.use((req, res, next) => {
+  console.log(req.url);
+  next();
+});
+
 app.use('/checkAuth', (req, res) => res.json(req.user || ''));
+app.get('/download', (req, res) => {
+  res.download(
+    '/Users/helenmoineau/una-webapp/server/printing/output.pdf',
+    'output.pdf'
+  );
+});
 app.get('/', (req, res) => {
   res.sendFile(path.join(path.resolve(), 'build', 'index.html')); // serve the UI
 });
@@ -63,12 +74,6 @@ app.post('/editPageDescription', editPageDescription);
 app.post('/editApproval', editApproval);
 app.post('/updateImage', updateImage);
 app.use('/print', printPDF);
-app.get('/download', (req, res) => {
-  res.download(
-    '/Users/helenmoineau/una-webapp/server/printing/output.pdf',
-    'output.pdf'
-  );
-});
 
 app.use(adminsOnly); // user must be admin to access endpoints below
 app.get('/people', getPeople);
