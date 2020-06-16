@@ -10,7 +10,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import {Loadule} from './Loadule.js';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -102,7 +101,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const CreateBookPage = ({isAdmin}, {currentUser}) => {
+export const CreateBookPage = ({isAdmin}) => {
   const [titleState, setTitleState] = useState('');
   const [enableCopy, setEnableCopy] = useState(true);
   const [copyTitle, setCopyTitle] = useState('');
@@ -168,7 +167,6 @@ export const CreateBookPage = ({isAdmin}, {currentUser}) => {
 
   return (
     <>
-      {/* <Loadule /> */}
       <Container component="main" maxWidth="lg">
         <CssBaseline />
 

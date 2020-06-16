@@ -12,6 +12,9 @@ const useStyles = makeStyles(() => ({
   paperForLoading: {
     padding: 30,
     margin: 40
+  },
+  loadingImage: {
+    width: 300
   }
 }));
 
@@ -21,10 +24,10 @@ export const LoadingPage = () => {
   return (
     <Container maxWidth="xs">
       <Paper elevation={3} className={classes.paperForLoading}>
+        <img src={loadingGif} className={classes.loadingImage} alt="loading" />
         <Typography component="h5" variant="h5">
           {'LOADING.....'}
         </Typography>
-        <img src={loadingGif} alt="loading" />
       </Paper>
     </Container>
   );

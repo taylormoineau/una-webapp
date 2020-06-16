@@ -213,6 +213,7 @@ export const Book = ({currentUser}) => {
                 align="center"
                 color="textSecondary"
                 paragraph
+                onload={console.log(bookState, pages)}
               >
                 By: {bookState.author}
               </Typography>
@@ -264,7 +265,13 @@ export const Book = ({currentUser}) => {
                     <a
                       target="_blank"
                       rel="noreferrer"
-                      href={'/print/' + bookId}
+                      href={
+                        (window.location.host == 'localhost:3000'
+                          ? 'http://localhost:8081'
+                          : '') +
+                        '/print/' +
+                        bookId
+                      }
                     >
                       Print to PDF
                     </a>
@@ -421,80 +428,6 @@ export const Book = ({currentUser}) => {
       ) : (
         <LoadingPage />
       )}
-      {/* Footer */}
-      <footer className={classes.footer}>
-        <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="textSecondary"
-          component="p"
-        >
-          Something here to give the footer a purpose!
-        </Typography>
-      </footer>
-      <CreatePage onCreateNewPage={createNewPage} />
-      {/* End footer */}
     </React.Fragment>
-    // <div className="container">
-
-    //   <h3 style={{color: 'red'}}>{error}</h3>
-    //   <div className="container">
-    //     {bookState ? (
-    //       <div key={bookId}>
-    //         <h1>Unique id:</h1>
-    //         <h2>{bookId}</h2>
-    //         <h1>Title:</h1>
-    //         <h2>{bookState.title}</h2>
-    //         <EditTitle onChangeTitle={changeTitle} />
-    //         <h1>Author:</h1>
-    //         <h2>{bookState.created_by_user}</h2>
-    //         <h1>Created_date:</h1>
-    //         <h2>{bookState.created_date}</h2>
-    //         <h1>Last Edited by:</h1>
-    //         <h2>{bookState.edited_by_user}</h2>
-    //         <h1>Last Edited_date:</h1>
-    //         <h2>{bookState.edited_date}</h2>
-    //       </div>
-    //     ) : (
-    //       <h1>LOADING BOOK</h1>
-    //     )}
-    //     {pages.map(({id, page_image, page_description, page_number}, i) => (
-    //       <div key={id}>
-
-    //         )}
-
-    //         ) : (
-    //           <p>{'Page ' + (page_number + 1) + ' : ' + page_description}</p>
-    //         )}
-    //         <button
-    //           className="btn btn-warning btn-sm"
-    //           onClick={() => setDesTrigger(id)}
-    //         >
-    //           Edit Description
-    //         </button>
-    //         <FileInput
-    //           className="btn btn-info btn-sm"
-    //           onChange={data =>
-    //             setPages(
-    //               assocPath([i, 'page_image'], data, pages),
-    //               updateImage(data, id)
-    //             )
-    //           }
-    //         />
-    //         <button
-    //           className="btn btn-danger btn-sm"
-    //           onClick={() => deletePage(id)}
-    //         >
-    //           Delete Page
-    //         </button>
-
-    //         )}
-    //       </div>
-    //     ))}
-    //   </div>
-    // </div>
   );
 };
