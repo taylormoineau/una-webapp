@@ -43,7 +43,17 @@ const flagSelect = language => {
   }
 };
 
-//Rename this page. It's confusing.
+const scrollUp = () => {
+  var element = document.createElement('a');
+  element.setAttribute('href', '#');
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+};
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -171,7 +181,6 @@ export const CreateBookPage = ({isAdmin}) => {
         <CssBaseline />
 
         {/* CREATE NEW BOOK BLOCK */}
-
         <Grid container justify="space-between">
           <Grid item>
             <Paper className={classes.paper}>
@@ -200,9 +209,7 @@ export const CreateBookPage = ({isAdmin}) => {
                     onChange={e => setPgNum(e.target.value)}
                     labelWidth={labelWidth}
                   >
-                    <MenuItem value={4}>4</MenuItem>
                     <MenuItem value={8}>8</MenuItem>
-                    <MenuItem value={12}>12</MenuItem>
                   </Select>
                 </FormControl>
 
@@ -238,7 +245,9 @@ export const CreateBookPage = ({isAdmin}) => {
               </form>
             </Paper>
           </Grid>
+
           {/* COPY BOOK BLOCK */}
+
           <Grid item>
             <Paper className={classes.paper}>
               <Typography component="h1" variant="h5">
@@ -302,8 +311,8 @@ export const CreateBookPage = ({isAdmin}) => {
             </Paper>
           </Grid>
         </Grid>
-
         {/* THIS IS A SMALL PAPER ELEMENT TO HOLD USER ERROR MESSAGES */}
+
         {error && (
           <Paper className={classes.errorPaper}>
             <Typography component="h3" variant="h5" className={classes.error}>
@@ -311,7 +320,6 @@ export const CreateBookPage = ({isAdmin}) => {
             </Typography>
           </Paper>
         )}
-
         {/* BELOW IS THE BOOK LIST */}
 
         <TableContainer component={Paper}>
@@ -322,7 +330,7 @@ export const CreateBookPage = ({isAdmin}) => {
                 <TableCell>Title:</TableCell>
                 <TableCell align="left">Author:</TableCell>
                 <TableCell align="right">Date Created:</TableCell>
-                <TableCell align="right">Create Copy?</TableCell>
+                {isAdmin && <TableCell align="right">Create Copy?</TableCell>}
                 {isAdmin && <TableCell align="right">Delete?</TableCell>}
               </TableRow>
             </TableHead>
@@ -362,19 +370,24 @@ export const CreateBookPage = ({isAdmin}) => {
                     </TableCell>
 
                     <TableCell align="right">
-                      <form
-                        onSubmit={e => {
-                          e.preventDefault();
-                          setEnableCopy(false);
-                          setCopyTitle(title);
-                          setCopyPages(8);
-                          setIdToCopy(id);
-                        }}
-                      >
-                        <Button color="secondary" type="submit">
-                          COPY
-                        </Button>
-                      </form>
+                      {isAdmin ? (
+                        <form
+                          onSubmit={e => {
+                            e.preventDefault();
+                            setEnableCopy(false);
+                            setCopyTitle(title);
+                            setCopyPages(8);
+                            setIdToCopy(id);
+                            scrollUp();
+                          }}
+                        >
+                          <Button color="secondary" type="submit">
+                            COPY
+                          </Button>
+                        </form>
+                      ) : (
+                        ''
+                      )}
                     </TableCell>
 
                     <TableCell align="right">

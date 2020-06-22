@@ -161,18 +161,6 @@ export const Book = ({currentUser}) => {
     if (result.error) setError(result.error);
   };
 
-  const createNewPage = async pageDes => {
-    const result = await sendJson('createPageInBook/' + bookId, {pageDes});
-    if (result.error) setError(result.error);
-    await loadData('getPagesForBook/' + bookId, setPages, setError);
-  };
-
-  // const printPDF = async () => {
-  //   const result = await sendJson('print/', {bookId});
-  //   if (result.error) setError(result.error);
-  //   downloadFile('src/Book/output.pdf');
-  // };
-
   const updateImage = async (data, id) => {
     const result = await sendJson('updateImage', {img: data, id});
     if (result.error) setError(result.error);
@@ -213,7 +201,6 @@ export const Book = ({currentUser}) => {
                 align="center"
                 color="textSecondary"
                 paragraph
-                onload={console.log(bookState, pages)}
               >
                 By: {bookState.author}
               </Typography>
@@ -261,7 +248,7 @@ export const Book = ({currentUser}) => {
                 )}
 
                 <Grid container spacing={2} justify="center">
-                  <Grid item>
+                  {currentUser ? (
                     <a
                       target="_blank"
                       rel="noreferrer"
@@ -273,9 +260,27 @@ export const Book = ({currentUser}) => {
                         bookId
                       }
                     >
-                      Print to PDF
+                      <Button
+                        size="large"
+                        variant="contained"
+                        color="primary"
+                        className="btn  btn-sm"
+                      >
+                        <PrintIcon /> Print PDF
+                      </Button>
                     </a>
-                  </Grid>
+                  ) : (
+                    <Button
+                      size="large"
+                      variant="contained"
+                      color="primary"
+                      disabled={true}
+                      className="btn  btn-sm"
+                    >
+                      <PrintIcon /> Please log in to print PDFs
+                    </Button>
+                  )}
+                  <Grid item></Grid>
                 </Grid>
               </div>
             </Container>
@@ -359,59 +364,63 @@ export const Book = ({currentUser}) => {
                         </Typography>
                       )}
                     </CardContent>
-                    <CardActions>
-                      <Button
-                        size="large"
-                        color="primary"
-                        onClick={() => setDesTrigger(id)}
-                      >
-                        <CreateIcon />
-                      </Button>
-
-                      {i < pages.length - 1 && (
+                    {currentUser.admin && (
+                      <CardActions>
                         <Button
                           size="large"
                           color="primary"
-                          className="btn btn-info btn-sm"
-                          onClick={() => editPageOrder(i, 'down')}
+                          onClick={() => setDesTrigger(id)}
                         >
-                          <ArrowDownwardIcon />
+                          <CreateIcon />
                         </Button>
-                      )}
 
-                      {i > 0 && (
+                        {i < pages.length - 1 && (
+                          <Button
+                            size="large"
+                            color="primary"
+                            className="btn btn-info btn-sm"
+                            onClick={() => editPageOrder(i, 'down')}
+                          >
+                            <ArrowDownwardIcon />
+                          </Button>
+                        )}
+
+                        {i > 0 && (
+                          <Button
+                            size="large"
+                            color="primary"
+                            onClick={() => editPageOrder(i, 'up')}
+                          >
+                            <ArrowUpwardIcon />
+                          </Button>
+                        )}
+
+                        <FileInput
+                          onChange={data => {
+                            setPages(assocPath([i, 'page_image'], data, pages));
+                            updateImage(data, id);
+                          }}
+                        />
+
                         <Button
+                          disabled={
+                            currentUser.id !== bookState.author_id
+                              ? false
+                              : true
+                          }
                           size="large"
-                          color="primary"
-                          onClick={() => editPageOrder(i, 'up')}
+                          color="secondary"
+                          onClick={() => {
+                            setPages(
+                              assocPath([i, 'approved'], !approved, pages)
+                            );
+                            editPageApproval(id);
+                          }}
                         >
-                          <ArrowUpwardIcon />
+                          {approved ? <ClearIcon /> : <CheckIcon />}
                         </Button>
-                      )}
-
-                      <FileInput
-                        onChange={data => {
-                          setPages(assocPath([i, 'page_image'], data, pages));
-                          updateImage(data, id);
-                        }}
-                      />
-
-                      <Button
-                        disabled={
-                          currentUser.id !== bookState.author_id ? false : true
-                        }
-                        size="large"
-                        color="secondary"
-                        onClick={() => {
-                          setPages(
-                            assocPath([i, 'approved'], !approved, pages)
-                          );
-                          editPageApproval(id);
-                        }}
-                      >
-                        {approved ? <ClearIcon /> : <CheckIcon />}
-                      </Button>
-                    </CardActions>
+                      </CardActions>
+                    )}
                     <CardContent className={classes.cardContent}>
                       <Typography>
                         {origin_description

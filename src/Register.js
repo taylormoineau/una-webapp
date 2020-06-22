@@ -1,6 +1,6 @@
 import {sendJson} from './utils';
 import React, {useState} from 'react';
-import CreateOutlined from '@material-ui/icons/CreateOutlined';
+import pencilIcon from './Icons/pencilIcon120.png';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {useHistory} from 'react-router-dom';
@@ -38,10 +38,10 @@ export const Register = ({checkAuth, currentUser}) => {
       setEmail={setEmail}
       setPassword={setPassword}
       error={error}
-      icon={<CreateOutlined />}
+      icon={pencilIcon}
       text="Register"
       linkText="Already have an account? Sign in!"
-      linkURL="/"
+      linkURL="/login"
       addName={true}
     />
   ) : (

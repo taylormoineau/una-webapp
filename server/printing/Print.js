@@ -3,6 +3,19 @@ import fs from 'fs';
 import {query} from '../query.js';
 
 export const printPDF = async (req, res) => {
+  const flagSelect = language => {
+    switch (language) {
+      case 'HU':
+        return './server/printing/flags/HU.png';
+      case 'HR':
+        return './server/printing/flags/HR.png';
+      case 'ENG':
+        return './server/printing/flags/ENG.png';
+      case 'SRB':
+        return './server/printing/flags/SRB.png';
+    }
+  };
+
   const book = await query(
     'SELECT * FROM "pages_data" WHERE book_id=$1 ORDER BY page_number ASC',
     [req.params.bookId]
@@ -15,12 +28,19 @@ export const printPDF = async (req, res) => {
     req.params.bookId
   ]);
 
+  const [
+    {language}
+  ] = await query('SELECT language FROM "books_data" WHERE id=$1', [
+    req.params.bookId
+  ]);
+
   doc
     .addPage({
       layout: 'landscape',
       margins: {top: 10, bottom: 10, left: 10, right: 10}
     })
     .image('./server/printing/coverENGLetter.png', {width: 772})
+    .image(flagSelect(language), 700, 515, {width: 50})
     .font('./server/printing/KGPrimaryPenmanship2.ttf');
   if (title.length > 18) {
     doc.fontSize(35).text(title, 405, 55, {

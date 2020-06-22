@@ -13,7 +13,12 @@ import {getAllBooks, getOneBook} from './getBooks.js';
 import {addPerson} from './addPerson.js';
 import {deletePerson} from './deletePerson.js';
 import {editPerson, updateInfo} from './editPerson.js';
-import {authCookie, adminsOnly, loggedInOnly} from './authCookie.js';
+import {
+  authCookie,
+  adminsOnly,
+  loggedInOnly,
+  masterOnly
+} from './authCookie.js';
 import {createBook, createCopy} from './createBook.js';
 import {deleteBook} from './deleteBook.js';
 import {editBook} from './editBook.js';
@@ -51,30 +56,32 @@ app.get('/', (req, res) => {
 });
 app.post('/login', login);
 app.post('/addPerson', addPerson);
+app.get('/getPagesForBook/:id', getAllPages);
+app.get('/getAllBooks', getAllBooks);
+app.get('/getOneBook/:id', getOneBook);
 
 app.use(loggedInOnly); // user must be logged in to access endpoints below
 app.get('/logout', logout);
-app.get('/getAllBooks', getAllBooks);
-app.get('/getOneBook/:id', getOneBook);
 app.get('/getUser/:id', getUser);
-app.get('/getPagesForBook/:id', getAllPages);
-app.post('/createBook', createBook);
-app.post('/createCopy', createCopy);
-app.use('/createPageInBook/:id', createPage);
-app.post('/editBook/:id', editBook);
 app.post('/updateInfo', updateInfo);
-app.post('/editPageNumber', editPageNumber);
-app.post('/editPageDescription', editPageDescription);
-app.post('/editApproval', editApproval);
-app.post('/updateImage', updateImage);
 app.get('/print/:bookId', printPDF);
 
 app.use(adminsOnly); // user must be admin to access endpoints below
+app.post('/createBook', createBook);
+app.use('/createPageInBook/:id', createPage);
+app.post('/editPageNumber', editPageNumber);
+app.post('/editPageDescription', editPageDescription);
+app.post('/createCopy', createCopy);
+app.post('/editApproval', editApproval);
+app.post('/updateImage', updateImage);
+app.post('/editBook/:id', editBook);
 app.get('/people', getPeople);
 app.post('/deletePage', deletePage);
-app.post('/deletePerson', deletePerson);
 app.post('/deleteBook', deleteBook);
 app.post('/editPerson', editPerson);
+
+app.use(adminsOnly); // user must be admin to access endpoints below
+app.post('/deletePerson', deletePerson);
 
 const port = process.env.PORT || 8081;
 console.log(`Starting on ${port}`);

@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import {loadJson} from './utils';
 import {AdminPage} from './AdminPage';
+import {CreateBookPage} from './CreateBookPage';
+import {LoginPage} from './loginPage';
 import {Home} from './Home.js';
 import {Book} from './Book';
 import {Register} from './Register';
@@ -9,7 +11,6 @@ import {InfoRegister} from './InfoRegister';
 import {UserProfile} from './userProfile';
 import {NavBar} from './NavBar';
 import {makeStyles} from '@material-ui/core/styles';
-// import {Print} from './Book/Print';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,6 +21,12 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1
+  },
+  navBar: {
+    backgroundColor: theme.palette.warning.light
+  },
+  yellowButtons: {
+    backgroundColor: theme.palette.warning.light
   }
 }));
 
@@ -54,12 +61,13 @@ export const DootRouter = () => {
           <Route path="/adminpage">
             <AdminPage />
           </Route>
+          <Route path="/createBooks">
+            <CreateBookPage isAdmin={currentUser.admin} />
+          </Route>
           <Route path="/book/:bookId">
             <Book checkAuth={checkAuth} currentUser={currentUser} />
           </Route>
-          {/* <Route path="/print/:bookId">
-            <Print />
-          </Route> */}
+
           <Route path="/register">
             <Register checkAuth={checkAuth} currentUser={currentUser} />
           </Route>
@@ -69,11 +77,16 @@ export const DootRouter = () => {
           <Route path="/userInfo/:author_id">
             <UserProfile checkAuth={checkAuth} currentUser={currentUser} />
           </Route>
-          {/* <Route path="/print/:bookId">
-            <Print />
-          </Route> */}
+          <Route path="/login">
+            <LoginPage checkAuth={checkAuth} currentUser={currentUser} />
+          </Route>
+
           <Route path="/">
-            <Home checkAuth={checkAuth} currentUser={currentUser} />
+            <Home
+              checkAuth={checkAuth}
+              currentUser={currentUser}
+              logout={logout}
+            />
           </Route>
         </Switch>
       </Router>

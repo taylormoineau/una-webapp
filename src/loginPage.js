@@ -12,7 +12,8 @@ import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-
+import {useHistory} from 'react-router-dom';
+import keyIcon from './Icons/keyIcon120.png';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -71,7 +72,7 @@ export const LoginForm = ({
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>{icon}</Avatar>
+        <img src={icon} alt="key icon" />
         <Typography component="h1" variant="h5">
           {text}
         </Typography>
@@ -144,10 +145,11 @@ export const LoginForm = ({
   );
 };
 
-export const LoginPage = ({checkAuth}) => {
+export const LoginPage = ({checkAuth, currentUser}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  let history = useHistory();
 
   const loginUser = async e => {
     e.preventDefault();
@@ -159,6 +161,7 @@ export const LoginPage = ({checkAuth}) => {
       setError(result.error);
     }
     await checkAuth();
+    history.push('/');
   };
 
   return (
@@ -167,7 +170,7 @@ export const LoginPage = ({checkAuth}) => {
       setEmail={setEmail}
       setPassword={setPassword}
       error={error}
-      icon={<LockOutlinedIcon />}
+      icon={keyIcon}
       text="Log In"
       linkText="Don't have an account? Sign Up"
       linkURL="/register"

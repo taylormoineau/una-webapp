@@ -1,6 +1,56 @@
-@media print {
+.menuPaper {
+    margin-top: 40px
+}
 
-    .navBar{ 
-        visibility: hidden;
-        background-color: white;
-    } }
+.books {
+    display: inline-block;
+    width: 750px;
+    height: 281px;
+    background: transparent url('./LandingImages/BooksMenu750.png') no-repeat 0 0; }
+    
+    
+    .books:hover {
+    background-position: 0 -281px; }
+    
+    
+    
+    .about {
+    display: inline-block;
+    width: 375px;
+    height: 281px;
+    background: transparent url('./LandingImages/AboutMenu750.png') no-repeat 0 0; }
+    
+    
+    .about:hover {
+    background-position: 0 -281px; }
+    
+    .profile {
+    display: inline-block;
+    width: 375px;
+    height: 281px;
+    background: transparent url('./LandingImages/ProfileMenu750.png') no-repeat 0 0; }
+    
+    
+    .profile:hover {
+    background-position: 0 -281px; }
+    
+    .login {
+    display: inline-block;
+    width: 750px;
+    height: 281px;
+    background: transparent url('./LandingImages/LoginMenu750.png') no-repeat 0 0; }
+    
+    
+    .login:hover {
+    background-position: 0 -281px; }
+    
+    .logout {
+    display: inline-block;
+    width: 750px;
+    height: 281px;
+    background: transparent url('./LandingImages/LogoutMenu750.png') no-repeat 0 0; }
+    
+    
+    .logout:hover {
+    background-position: 0 -281px; }
+    

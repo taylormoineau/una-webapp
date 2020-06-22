@@ -11,6 +11,7 @@ doc
     margins: {top: 10, bottom: 10, left: 10, right: 10}
   })
   .image('./coverENGLetter.png', {width: 772})
+  .image('./flags/SRB.png', 700, 515, {width: 50})
   .font('./KGPrimaryPenmanship2.ttf');
 if (testTitleText.length > 18) {
   doc.fontSize(35).text(testTitleText, 405, 55, {
