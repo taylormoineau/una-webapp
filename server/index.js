@@ -56,15 +56,15 @@ app.get('/', (req, res) => {
 });
 app.post('/login', login);
 app.post('/addPerson', addPerson);
-app.get('/getPagesForBook/:id', getAllPages);
-app.get('/getAllBooks', getAllBooks);
-app.get('/getOneBook/:id', getOneBook);
-app.get('/getUser/:id', getUser);
 
 app.use(loggedInOnly); // user must be logged in to access endpoints below
 app.get('/logout', logout);
 app.post('/updateInfo', updateInfo);
 app.get('/print/:bookId', printPDF);
+app.get('/getPagesForBook/:id', getAllPages);
+app.get('/getAllBooks', getAllBooks);
+app.get('/getOneBook/:id', getOneBook);
+app.get('/getUser/:id', getUser);
 
 app.use(adminsOnly); // user must be admin to access endpoints below
 app.post('/createBook', createBook);
