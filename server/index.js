@@ -59,10 +59,10 @@ app.post('/addPerson', addPerson);
 app.get('/getPagesForBook/:id', getAllPages);
 app.get('/getAllBooks', getAllBooks);
 app.get('/getOneBook/:id', getOneBook);
+app.get('/getUser/:id', getUser);
 
 app.use(loggedInOnly); // user must be logged in to access endpoints below
 app.get('/logout', logout);
-app.get('/getUser/:id', getUser);
 app.post('/updateInfo', updateInfo);
 app.get('/print/:bookId', printPDF);
 
