@@ -29,7 +29,7 @@ export const adminsOnly = (req, res, next) => {
   else res.status(401).send('Admins only');
 };
 
-export const masterOnly = (req, res, next) => {
-  if (req.user && req.user.master_admin) next();
-  else res.status(401).send('Master only');
-};
+// export const masterOnly = (req, res, next) => {
+//   if (req.user && req.user.master_admin) next();
+//   else res.status(401).send('Master only');
+// };
