@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import {loadJson} from './utils';
+import {Link as RRLink} from 'react-router-dom';
 
 import {LoginPage} from './loginPage';
 import {CreateBookPage} from './CreateBookPage';
@@ -10,22 +11,24 @@ export const Home = ({currentUser, checkAuth, logout}) => (
   <Container className="menuPaper">
     <Grid container spacing={3} justify="center">
       <Grid item>
-        <a className="books" href="/createBooks"></a>
+        <RRLink className="books" to="/createBooks" checkAuth={checkAuth} />
       </Grid>
       <Grid item>
-        <a className="about" href="#"></a>
-        <a
+        <RRLink className="about" to="#" />
+        <RRLink
           className="profile"
-          href={currentUser ? '/userInfo/' + currentUser.id : '/login'}
-        ></a>
+          to={currentUser ? '/userInfo/' + currentUser.id : '/login'}
+        />
       </Grid>
       {!currentUser ? (
         <Grid item>
-          <a className="login" href="/login"></a>
+          <RRLink className="login" to="/login" checkAuth={checkAuth} />
         </Grid>
       ) : (
         <Grid item>
-          <div className="logout" onClick={logout} />
+          <RRLink to="/">
+            <div className="logout" onClick={logout} />
+          </RRLink>
         </Grid>
       )}
     </Grid>
