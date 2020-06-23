@@ -21,7 +21,7 @@ export const authCookie = async (req, res, next) => {
 
 export const loggedInOnly = (req, res, next) => {
   if (req.user) next();
-  else res.status(401).send('Unauthorized');
+  else res.status(401).send('Unauthorized because you are not logged in!');
 };
 
 export const adminsOnly = (req, res, next) => {
@@ -31,5 +31,5 @@ export const adminsOnly = (req, res, next) => {
 
 export const masterOnly = (req, res, next) => {
   if (req.user && req.user.master_admin) next();
-  else res.status(401).send('Admins only');
+  else res.status(401).send('Master only');
 };
