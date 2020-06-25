@@ -16,8 +16,12 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles(theme => ({
+  tableMargins: {
+    margin: 20
+  },
   table: {
-    minWidth: 650
+    minWidth: 650,
+    margin: 10
   },
   errorPaper: {
     marginTop: theme.spacing(2),
@@ -70,7 +74,7 @@ export const AdminPage = () => {
         </Paper>
       )}
 
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} className={classes.tableMargins}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>

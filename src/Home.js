@@ -26,9 +26,7 @@ export const Home = ({currentUser, checkAuth, logout}) => (
         </Grid>
       ) : (
         <Grid item>
-          <RRLink to="/">
-            <div className="logout" onClick={logout} />
-          </RRLink>
+          <RRLink to="/" className="logout" onClick={logout} />
         </Grid>
       )}
     </Grid>

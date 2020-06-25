@@ -19,7 +19,7 @@ export const updateInfo = async (req, res) => {
 
   await query(
     'UPDATE users SET (user_photo, email, first_name, last_name, city, country, initial_info) = ($1, $2, $3, $4, $5, $6, $7) WHERE id = $8',
-    [user_photo, email, first_name, last_name, city, country, true, userId]
+    [user_photo, email, first_name, last_name, city, country, false, userId]
   );
   return res.json('Updated user info successfully!');
 };

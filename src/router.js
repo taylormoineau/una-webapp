@@ -11,6 +11,7 @@ import {InfoRegister} from './InfoRegister';
 import {UserProfile} from './userProfile';
 import {NavBar} from './NavBar';
 import {makeStyles} from '@material-ui/core/styles';
+import {InfoUpdateBar} from './InfoUpdateBar';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,7 +33,6 @@ const useStyles = makeStyles(theme => ({
 
 export const DootRouter = () => {
   const [currentUser, setCurrentUser] = useState('');
-
   const checkAuth = async () => {
     const user = await loadJson('checkAuth');
     if (user.error) {
@@ -57,6 +57,9 @@ export const DootRouter = () => {
     <div className={classes.root}>
       <Router>
         <NavBar classes={classes} currentUser={currentUser} logout={logout} />
+        {currentUser.initial_info && (
+          <InfoUpdateBar name={currentUser.first_name} />
+        )}
         <Switch>
           <Route path="/adminpage">
             <AdminPage />

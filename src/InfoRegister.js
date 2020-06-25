@@ -14,6 +14,7 @@ import {useHistory} from 'react-router-dom';
 import userIcon from './userIcon.png';
 import {FileInput} from './FileInput.js';
 import Checkbox from '@material-ui/core/Checkbox';
+import {LoadingPage} from './LoadingPage';
 
 const fieldArr = [
   {fieldName: 'first_name', label: 'First Name'},
@@ -91,7 +92,7 @@ export const InfoRegister = ({currentUser}) => {
     // TODO: Put the <Container>, <CSSBaseline />, and <Copyright /> all in Routes.js so that it's not repeated in each route
     <div>
       {!formData ? (
-        <h1>PAGE LOADING</h1>
+        <LoadingPage />
       ) : (
         <Container component="main" maxWidth="xs">
           <CssBaseline />

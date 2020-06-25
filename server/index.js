@@ -51,13 +51,13 @@ app.get('/', (req, res) => {
 });
 app.post('/login', login);
 app.post('/addPerson', addPerson);
+app.get('/getAllBooks', getAllBooks);
+app.get('/getOneBook/:id', getOneBook);
+app.get('/getPagesForBook/:id', getAllPages);
 
 app.use(loggedInOnly); // user must be logged in to access endpoints below
 app.get('/logout', logout);
-app.get('/getAllBooks', getAllBooks);
-app.get('/getOneBook/:id', getOneBook);
 app.get('/getUser/:id', getUser);
-app.get('/getPagesForBook/:id', getAllPages);
 app.post('/createBook', createBook);
 app.post('/createCopy', createCopy);
 app.use('/createPageInBook/:id', createPage);
