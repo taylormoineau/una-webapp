@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {loadData, sendJson, assocPath, swap, loadJson} from '../utils';
-import {useHistory} from 'react-router-dom';
 import {useParams} from 'react-router-dom';
 import {FileInput} from '../FileInput';
-import {CreatePage} from './CreatePage';
 import {Link as RRLink} from 'react-router-dom';
 import {EditTitle} from './EditTitle';
 import Button from '@material-ui/core/Button';
@@ -142,8 +140,6 @@ export const Book = ({currentUser}) => {
   const {bookId} = useParams();
   const classes = useStyles();
 
-  const history = useHistory();
-
   const changeTitle = async newTitle => {
     const result = await sendJson('editBook/' + bookId, {newTitle});
     if (result.error) setError(result.error);
@@ -191,21 +187,6 @@ export const Book = ({currentUser}) => {
       {bookState && (
         <main>
           <div className={classes.heroContent}>
-            {/* <>
-                <Typography>{bookState.title}</Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  style={styles.overlay}
-                  onClick={
-                    (setTitleTrigger(!titleTrigger), console.log(titleTrigger))
-                  }
-                >
-                  <CreateIcon />
-                </Button>
-              </> */}
-
             <Container maxWidth="md">
               <Typography
                 component="h1"
@@ -215,19 +196,21 @@ export const Book = ({currentUser}) => {
                 gutterBottom
               >
                 {bookState.title}
-                <Collapse in={!titleTrigger}>
-                  <Button
-                    size="large"
-                    color="primary"
-                    variant="contained"
-                    className="btn btn-info btn-sm"
-                    onClick={() => {
-                      setTitleTrigger(!titleTrigger);
-                    }}
-                  >
-                    CHANGE TITLE
-                    <CreateIcon />
-                  </Button>
+                <Collapse in={currentUser.admin}>
+                  <Collapse in={!titleTrigger}>
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="contained"
+                      className="btn btn-info btn-sm"
+                      onClick={() => {
+                        setTitleTrigger(!titleTrigger);
+                      }}
+                    >
+                      CHANGE TITLE
+                      <CreateIcon />
+                    </Button>
+                  </Collapse>
                 </Collapse>
               </Typography>
 

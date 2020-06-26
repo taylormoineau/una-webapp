@@ -22,7 +22,9 @@ export const NavBar = ({classes, currentUser, logout}) => {
           </Typography>
           <Typography variant="h6" className={classes.title}>
             {currentUser &&
-              `Logged in as ${currentUser.first_name} ${currentUser.last_name} (${currentUser.email})`}
+              `Logged in as ${currentUser.first_name} ${
+                currentUser.last_name ? currentUser.last_name : ''
+              } (${currentUser.email})`}
           </Typography>
           {currentUser && currentUser.admin && (
             <Button

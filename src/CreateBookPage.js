@@ -62,7 +62,6 @@ const useStyles = makeStyles(theme => ({
   },
 
   paper: {
-    marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -181,6 +180,10 @@ export const CreateBookPage = ({isAdmin}) => {
   return (
     <>
       <Container component="main" maxWidth="lg">
+        <div className="subContainerBooks">
+          {' '}
+          <div className="subBooks" alt="books page" />
+        </div>
         <CssBaseline />
         <Collapse in={isAdmin}>
           {/* CREATE NEW BOOK BLOCK */}
