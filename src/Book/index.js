@@ -20,6 +20,7 @@ import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import {LoadingPage} from './../LoadingPage';
 import Paper from '@material-ui/core/Paper';
+import Collapse from '@material-ui/core/Collapse';
 
 //icons
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
@@ -62,6 +63,15 @@ const styles = {
 const useStyles = makeStyles(theme => ({
   icon: {
     marginRight: theme.spacing(2)
+  },
+  titleFieldContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+
+  titleField: {
+    width: 300
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
@@ -127,6 +137,8 @@ export const Book = ({currentUser}) => {
   const [pages, setPages] = useState([]);
   const [error, setError] = useState('');
   const [desTrigger, setDesTrigger] = useState(0);
+  const [titleTrigger, setTitleTrigger] = useState(false);
+  const [newTitle, setNewTitle] = useState('');
   const {bookId} = useParams();
   const classes = useStyles();
 
@@ -175,10 +187,26 @@ export const Book = ({currentUser}) => {
     <React.Fragment>
       <CssBaseline />
       {/* INSTRUCTIONS/PRINT*/}
+
       {bookState && (
         <main>
           <div className={classes.heroContent}>
-            <Container maxWidth="sm">
+            {/* <>
+                <Typography>{bookState.title}</Typography>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  style={styles.overlay}
+                  onClick={
+                    (setTitleTrigger(!titleTrigger), console.log(titleTrigger))
+                  }
+                >
+                  <CreateIcon />
+                </Button>
+              </> */}
+
+            <Container maxWidth="md">
               <Typography
                 component="h1"
                 variant="h2"
@@ -187,14 +215,48 @@ export const Book = ({currentUser}) => {
                 gutterBottom
               >
                 {bookState.title}
-                <Button
-                  size="large"
-                  color="primary"
-                  className="btn btn-info btn-sm"
-                >
-                  <CreateIcon />
-                </Button>
+                <Collapse in={!titleTrigger}>
+                  <Button
+                    size="large"
+                    color="primary"
+                    variant="contained"
+                    className="btn btn-info btn-sm"
+                    onClick={() => {
+                      setTitleTrigger(!titleTrigger);
+                    }}
+                  >
+                    CHANGE TITLE
+                    <CreateIcon />
+                  </Button>
+                </Collapse>
               </Typography>
+
+              <Collapse in={titleTrigger}>
+                <form
+                  onSubmit={e => {
+                    e.preventDefault();
+                    changeTitle(newTitle);
+                    setTitleTrigger(!titleTrigger);
+                  }}
+                >
+                  <div className={classes.titleFieldContainer}>
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      className={classes.titleField}
+                      id="newTitle"
+                      label="New Title"
+                      onChange={e => setNewTitle(e.target.value)}
+                    />
+
+                    <Button type="submit" color="primary">
+                      Save Title{' '}
+                    </Button>
+                  </div>
+                </form>
+              </Collapse>
+
+              {/* BELOW IS THE SECOND SET OF THINGS UNRELATED TO TITLE */}
 
               <Typography
                 variant="h5"

@@ -4,6 +4,8 @@ import {loadData} from './utils';
 import {useParams} from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import userIcon from './userIcon.png';
+import CreateIcon from '@material-ui/icons/Create';
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -54,7 +56,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const UserProfile = () => {
+export const UserProfile = ({currentUser}) => {
   const [error, setError] = useState('');
   const [userData, setUserData] = useState('');
   const {author_id} = useParams();
@@ -171,30 +173,27 @@ export const UserProfile = () => {
                     alignItems="baseline"
                   >
                     <Grid item>
-                      <Typography
-                        variant="h5"
-                        color="textSecondary"
-                        className={classes.userHeaders}
-                        paragraph
+                      <Button
+                        size="large"
+                        color="primary"
+                        variant="contained"
+                        href={'/createBooks/' + author_id}
                       >
-                        Projects:
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Typography
-                        variant="h5"
-                        color="textSecondary"
-                        className={classes.userHeaders}
-                        paragraph
-                      >
-                        5
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Button size="large" color="primary" variant="contained">
                         <MenuBookIcon />
                       </Button>
                     </Grid>
+                    {currentUser.id == author_id && (
+                      <Grid item>
+                        <Button
+                          size="large"
+                          color="primary"
+                          variant="contained"
+                          href="/InfoRegister"
+                        >
+                          <CreateIcon />
+                        </Button>
+                      </Grid>
+                    )}
                   </Grid>
                 </Paper>
               </Container>

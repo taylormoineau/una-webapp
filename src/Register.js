@@ -28,7 +28,7 @@ export const Register = ({checkAuth, currentUser}) => {
     }
     setComplete(true);
     await checkAuth();
-    history.push('/InfoRegister');
+    history.push('/');
   };
 
   return !currentUser ? (

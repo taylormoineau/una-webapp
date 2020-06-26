@@ -3,7 +3,16 @@
 import {query} from './query.js';
 
 export const getAllBooks = async (req, res) => {
-  res.json(await query('SELECT * FROM "books_data" ORDER BY title ASC', []));
+  if (req.params.id === 'all') {
+    res.json(await query('SELECT * FROM "books_data" ORDER BY title ASC', []));
+  } else {
+    res.json(
+      await query(
+        'SELECT * FROM "books_data" WHERE author_id=$1 ORDER BY title ASC',
+        [req.params.id]
+      )
+    );
+  }
 };
 
 export const getOneBook = async (req, res) => {
