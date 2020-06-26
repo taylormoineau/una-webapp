@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import './App.css';
 import {sendJson, loadData} from './utils';
-import {Link as RRLink, useHistory} from 'react-router-dom';
+import {Link as RRLink, useHistory, useParams} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -126,6 +126,7 @@ export const CreateBookPage = ({isAdmin}) => {
   const [error, setError] = useState('');
   const [pgNum, setPgNum] = useState(8);
   const [lang, setLang] = useState('ENG');
+  const {filterId} = useParams();
 
   const history = useHistory();
   const classes = useStyles();
@@ -169,14 +170,12 @@ export const CreateBookPage = ({isAdmin}) => {
   const deleteBook = id => async () => {
     await sendJson('deleteBook', {id});
     //This can only be changed by administrators, so only server errors should be a problem here.
-    await loadData('getAllBooks', setBooksState, setError);
+    await loadData('getAllBooks/' + filterId, setBooksState, setError);
   };
 
   useEffect(() => {
-    loadData('getAllBooks', setBooksState, setError);
-    if (!enableCopy) {
-      copyRef.current.focus();
-    }
+    loadData('getAllBooks/' + filterId, setBooksState, setError);
+    console.log(filterId);
   }, []);
 
   return (

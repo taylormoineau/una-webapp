@@ -12,6 +12,7 @@ import {UserProfile} from './userProfile';
 import {NavBar} from './NavBar';
 import {makeStyles} from '@material-ui/core/styles';
 import {InfoUpdateBar} from './InfoUpdateBar';
+import {About} from './About';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -64,7 +65,10 @@ export const DootRouter = () => {
           <Route path="/adminpage">
             <AdminPage />
           </Route>
-          <Route path="/createBooks">
+          <Route path="/about">
+            <About currentUser={currentUser} />
+          </Route>
+          <Route path="/createBooks/:filterId">
             <CreateBookPage isAdmin={currentUser.admin} />
           </Route>
           <Route path="/book/:bookId">

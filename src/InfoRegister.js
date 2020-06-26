@@ -65,6 +65,9 @@ const useStyles = makeStyles(theme => ({
   },
   icon: {
     height: 90
+  },
+  titleMargin: {
+    margin: 24
   }
 }));
 
@@ -105,19 +108,13 @@ export const InfoRegister = ({currentUser}) => {
                 src={formData.user_photo ? formData.user_photo : userIcon}
                 className={classes.large}
               />
-
+              <FileInput
+                onChange={user_photo => setFormData({...formData, user_photo})}
+              />
               {!formData.user_photo && (
-                <div>
-                  <FileInput
-                    onChange={user_photo =>
-                      setFormData({...formData, user_photo})
-                    }
-                  />
-                  <Typography component="subtitle1">
-                    Please add your photo! (600x600px max)
-                    {/* TODO: only show if they don't have a photo uploaded */}
-                  </Typography>
-                </div>
+                <Typography component="subtitle1">
+                  Please add your photo! (600x600px max)
+                </Typography>
               )}
             </div>
 
@@ -149,7 +146,11 @@ export const InfoRegister = ({currentUser}) => {
             <Typography component="h3" variant="h5" className={classes.error}>
               {error}
             </Typography>
-            <Typography component="h3" variant="h5">
+            <Typography
+              component="h3"
+              variant="h5"
+              className={classes.titleMargin}
+            >
               Spoken Languages:
             </Typography>
             <Grid container justify="space-between" spacing={3}>
@@ -176,19 +177,6 @@ export const InfoRegister = ({currentUser}) => {
             >
               DONE
             </Button>
-
-            <Grid container>
-              <Grid item xs></Grid>
-              <Grid item>
-                <Link
-                  variant="body2"
-                  href="#"
-                  onClick={() => history.push('/')}
-                >
-                  Skip this step!
-                </Link>
-              </Grid>
-            </Grid>
           </form>
 
           <Box mt={8}>

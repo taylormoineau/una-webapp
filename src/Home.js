@@ -11,10 +11,10 @@ export const Home = ({currentUser, checkAuth, logout}) => (
   <Container className="menuPaper">
     <Grid container spacing={3} justify="center">
       <Grid item>
-        <RRLink className="books" to="/createBooks" checkAuth={checkAuth} />
+        <RRLink className="books" to="/createBooks/all" checkAuth={checkAuth} />
       </Grid>
       <Grid item>
-        <RRLink className="about" to="#" />
+        <RRLink className="about" to="/about" />
         <RRLink
           className="profile"
           to={currentUser ? '/userInfo/' + currentUser.id : '/login'}

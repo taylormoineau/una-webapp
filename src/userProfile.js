@@ -62,8 +62,6 @@ export const UserProfile = ({currentUser}) => {
   const {author_id} = useParams();
   const classes = useStyles();
 
-  console.log(author_id, currentUser);
-
   useEffect(() => {
     loadData('getUser/' + author_id, setUserData, setError);
   }, []);
@@ -175,7 +173,12 @@ export const UserProfile = ({currentUser}) => {
                     alignItems="baseline"
                   >
                     <Grid item>
-                      <Button size="large" color="primary" variant="contained">
+                      <Button
+                        size="large"
+                        color="primary"
+                        variant="contained"
+                        href={'/createBooks/' + author_id}
+                      >
                         <MenuBookIcon />
                       </Button>
                     </Grid>
