@@ -76,6 +76,10 @@ export const UserProfile = ({currentUser}) => {
             <div className={classes.heroContent}>
               <Container maxWidth="sm">
                 <Paper className={classes.idPaper}>
+                  <div className="subContainer">
+                    {' '}
+                    <div className="subProfile" alt="profile page" />
+                  </div>
                   <Grid
                     container
                     spacing={3}

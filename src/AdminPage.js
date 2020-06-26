@@ -82,7 +82,7 @@ export const AdminPage = () => {
               <TableCell align="right">Name:</TableCell>
               <TableCell align="right">Email Address:</TableCell>
               <TableCell align="right">Type</TableCell>
-              <TableCell align="right">Is Admin?</TableCell>
+              <TableCell align="right">Make an Editor?</TableCell>
               <TableCell align="right">Delete User</TableCell>
             </TableRow>
           </TableHead>
@@ -104,7 +104,7 @@ export const AdminPage = () => {
                   </TableCell>
                   <TableCell align="right">{email}</TableCell>
                   <TableCell align="right">
-                    {admin ? 'ADMIN' : 'PLEB'}
+                    {admin ? 'EDITOR' : 'USER'}
                   </TableCell>
 
                   <TableCell align="right">

@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold'
   },
   mainContainer: {
-    marginTop: 50
+    marginTop: 30
   }
 }));
 
@@ -39,6 +39,10 @@ export const About = ({currentUser}) => {
         is not finished.
       </Typography>
       <Container maxwidth="lg" className={classes.mainContainer}>
+        <div className="subContainer">
+          {' '}
+          <div className="subAbout" alt="about" />
+        </div>
         <ExpansionPanel>
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}

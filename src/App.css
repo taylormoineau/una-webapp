@@ -62,4 +62,36 @@ padding: 100}
     
     .logout:hover {
     background-position: 0 -281px; }
+
+    .subBooks {
+        display: inline-block;
+        width: 450px;
+        height: 250px;
+        background: transparent url('./LandingImages/subBooks.png') no-repeat 0 0;
+        }
+
+    .subAbout {
+        display: inline-block;
+        width: 450px;
+        height: 250px;
+        background: transparent url('./LandingImages/subAbout.png') no-repeat 0 0;
+        }
+
+        .subProfile {
+            display: inline-block;
+            width: 450px;
+            height: 250px;
+            background: transparent url('./LandingImages/subProfile.png') no-repeat 0 0;
+            }
+
+        .subContainer {
+            text-align: center
+        }
+
+        .subContainerBooks {
+            text-align: center;
+            margin-top: 25px;
+            margin-bottom: 30px
+        }
+    
     
