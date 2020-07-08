@@ -76,6 +76,13 @@ export const LoginForm = ({
         <Typography component="h1" variant="h5">
           {text}
         </Typography>
+        <Typography color="secondary">
+          **Development note: Currently I do not have an HTTPS certificate.
+          Theres not really any risk using this website without it. However, I
+          suggest you register with a "fake" email and password, just to be
+          safe. If you are wanting to test the site, just make something up.
+          Thanks!
+        </Typography>
         <form className={classes.form} onSubmit={onSubmit}>
           {addName && (
             <TextField
