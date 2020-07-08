@@ -73,9 +73,9 @@ app.post('/editPageDescription', editPageDescription);
 app.post('/editApproval', editApproval);
 app.post('/updateImage', updateImage);
 app.get('/print/:bookId', printPDF);
+app.get('/people', getPeople);
 
 app.use(adminsOnly); // user must be admin to access endpoints below
-app.get('/people', getPeople);
 app.post('/deletePage', deletePage);
 app.post('/deleteBook', deleteBook);
 app.post('/editPerson', editPerson);

@@ -125,9 +125,13 @@ export const CreateBookPage = ({isAdmin}) => {
   const [error, setError] = useState('');
   const [pgNum, setPgNum] = useState(8);
   const [lang, setLang] = useState('ENG');
-  const {filterId} = useParams();
-
+  let {filterId} = useParams();
   const history = useHistory();
+
+  if (filterId != 'all' && isNaN(filterId)) {
+    history.replace('/createBooks/all');
+  }
+
   const classes = useStyles();
   const copyRef = useRef();
 
@@ -174,7 +178,6 @@ export const CreateBookPage = ({isAdmin}) => {
 
   useEffect(() => {
     loadData('getAllBooks/' + filterId, setBooksState, setError);
-    console.log(filterId);
   }, []);
 
   return (
